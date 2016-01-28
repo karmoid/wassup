@@ -21,6 +21,7 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
   begin
     # puts "execute getchanges.sh avec bash"
     # puts system('bash ./getchanges.sh') ? "Run OK" : "KO!"    
+    system('bash ./getchanges.sh') 
     changes = []
     today = Date.today
     tweets = CSV.foreach("public/changes.csv", {:headers => true, :header_converters => :symbol}).map do |row|
@@ -32,11 +33,11 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
         tstxt = "dans"
         ts = ts - Time.now
       end
-        { number: row[:number], name: row[:state], body: row[:short_description], when: tstxt + " " + humanize(ts) }
       days_away = (Date.parse(row[:requested_by_date]) - today).to_i
       if (days_away < 20) && (days_away > -20)
         changes << {"name" => row[:short_description][0..40], "date" => Time.parse(row[:requested_by_date]).strftime('%b %-d, %Y'), "state" => row[:state], "background" => state_to_color(row[:state])}
       end  
+        { number: row[:number], name: row[:state], body: row[:short_description], when: tstxt + " " + humanize(ts) }
     end
     timechanges = {"events" => changes}
     # puts e.to_yaml

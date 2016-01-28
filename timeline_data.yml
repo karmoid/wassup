@@ -1,12 +1,12 @@
 ---
 events:
+- name: 'Data life cycle : Archival cleaning (EMS '
+  date: Feb 8, 2016
+  state: Technical Review
+  background: white
 - name: "[NEW WAN FR] Replacement of Switches and "
   date: Feb 7, 2016
   state: SM Review
-  background: white
-- name: 'Data life cycle : Archival cleaning (EMS '
-  date: Feb 1, 2016
-  state: Technical Review
   background: white
 - name: "[PARIS HQ MOVE] Stonesoft Firewall Replac"
   date: Jan 27, 2016
