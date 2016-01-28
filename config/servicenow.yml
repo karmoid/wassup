@@ -1,0 +1,8 @@
+instance: brinkslatam
+user: chauffourm
+password: $now1
+proxy: 
+queries:
+  unassigned_tasks:
+    table: "task_list"
+    query: "active=true^assigned_toISEMPTY^assignment_group=myteamssysid"

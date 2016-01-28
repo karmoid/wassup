@@ -1,0 +1,34 @@
+---
+events:
+- name: "[NEW WAN FR] Replacem"
+  date: 2016-02-07
+  state: SM Review
+  background: white
+- name: 'Data life cycle : Arc'
+  date: 2016-02-01
+  state: Technical Review
+  background: white
+- name: "[PARIS HQ MOVE] Stone"
+  date: 2016-01-27
+  state: Implementation
+  background: pink
+- name: Major upgrade of Darw
+  date: 2016-01-24
+  state: Implementation
+  background: pink
+- name: Middleware installati
+  date: 2016-01-24
+  state: Implementation
+  background: pink
+- name: Network changes to sw
+  date: 2015-11-01
+  state: Implementation
+  background: pink
+- name: Internet lines Upgrad
+  date: 2015-06-29
+  state: Implementation
+  background: pink
+- name: Upgrade of French For
+  date: 2015-04-15
+  state: Implementation
+  background: pink

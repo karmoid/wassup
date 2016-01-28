@@ -1,2 +1,16 @@
 *DS_STORE
 history.yml
+*.gem
+*.rbc
+.bundle
+.config
+.ruby-tags
+coverage
+InstalledFiles
+lib/bundler/man
+pkg
+rdoc
+spec/reports
+test/tmp
+test/version_tmp
+tmp
