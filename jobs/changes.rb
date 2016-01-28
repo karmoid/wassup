@@ -1,7 +1,8 @@
 require 'csv'
 
 def humanize secs
-  [[60, :secondes], [60, :minutes], [24, :heures], [1000, :jours]].map{ |count, name|
+  secs, n = secs.divmod(3600)
+  [[24, :heures], [1000, :jours]].map{ |count, name|
     if secs > 0
       secs, n = secs.divmod(count)
       "#{n.to_i} #{name}"
