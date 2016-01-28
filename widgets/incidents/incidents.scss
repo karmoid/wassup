@@ -1,0 +1,43 @@
+// ----------------------------------------------------------------------------
+// Sass declarations
+// ----------------------------------------------------------------------------
+$background-color:  #ec663c;
+
+$title-color:       rgba(255, 255, 255, 0.7);
+$moreinfo-color:    rgba(255, 255, 255, 0.7);
+
+// ----------------------------------------------------------------------------
+// Widget-incident styles
+// ----------------------------------------------------------------------------
+.widget-incidents {
+
+  background-color: $background-color;
+
+  .title {
+    color: $title-color;
+    margin-bottom: 15px;
+  }
+
+  .name {
+    padding-left: 5px;
+  }
+
+  .number {
+    padding-left: 10px;
+  }
+
+  .timestamp {
+    color: $title-color;
+    font-variant: small-caps;
+  }
+
+  
+  .incident-container {
+    display: none;
+  }
+
+  .more-info {
+    color: $moreinfo-color;
+  }
+
+}
