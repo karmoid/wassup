@@ -4,7 +4,11 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
   begin
     # puts "execute getincidents.sh avec bash"
     # puts system('bash ./getincidents.sh') ? "Run OK" : "KO!"
-    system('bash ./getincidents.sh')
+    config_file = File.dirname(File.expand_path(__FILE__)) + '/../config/environment.yml'
+    config = YAML::load(File.open(config_file))
+    command = config["cmd_i"]
+    system(command)
+    
     tweets = CSV.foreach("public/incidents.csv", {:headers => true, :header_converters => :symbol}).map do |row|
       ts = Time.parse(row[:sys_created_on])
       tstxt = "il y a"

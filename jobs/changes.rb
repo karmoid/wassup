@@ -21,7 +21,11 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
   begin
     # puts "execute getchanges.sh avec bash"
     # puts system('bash ./getchanges.sh') ? "Run OK" : "KO!"    
-    system('bash ./getchanges.sh') 
+    config_file = File.dirname(File.expand_path(__FILE__)) + '/../config/environment.yml'
+    config = YAML::load(File.open(config_file))
+    command = config["cmd_c"]
+    system(command)
+    
     changes = []
     today = Date.today
     tweets = CSV.foreach("public/changes.csv", {:headers => true, :header_converters => :symbol}).map do |row|
