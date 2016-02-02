@@ -1,0 +1,2 @@
+cmd_i: 'bash ./getincidents.sh'
+cmd_c: 'bash ./getchanges.sh'

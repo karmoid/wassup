@@ -3,7 +3,7 @@ MAX_DAYS_AWAY = 15
 
 config_file = File.dirname(File.expand_path(__FILE__)) + '/../timeline_data.yml'
 
-SCHEDULER.every '15m', :first_in => 0 do |job|
+SCHEDULER.every '15m', :first_in => 20 do |job|
   config = YAML::load(File.open(config_file))
   unless config["events"].nil?
     events =  Array.new

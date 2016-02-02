@@ -1,0 +1,7 @@
+queries:
+  unassigned_tasks:
+    table: "task_list"
+    query: "active=true^assigned_toISEMPTY^assignment_group=myteamssysid"
+  all_active_incidents:
+    table: "incident"
+    query: "active=true"

@@ -1,0 +1,37 @@
+<script type='text/javascript'>
+$(function() {
+Dashing.gridsterLayout('[{"col":4,"row":1,"size_x":1,"size_y":1},{"col":1,"row":1,"size_x":1,"size_y":1},{"col":5,"row":1,"size_x":1,"size_y":2},{"col":2,"row":1,"size_x":2,"size_y":1},{"col":1,"row":2,"size_x":1,"size_y":1}]')
+});
+  Dashing.widget_base_dimensions = [370, 340]
+  Dashing.numColumns = 5
+</script>
+
+
+<% content_for :title do %>ITIL dashboard<% end %>
+
+<div class="gridster">
+  <ul>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-view="Clock" style="background-color:#96bf48;"></div>
+      <i class="icon-time icon-background"></i>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/brinks.png" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="2">
+      <div data-id="ags_timeline" data-view="Timeline" data-title="Changes Timeline"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-id="change_mentions" data-view="Changes" style="background-color:#ff9618;" data-moreinfo="Changes in ServiceNow"></div>
+      <i class="icon-power-off icon-background"></i>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="twenty-sixteen" data-view="News" data-title="Twenty Sixteen" data-interval="30"></div>
+    </li>
+
+  </ul>
+</div>

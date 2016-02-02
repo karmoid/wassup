@@ -6,15 +6,18 @@ def update_count(sn, table, query)
 end
 
 SCHEDULER.every("10m", first_in: '1s') do
+  config_file = File.dirname(File.expand_path(__FILE__)) + '/../security/servicenow.yml'
+  config = YAML::load(File.open(config_file))
+
+  instance = config["instance"]
+  proxy = config["proxy"]
+  username = config["user"]
+  password = config["password"]
+
   config_file = File.dirname(File.expand_path(__FILE__)) + '/../config/servicenow.yml'
   config = YAML::load(File.open(config_file))
 
-  user = config["user"]
-  password = config["password"]
-  instance = config["instance"]
-  proxy = config["proxy"]
-
-  sn = RsServiceNow::Record.new(user, password, instance, proxy)
+  sn = RsServiceNow::Record.new(username, password, instance, proxy)
   if config["queries"].nil?
     puts "No Service-Now queries found"
   else
