@@ -14,21 +14,23 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
     # config = YAML::load(File.open(config_file))
     # command = config["cmd_c"]
     # system(command)
-    url = "https://brinkslatam.service-now.com/sysapproval_approver_list.do?sysparm_query=state%3Drequested%5Edue_dateBETWEENjavascript%3Ags.daysAgoStart(#{MAX_APPROV_OVERDUE})%40javascript%3Ags.daysAgoEnd(#{-1*MAX_APPROV_AWAY})%5Esource_table%3Dchange_request%5EORsource_table%3Dsc_req_item%5Esysapproval.location.country%3DFrance&CSV"
-    
+    domain = "https://brinkslatam.service-now.com"
+    query = "/sysapproval_approver_list.do?sysparm_query=state%3Drequested%5Edue_dateBETWEENjavascript%3Ags.daysAgoStart(#{MAX_APPROV_OVERDUE})%40javascript%3Ags.daysAgoEnd(#{-1*MAX_APPROV_AWAY})%5Esource_table%3Dchange_request%5EORsource_table%3Dsc_req_item%5Esysapproval.location.country%3DFrance&CSV"
+
+    url = "#{domain}/#{query}"
+
     username = ENV["uname"]
     password=ENV["pwd"]
-puts url
+
+    # puts url
+
     (open(url, :http_basic_authentication => [username, password]))
     page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
 
     tweets = CSV.parse(page.children.text, {:headers => true, :header_converters => :symbol}).map do |row|
-      ts = Time.parse(row[:due_date])
-      tstxt = "il y a"
-      ts = Time.now - ts
       { approver: row[:approver], body: row[:short_description], when: Time.parse(row[:due_date]) }
     end
-    puts tweets.inspect
+    # puts tweets.inspect
 
     grouped = tweets.group_by {|t| t[:approver]}
     keys = grouped.keys # => ["food", "drink"]
