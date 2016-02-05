@@ -1,5 +1,8 @@
   require 'bundler/setup'
   require 'nagiosharder'
+  require 'openssl'
+
+  OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
   SCHEDULER.every '30s' do
 
