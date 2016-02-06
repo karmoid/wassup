@@ -1,10 +1,29 @@
 class Dashing.Graph extends Dashing.Widget
 
+  DIVISORS = [
+      {number: 100000000000000000000000,  label: 'Y'}
+      {number: 100000000000000000000,     label: 'Z'}
+      {number: 100000000000000000,        label: 'E'}
+      {number: 1000000000000000,          label: 'P'}
+      {number: 1000000000000,             label: 'T'}
+      {number: 1000000000,                label: 'G'}
+      {number: 1000000,                   label: 'M'}
+      {number: 1000,                      label: 'K'}
+  ]
+
+  # Take a long number like "2356352" and turn it into "2.4M"
+  formatNumber = (number) ->
+      for divisior in DIVISORS
+          if number > divisior.number
+              number = "#{Math.round(number / (divisior.number/10))/10}#{divisior.label}"
+              break
+      number
+
   @accessor 'current', ->
     return @get('displayedValue') if @get('displayedValue')
     points = @get('points')
     if points
-      points[points.length - 1].y
+      formatNumber( points[points.length - 1].y )
 
   ready: ->
     container = $(@node).parent()

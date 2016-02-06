@@ -61,5 +61,13 @@ $tick-color:        rgba(0, 0, 0, 0.4);
   .domain {
     display: none;
   }
-
+  
+  .topbanner {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    max-height: 50px;
+    width: auto;
+    height: auto;
+  }
 }

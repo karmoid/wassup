@@ -1,0 +1,54 @@
+<script type='text/javascript'>
+$(function() {
+  Dashing.gridsterLayout('[{"col":3,"row":2,"size_x":1,"size_y":1},{"col":4,"row":2,"size_x":1,"size_y":1},{"col":3,"row":3,"size_x":1,"size_y":1},{"col":4,"row":3,"size_x":1,"size_y":1},{"col":2,"row":3,"size_x":1,"size_y":1},{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":2,"row":2,"size_x":1,"size_y":1},{"col":1,"row":2,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":1,"size_y":1}]')
+});
+</script>
+<% content_for :title do %>Unassigned tasks<% end %>
+<div class="gridster">
+  <ul>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="next-used-laptop" data-view="Graph" data-title="PC Portable Disk usage" style="background-color:#ff9618"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="next-used-desktop" data-view="Graph" data-title="PC Fixe Disk usage" style="background-color:#ff9618"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="next-sum-laptop" data-view="Graph" data-graphtype="bar" data-title="PC Portable Nombre" style="background-color:#ff9618"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="next-sum-desktop" data-view="Graph" data-graphtype="bar" data-title="PC Fixe Nombre" style="background-color:#ff9618"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="next-sum-unknown" data-view="Graph" data-graphtype="bar" data-title="PC Inconnu Nombre" style="background-color:#ff9618"></div>
+    </li>
+
+    <li data-row="3" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="next-grp-emea" data-view="Graph" data-graphtype="bar" data-title="EMEA Nombre" style="background-color:#ff9618"></div>
+    </li>
+
+    <li data-row="3" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="next-grp-brinksfrance" data-view="Graph" data-graphtype="bar" data-title="FR Nombre" style="background-color:#ff9618"></div>
+    </li>
+
+    <li data-row="3" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="next-grp-comptage" data-view="Graph" data-graphtype="bar" data-title="CPT Nombre" style="background-color:#ff9618"></div>
+    </li>
+
+    <li data-row="3" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="next-grp-workgroup" data-view="Graph" data-graphtype="bar" data-title="WRK Nombre" style="background-color:#ff9618"></div>
+    </li>
+
+    <li data-row="3" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="next-grp-na" data-view="Graph" data-graphtype="bar" data-title="NA Nombre" style="background-color:#ff9618"></div>
+    </li>
+
+    <li data-row="3" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="next-grp-unknown" data-view="Graph" data-graphtype="bar" data-title="? Nombre" style="background-color:#ff9618"></div>
+    </li>
+
+  </ul>
+</div>
