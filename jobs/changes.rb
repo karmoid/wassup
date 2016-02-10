@@ -5,22 +5,6 @@ require 'nokogiri'
 MAX_CHG_OVERDUE = 15
 MAX_CHG_AWAY = 15
 
-def state_to_color(state)
-  case state
-    when "Open" then ""
-    when "Closed Successful" then "lightgreen"
-    when "Closed Backed Out" then "red"
-    when "Closed Rejected" then "red"
-    when "Closed Cancelled" then "red"
-    when "Implementation" then "pink"
-    when "Classification" then "pink"
-    when "Assessment & Planning" then "pink"
-    when "SM Review" then "white"
-    when "Technical Review" then "white"
-    else "gray"
-  end
-end
-
 # config_file = File.dirname(File.expand_path(__FILE__)) + '/../timeline_data.yml'
 SCHEDULER.every '15m', :first_in => 0 do |job|
   begin
@@ -30,17 +14,18 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
     # config = YAML::load(File.open(config_file))
     # command = config["cmd_c"]
     # system(command)
+
+    # page.xpath("/html/body/p").each do |line|
+    #   puts ">> [#{line}]"
+    # end
     url = "https://brinkslatam.service-now.com/change_request_list.do?sysparm_query=active%3Dtrue%5EstateIN14%2C15%2C13%2C10%5Elocation.country%3DFrance%5Erequested_by_dateBETWEENjavascript%3Ags.daysAgoStart(#{MAX_CHG_OVERDUE})%40javascript%3Ags.daysAgoEnd(#{-1*MAX_CHG_AWAY})&CSV"
 
     username = ENV["uname"]
     password=ENV["pwd"]
 
     (open(url, :http_basic_authentication => [username, password]))
-    page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
 
-    # page.xpath("/html/body/p").each do |line|
-    #   puts ">> [#{line}]"
-    # end
+    page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
 
     changes = []
     today = Date.today

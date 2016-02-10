@@ -4,7 +4,7 @@
 
   OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
-  SCHEDULER.every '30s' do
+  SCHEDULER.every '3m' do
 
   config_file = File.dirname(File.expand_path(__FILE__)) + '/../security/nagios.yml'
   config = YAML::load(File.open(config_file))

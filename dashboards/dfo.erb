@@ -1,0 +1,60 @@
+<script type='text/javascript'>
+$(function() {
+  Dashing.gridsterLayout('[{"col":1,"row":3,"size_x":1,"size_y":1},{"col":2,"row":3,"size_x":1,"size_y":1},{"col":5,"row":1,"size_x":1,"size_y":2},{"col":1,"row":2,"size_x":2,"size_y":1},{"col":1,"row":1,"size_x":2,"size_y":1},{"col":3,"row":2,"size_x":1,"size_y":1},{"col":4,"row":2,"size_x":1,"size_y":1},{"col":3,"row":3,"size_x":1,"size_y":1},{"col":4,"row":3,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":1,"size_y":1}]')
+});
+  Dashing.widget_base_dimensions = [370, 340]
+  Dashing.numColumns = 5
+</script>
+
+<% content_for :title do %>ITIL dashboard<% end %>
+
+<div class="gridster">
+  <ul>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-view="Clock" style="background-color:#96bf48;"></div>
+      <i class="icon-time icon-background"></i>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/brinks.png" data-text="FRONT OFFICE CLIENT" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="2">
+      <div data-id="dfo_timeline" data-view="Timeline" data-title="Changement DFO"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-id="snow-inc-dfo" data-view="Incidents" style="background-color:#ff9618;" data-moreinfo="Incident DFO in ServiceNow"></div>
+      <i class="icon-power-off icon-background"></i>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-id="snow-chg-dfo" data-view="Changes" style="background-color:#ff9618;" data-moreinfo="Changements DFO / ServiceNow"></div>
+      <i class="icon-power-off icon-background"></i>
+    </li>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="snow-indfo-site-1" data-view="Milkman" data-title="CRITICAL / site"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="snow-indfo-site-2" data-view="Milkman" data-title="IMPORTANT / site"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="snow-indfo-categ-1" data-view="Milkman" data-title="CRITICAL / s/cat"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="snow-indfo-categ-2" data-view="Milkman" data-title="IMPORTANT / s/cat"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="snow-indfo-ci-1" data-view="Milkman" data-title="CRITICAL / CMDB CI"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="snow-indfo-ci-2" data-view="Milkman" data-title="IMPORTANT / CMDB CI"></div>
+    </li>
+
+  </ul>
+</div>

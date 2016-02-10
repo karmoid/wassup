@@ -51,7 +51,7 @@ def do_request(uri_string)
   response
 end
 
-SCHEDULER.every '30s', :first_in => 0 do |job|
+SCHEDULER.every '2m', :first_in => 0 do |job|
   begin
     config_file = File.dirname(File.expand_path(__FILE__)) + '/../security/websites.yml'
     config = YAML::load(File.open(config_file))

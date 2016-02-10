@@ -5,6 +5,7 @@ require 'nokogiri'
 MAX_APPROV_OVERDUE = 15
 MAX_APPROV_AWAY = 15
 
+
 # config_file = File.dirname(File.expand_path(__FILE__)) + '/../timeline_data.yml'
 SCHEDULER.every '15m', :first_in => 0 do |job|
   begin
@@ -14,9 +15,10 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
     # config = YAML::load(File.open(config_file))
     # command = config["cmd_c"]
     # system(command)
+
     domain = "https://brinkslatam.service-now.com"
     query = "sysapproval_approver_list.do?sysparm_query=state%3Drequested%5Edue_dateBETWEENjavascript%3Ags.daysAgoStart(#{MAX_APPROV_OVERDUE})%40javascript%3Ags.daysAgoEnd(#{-1*MAX_APPROV_AWAY})%5EORsys_created_onBETWEENjavascript%3Ags.daysAgoStart(#{MAX_APPROV_OVERDUE})%40javascript%3Ags.daysAgoEnd(#{-1*MAX_APPROV_AWAY})%5Esysapproval.location.country%3DFrance&CSV"
-    
+
     url = "#{domain}/#{query}"
 
     username = ENV["uname"]
@@ -25,6 +27,7 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
     # puts url
 
     (open(url, :http_basic_authentication => [username, password]))
+
     page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
 
     tweets = CSV.parse(page.children.text, {:headers => true, :header_converters => :symbol}).map do |row|
