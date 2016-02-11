@@ -1,6 +1,6 @@
 <script type='text/javascript'>
 $(function() {
-  Dashing.gridsterLayout('[{"col":2,"row":1,"size_x":1,"size_y":1},{"col":2,"row":2,"size_x":1,"size_y":1},{"col":1,"row":1,"size_x":1,"size_y":1},{"col":1,"row":2,"size_x":1,"size_y":1}]')
+  Dashing.gridsterLayout('[{"col":1,"row":1,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":3,"row":2,"size_x":2,"size_y":1},{"col":1,"row":2,"size_x":2,"size_y":1}]')
 });
 </script>
 <% content_for :title do %>Unassigned tasks<% end %>
@@ -19,5 +19,14 @@ $(function() {
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
       <div data-id="snow-in-ci-2" data-view="Milkman" data-title="IMPORTANT / CMDB CI"></div>
     </li>
+
+    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-id="snow-12-backlog" data-view="Backlog" data-title="Backlog global bar" data-graphtype="bar" style="background-color:#961890"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-id="snow-12-backlog" data-view="Backlog" data-title="Backlog global line" data-graphtype="line" style="background-color:#801870"></div>
+    </li>
+
   </ul>
 </div>

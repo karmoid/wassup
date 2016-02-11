@@ -28,7 +28,7 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
       ts = Time.parse(row[:sys_created_on])
       tstxt = "il y a"
       ts = Time.now - ts
-      { number: row[:number], name: row[:category] + ", "+ row[:subcategory], impact: row[:priority][3..row[:priority].length-1], body: row[:short_description], where: row[:location], when: tstxt + " " + humanize(ts) }
+      { number: row[:number], name: row[:category] + ", "+ row[:subcategory], impact: row[:priority][3..row[:priority].length-1], body: row[:short_description], where: row[:location].nil? ? "" : row[:location], when: tstxt + " " + humanize(ts) }
     end
     # puts tweets.inspect
   send_event('snow-inc-dfo', incidents: tweets)
@@ -111,7 +111,7 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
       ts = Time.parse(row[:sys_created_on])
       tstxt = "il y a"
       ts = Time.now - ts
-      { site: row[:location], categ: row[:category] + ", "+ row[:subcategory], body: row[:short_description], when: Time.parse(row[:sys_created_on]) }
+      { site: row[:location], categ: row[:category] + ", "+ row[:subcategory], body: row[:short_description], where: row[:location].nil? ? "" : row[:location], when: Time.parse(row[:sys_created_on]) }
     end
 
     grouped = tweets.group_by {|t| t[:site]}
@@ -141,7 +141,7 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
       ts = Time.parse(row[:sys_created_on])
       tstxt = "il y a"
       ts = Time.now - ts
-      { site: row[:location], categ: row[:category], subcateg: row[:subcategory], body: row[:short_description], when: Time.parse(row[:sys_created_on]) }
+      { site: row[:location], categ: row[:category], subcateg: row[:subcategory], body: row[:short_description], where: row[:location].nil? ? "" : row[:location], when: Time.parse(row[:sys_created_on]) }
     end
 
     grouped = tweets.group_by {|t| t[:subcateg]}
@@ -206,13 +206,13 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
           month: Time.parse(row[:sys_created_on]).strftime('01-%m-%Y')
         }
       end
-      puts tweets.inspect
+      # puts tweets.inspect
       grouped = tweets.group_by {|t| t[:month]}
       keys = grouped.keys # => ["food", "drink"]
       arrUsed = keys.map {|k| [Time.parse(k),
                                grouped[k].reduce(0) {|t,h| t+1 }
                                ]}.sort { |x,y| x[0] <=> y[0] }
-      puts arrUsed.inspect
+      # puts arrUsed.inspect
 
       backlog_groups = []
 
@@ -220,7 +220,7 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
         backlog_groups << {x: backlog[0].to_i, y: backlog[1]}
       }
 
-      puts backlog_groups.inspect
+      # puts backlog_groups.inspect
       send_event("snow-inc-backlog", points: backlog_groups )
     end
   end
