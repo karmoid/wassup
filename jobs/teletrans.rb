@@ -2,6 +2,8 @@ require 'csv'
 require 'open-uri'
 require 'nokogiri'
 
+nexthink_extstd = []
+
 SCHEDULER.every '5m', :first_in => 0 do |job|
   begin
     # puts "execute getincidents.sh avec bash"
@@ -223,5 +225,27 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
       # puts backlog_groups.inspect
       send_event("snow-inc-backlog", points: backlog_groups )
     end
+
+    username = ENV["nname"]
+    password=ENV["npwd"]
+
+    query_prefix = "https://frmonnxthnk03.emea.brinksgbl.com:1671/2"
+    # query = "/query?query=(select (name distinguished_name total_drive_capacity total_drive_free_space total_drive_usage first_seen last_seen device_type total_ram number_of_days_since_last_boot last_logon_time group_name *entity) (from device (where device (eq #'Source is active' (enum yes))))&format=csv"
+    query = "/query?query=(select (name device_type group_name *entity) (from device (with connection (between now-5m now)(where binary (eq executable_name (pattern global_agence5.exe))))))&format=csv"
+    url = URI.parse(URI::encode(query_prefix+query))
+
+    open(url.to_s, :http_basic_authentication => [username, password])
+    page = Nokogiri::HTML(open( url.to_s, :http_basic_authentication => [username, password] ))
+
+    tweets = CSV.parse(page.children.text, {:col_sep => "\t", :headers => true, :header_converters => :symbol}).map do |row|
+      {device_type: row[:device_type].nil? ? "unknown" : row[:device_type].downcase}
+    end
+
+    # puts tweets.inspect
+    nexthink_extstd << {x: Time.now.to_i, y: tweets.length}
+    nexthink_extstd.shift if (nexthink_extstd.length > 9)
+
+    send_event("next-sum-extstd", points: nexthink_extstd)
+    
   end
 end
