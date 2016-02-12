@@ -1,16 +1,3 @@
-GIT
-  remote: https://github.com/railsmachine/nagiosharder.git
-  revision: 827b774a2cfd7692b1b29717b9a8c1528e16acaf
-  specs:
-    nagiosharder (0.5.0)
-      activesupport
-      hashie (~> 1.2.0)
-      httparty
-      i18n
-      nokogiri
-      rest-client
-      terminal-table
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -82,6 +69,14 @@ GEM
     multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
+    nagiosharder (0.5.0)
+      activesupport
+      hashie (~> 1.2.0)
+      httparty
+      i18n
+      nokogiri
+      rest-client
+      terminal-table
     naught (1.1.0)
     netrc (0.11.0)
     nokogiri (1.6.7.2)
@@ -171,7 +166,10 @@ DEPENDENCIES
   dashing
   haml
   htmlentities
-  nagiosharder!
+  nagiosharder
   nokogiri
   rs_service_now
   twitter (>= 5.9.0)
+
+BUNDLED WITH
+   1.10.5
