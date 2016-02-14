@@ -23,7 +23,7 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
     username = ENV["uname"]
     password=ENV["pwd"]
 
-    (open(url, :http_basic_authentication => [username, password]))
+    #(open(url, :http_basic_authentication => [username, password]))
 
     page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
 

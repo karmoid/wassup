@@ -26,7 +26,7 @@ nexthinkvalues.each { |k,nv|
 SCHEDULER.every '10m', :first_in =>  '5s' do |job|
   begin
 
-  if true
+=begin
       username = ENV["nname"]
       password=ENV["npwd"]
 
@@ -35,27 +35,28 @@ SCHEDULER.every '10m', :first_in =>  '5s' do |job|
       query = "/query?query=(select (name distinguished_name total_drive_capacity total_drive_free_space total_drive_usage first_seen last_seen device_type total_ram number_of_days_since_last_boot last_logon_time group_name *entity) (from device (with connection (between now-15m now)))&format=csv"
       url = URI.parse(URI::encode(query_prefix+query))
 
-      open(url.to_s, :http_basic_authentication => [username, password])
+      # open(url.to_s, :http_basic_authentication => [username, password])
       page = Nokogiri::HTML(open( url.to_s, :http_basic_authentication => [username, password] ))
+      tweets = CSV.parse(page.children.text, {:col_sep => "\t", :headers => true, :header_converters => :symbol}).map do |row|
+=end
+      cfg = NexthinkHelper::Config.new
+      i = {}
+      qy = cfg.get_value("version5","alldrives",i)
+      url = URI.parse(URI::encode(qy))
+      # puts url.to_s
+=begin
+https://frmonnxthnk03.emea.brinksgbl.com:1671/2/query?query=(select%20(name%20distinguished_name%20total_drive_capacity%20total_drive_free_space%20total_drive_usage%20first_seen%20last_seen%20device_type%20total_ram%20number_of_days_since_last_boot%20last_logon_time%20group_name%20*entity)%20(from%20device%20(with%20connection%20(between%20now-15m%20now)))&format=csv
+=end
+      # puts [i[:username], i[:pwd]].inspect
+      # open(url.to_s, :http_basic_authentication => [i[:username], i[:password]])
+      page = Nokogiri::HTML(open( url.to_s, :http_basic_authentication => [i[:username], i[:pwd]] ))
       tweets = CSV.parse(page.children.text, {:col_sep => "\t", :headers => true, :header_converters => :symbol}).map do |row|
         {device_type: row[:device_type].nil? ? "unknown" : row[:device_type].downcase,
           group_name: row[:group_name].nil? ? "unknown" : row[:group_name].downcase,
           total_drive_capacity: row[:total_drive_capacity].nil? ? 0 : eval(row[:total_drive_capacity].gsub(",",".")),
           total_drive_free_space: row[:total_drive_free_space].nil? ? 0 : eval(row[:total_drive_free_space].gsub(",","."))}
       end
-  else
-    begin
-      tweets = CSV.foreach(File.dirname(File.expand_path(__FILE__)) + '/../nexthink-src.csv', {:headers => true, :col_sep => ";", :header_converters => :symbol}).map do |row|
-        # puts row.inspect
-        {device_type: row[:device_type].nil? ? "unknown" : row[:device_type].downcase,
-          group_name: row[:group_name].nil? ? "unknown" : row[:group_name].downcase,
-          total_drive_capacity: row[:total_drive_capacity].nil? ? 0 : eval(row[:total_drive_capacity].gsub(",",".")),
-          total_drive_free_space: row[:total_drive_free_space].nil? ? 0 : eval(row[:total_drive_free_space].gsub(",","."))}
-      end
-    rescue CSV::MalformedCSVError
-      puts "failed to parse line"
-    end
-  end
+      
       grouped = tweets.group_by {|t| t[:device_type]}
       keys = grouped.keys # => ["food", "drink"]
       arrUsed = keys.map {|k| [k, grouped[k].reduce(0) {|t,h| t+h[:total_drive_capacity]-h[:total_drive_free_space] }]}
