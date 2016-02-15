@@ -1,0 +1,75 @@
+version5:
+    format: csv
+    queries:
+      alldrives:
+        query: >
+          (select
+          (name distinguished_name total_drive_capacity total_drive_free_space total_drive_usage
+          first_seen last_seen device_type total_ram number_of_days_since_last_boot last_logon_time
+          group_name *entity)
+          (from device (with connection (between now-15m now)))
+        values:
+          name: used_space
+          formula: total_drive_capacity-total_drive_free_space
+          agregate: sum
+      extractionstd:
+        query: >
+          (select
+          (name device_type group_name *entity)
+          (from device
+          (with connection (between now-5m now)
+          (where binary (eq executable_name (pattern global_agence5.exe))))))
+        values:
+          name: usage
+          formula: 1
+          agregate: count
+      horusquality:
+        query: >
+          (select
+          (name device_type group_name *entity)
+          (from device
+          (with connection (between now-1h now)
+          (where binary (eq executable_name (pattern kheops.horus.clients.windows.exe)))
+            (compute incoming_traffic outgoing_traffic average_network_response_time successful_connections_ratio network_availability_level)
+            )))
+        values:
+          - name: availability1
+            formula: average_network_response_time
+            agregate: min
+          - name: availability2
+            formula: average_network_response_time
+            agregate: average
+          - name: availability3
+            formula: average_network_response_time
+            agregate: max
+          - name: count
+            formula: name
+            agregate: count
+          - name: netavailability
+            formula: network_availability_level
+            agregate: group_by
+      darwinquality:
+        query: >
+          (select
+          (name device_type group_name *entity)
+          (from device
+          (with connection (between now-1h now)
+          (where binary (eq executable_name (pattern darwin.exe)))
+            (compute incoming_traffic outgoing_traffic average_network_response_time successful_connections_ratio network_availability_level)
+            )))
+        values:
+          - name: availability1
+            formula: average_network_response_time
+            agregate: min
+          - name: availability2
+            formula: average_network_response_time
+            agregate: average
+          - name: availability3
+            formula: average_network_response_time
+            agregate: max
+          - name: count
+            formula: name
+            agregate: count
+          - name: netavailability
+            formula: network_availability_level
+            agregate: group_by
