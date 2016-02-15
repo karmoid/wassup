@@ -170,6 +170,3 @@ DEPENDENCIES
   nokogiri
   rs_service_now
   twitter (>= 5.9.0)
-
-BUNDLED WITH
-   1.10.5
