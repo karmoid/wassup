@@ -25,94 +25,71 @@ nexthinkvalues.each { |k,nv|
 
 SCHEDULER.every '10m', :first_in =>  '5s' do |job|
   begin
+    i = {}
+    cfg = NexthinkHelper::Config.new
+    qy = cfg.get_value("version5","alldrives",i)
+    url = URI.parse(URI::encode(qy))
 
-=begin
-      username = ENV["nname"]
-      password=ENV["npwd"]
+    page = Nokogiri::HTML(open( url.to_s, :http_basic_authentication => [i[:username], i[:pwd]] ))
+    tweets = CSV.parse(page.children.text, {:col_sep => "\t", :headers => true, :header_converters => :symbol}).map do |row|
+      {device_type: row[:device_type].nil? ? "unknown" : row[:device_type].downcase,
+        group_name: row[:group_name].nil? ? "unknown" : row[:group_name].downcase,
+        total_drive_capacity: row[:total_drive_capacity].nil? ? 0 : eval(row[:total_drive_capacity].gsub(",",".")),
+        total_drive_free_space: row[:total_drive_free_space].nil? ? 0 : eval(row[:total_drive_free_space].gsub(",","."))}
+    end
 
-      query_prefix = "https://frmonnxthnk03.emea.brinksgbl.com:1671/2"
-      # query = "/query?query=(select (name distinguished_name total_drive_capacity total_drive_free_space total_drive_usage first_seen last_seen device_type total_ram number_of_days_since_last_boot last_logon_time group_name *entity) (from device (where device (eq #'Source is active' (enum yes))))&format=csv"
-      query = "/query?query=(select (name distinguished_name total_drive_capacity total_drive_free_space total_drive_usage first_seen last_seen device_type total_ram number_of_days_since_last_boot last_logon_time group_name *entity) (from device (with connection (between now-15m now)))&format=csv"
-      url = URI.parse(URI::encode(query_prefix+query))
+    puts "! On va faire notre cuisine FORMULA !"
+    c = cfg.get_values( "version5", "horusquality" )
+    puts "=> On est revenu de notre notre cuisine FORMULA"
+    puts c.inspect
 
-      # open(url.to_s, :http_basic_authentication => [username, password])
-      page = Nokogiri::HTML(open( url.to_s, :http_basic_authentication => [username, password] ))
-      tweets = CSV.parse(page.children.text, {:col_sep => "\t", :headers => true, :header_converters => :symbol}).map do |row|
-=end
-      cfg = NexthinkHelper::Config.new
-      i = {}
-      qy = cfg.get_value("version5","alldrives",i)
-      url = URI.parse(URI::encode(qy))
-      # puts url.to_s
-=begin
-https://frmonnxthnk03.emea.brinksgbl.com:1671/2/query?query=(select%20(name%20distinguished_name%20total_drive_capacity%20total_drive_free_space%20total_drive_usage%20first_seen%20last_seen%20device_type%20total_ram%20number_of_days_since_last_boot%20last_logon_time%20group_name%20*entity)%20(from%20device%20(with%20connection%20(between%20now-15m%20now)))&format=csv
-=end
-      # puts [i[:username], i[:pwd]].inspect
-      # open(url.to_s, :http_basic_authentication => [i[:username], i[:password]])
-      page = Nokogiri::HTML(open( url.to_s, :http_basic_authentication => [i[:username], i[:pwd]] ))
-      tweets = CSV.parse(page.children.text, {:col_sep => "\t", :headers => true, :header_converters => :symbol}).map do |row|
-        {device_type: row[:device_type].nil? ? "unknown" : row[:device_type].downcase,
-          group_name: row[:group_name].nil? ? "unknown" : row[:group_name].downcase,
-          total_drive_capacity: row[:total_drive_capacity].nil? ? 0 : eval(row[:total_drive_capacity].gsub(",",".")),
-          total_drive_free_space: row[:total_drive_free_space].nil? ? 0 : eval(row[:total_drive_free_space].gsub(",","."))}
+    puts "! On va faire notre cuisine FORMULA !"
+    c = cfg.get_values( "version5", "darwinquality" )
+    puts "=> On est revenu de notre notre cuisine FORMULA"
+    puts c.inspect
+
+    grouped = tweets.group_by {|t| t[:device_type]}
+    keys = grouped.keys # => ["food", "drink"]
+    arrUsed = keys.map {|k| [k, grouped[k].reduce(0) {|t,h| t+h[:total_drive_capacity]-h[:total_drive_free_space] }]}
+
+    arrUsed.each { |usedspace|
+      unless nexthinkvalues[usedspace[0]].nil?
+        nv = nexthinkvalues[usedspace[0]]
+        nv[:used_space].shift
+        nv[:last_x] += 5*60
+        nv[:used_space] << { x: nv[:last_x], y: usedspace[1] }
+
+        send_event("next-used-#{usedspace[0].downcase}", points: nv[:used_space])
       end
-      
-      grouped = tweets.group_by {|t| t[:device_type]}
-      keys = grouped.keys # => ["food", "drink"]
-      arrUsed = keys.map {|k| [k, grouped[k].reduce(0) {|t,h| t+h[:total_drive_capacity]-h[:total_drive_free_space] }]}
+    }
 
+    arrTotal = keys.map {|k| [k, grouped[k].reduce(0) {|t,h| t+1 }]}
 
-      # puts tweets.inspect
-      #arrUsed.each {|line|
-      # puts line.inspect
+    arrTotal.each { |count|
+      unless nexthinkvalues[count[0]].nil?
+        nv = nexthinkvalues[count[0]]
+        nv[:count].shift
+        nv[:last_x] += 5*60
+        nv[:count] << { x: nv[:last_x], y: count[1] }
 
-        arrUsed.each { |usedspace|
-          unless nexthinkvalues[usedspace[0]].nil?
-            nv = nexthinkvalues[usedspace[0]]
-            nv[:used_space].shift
-            nv[:last_x] += 5*60
-            nv[:used_space] << { x: nv[:last_x], y: usedspace[1] }
-            # puts "next-used-#{usedspace[0]}"
-
-            send_event("next-used-#{usedspace[0].downcase}", points: nv[:used_space])
-          end
-        }
-      #}
-
-      # puts tweets.inspect
-      #arrTotal.each {|line|
-      # puts line.inspect
-      arrTotal = keys.map {|k| [k, grouped[k].reduce(0) {|t,h| t+1 }]}
-
-        arrTotal.each { |count|
-          unless nexthinkvalues[count[0]].nil?
-            nv = nexthinkvalues[count[0]]
-            nv[:count].shift
-            nv[:last_x] += 5*60
-            nv[:count] << { x: nv[:last_x], y: count[1] }
-            # puts "next-sum-#{count[0]}"
-            send_event("next-sum-#{count[0].downcase}", points: nv[:count])
-          end
-        }
-      #}
-
+        send_event("next-sum-#{count[0].downcase}", points: nv[:count])
+      end
+    }
 
 # Cumul par Groupe
-      grouped = tweets.group_by {|t| t[:group_name]}
-      keys = grouped.keys # => ["food", "drink"]
-      arrGrp = keys.map {|k| [k, grouped[k].reduce(0) {|t,h| t+1}]}
+    grouped = tweets.group_by {|t| t[:group_name]}
+    keys = grouped.keys # => ["food", "drink"]
+    arrGrp = keys.map {|k| [k, grouped[k].reduce(0) {|t,h| t+1}]}
 
+    arrGrp.each { |count|
+      nexthink_groups[count[0]] = {count: [], last_x: 0} if nexthink_groups[count[0]].nil?
+      grp = nexthink_groups[count[0]]
+      grp[:count].shift if (grp[:count].length > 9)
+      grp[:last_x] += 5*60
+      grp[:count] << { x: grp[:last_x], y: count[1] }
 
-      arrGrp.each { |count|
-        nexthink_groups[count[0]] = {count: [], last_x: 0} if nexthink_groups[count[0]].nil?
-        grp = nexthink_groups[count[0]]
-        grp[:count].shift if (grp[:count].length > 9)
-        grp[:last_x] += 5*60
-        grp[:count] << { x: grp[:last_x], y: count[1] }
-        # puts "next-grp-#{count[0]}"
-
-        send_event("next-grp-#{count[0]}", points: grp[:count])
-      }
+      send_event("next-grp-#{count[0]}", points: grp[:count])
+    }
 
    end
 end

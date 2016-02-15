@@ -23,3 +23,41 @@ version5:
           name: usage
           formula: 1
           agregate: count
+      horusquality:
+        query: >
+          (select
+          (name device_type group_name *entity)
+          (from device
+          (with connection (between now-1h now)
+          (where binary (eq executable_name (pattern kheops.horus.clients.windows.exe)))
+            (compute incoming_traffic outgoing_traffic average_network_response_time successful_connections_ratio network_availability_level)
+            )))
+        values:
+          - name: availability2
+            formula: average_network_response_time
+            agregate: average
+          - name: availability1
+            formula: average_network_response_time
+            agregate: min
+          - name: availability3
+            formula: average_network_response_time
+            agregate: max
+      darwinquality:
+        query: >
+          (select
+          (name device_type group_name *entity)
+          (from device
+          (with connection (between now-1h now)
+          (where binary (eq executable_name (pattern darwin.exe)))
+            (compute incoming_traffic outgoing_traffic average_network_response_time successful_connections_ratio network_availability_level)
+            )))
+        values:
+          - name: availability2
+            formula: average_network_response_time
+            agregate: average
+          - name: availability1
+            formula: average_network_response_time
+            agregate: min
+          - name: availability3
+            formula: average_network_response_time
+            agregate: max
