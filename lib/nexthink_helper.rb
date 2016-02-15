@@ -2,6 +2,9 @@ require 'yaml'
 require 'csv'
 require 'nokogiri'
 
+FIXNUM_MAX = (2**(0.size * 8 -2) -1)
+FIXNUM_MIN = -(2**(0.size * 8 -2))
+
 module NexthinkHelper
   class Config
     attr_accessor :config
@@ -38,6 +41,8 @@ module NexthinkHelper
       end
     end
 
+# a = [{name: "marc", value: 12},{name: "eric", value: -2},{name: "roro", value: 234},{name: "dudu", value: 23}]
+
     def get_values( engine_name, key_value )
       engine_cfg = config[engine_name]
       user_id = {}
@@ -46,24 +51,32 @@ module NexthinkHelper
       url = URI.parse(URI::encode(qy))
       page = Nokogiri::HTML(open( url.to_s, :http_basic_authentication => [user_id[:username], user_id[:pwd]] ))
       lines = CSV.parse(page.children.text, {:col_sep => "\t", :headers => true, :header_converters => :symbol})
-      lines.each {|l| puts l[:average_network_response_time].inspect}
+      # lines.each {|l| puts l[:average_network_response_time].inspect}
       values = engine_cfg["queries"][key_value]["values"]
-      myvalues = values.map {|row|
-          puts row.inspect
-          {row["name"] =>
-             case row["agregate"]
+      values.each {|row|
+          # puts row.inspect
+          my_values[row["name"]] = (case row["agregate"]
               when "min"
-                lines.min {|l| l[row["formula"].to_sym].to_i}[row["formula"].to_sym].to_i
+                lines.reduce(FIXNUM_MAX) {|v,l| l[row["formula"].to_sym].to_i < v ? l[row["formula"].to_sym].to_i : v }
               when "max"
-                lines.max {|l| l[row["formula"].to_sym].to_i}[row["formula"].to_sym].to_i
+                lines.reduce(FIXNUM_MIN) {|v,l| l[row["formula"].to_sym].to_i > v ? l[row["formula"].to_sym].to_i : v }
               when "average"
-                lines.sum {|l| l[row["formula"].to_sym].to_i} / lines.length
+                lines.inject(0) {|sum,l| sum + l[row["formula"].to_sym].to_i} / lines.length
+              when "sum"
+                lines.inject(0) {|sum,l| sum + l[row["formula"].to_sym].to_i}
+              when "count"
+                lines.length
+              when "group_by"
+                grouped = lines.group_by {|l| l[row["formula"].to_sym]}
+                keys = grouped.keys # => ["food", "drink"]
+                work = {}
+                keys.each {|k| work[k] = grouped[k].reduce(0) {|t,h| t+1 }}
+                work
               else
                 -1
-            end
-          }
+            end)
       }
-
+      my_values
     end
 
   end

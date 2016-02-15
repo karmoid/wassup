@@ -1,0 +1,43 @@
+<script type='text/javascript'>
+$(function() {
+  Dashing.gridsterLayout('[{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":2,"size_x":2,"size_y":1},{"col":5,"row":2,"size_x":1,"size_y":1},{"col":4,"row":2,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":2,"size_y":1},{"col":5,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":1,"size_y":1}]')
+});
+
+  Dashing.widget_base_dimensions = [370, 340]
+  Dashing.numColumns = 5
+</script>
+
+<% content_for :title do %>Darwin Evolution dashboard<% end %>
+
+<div class="gridster">
+  <ul>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/brinks.png" data-text="DARWIN EVOLUTION" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="drwevol-quality" data-view="Backlog" data-graphtype="line" data-title="Horus Tps de réponse moyen en ms" style="background-color:#908020"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="drwevol-availability" data-view="Meter" data-title="Disponibilité Horus" data-min="0" data-max="100"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="drwevol-count" data-view="Backlog" data-title="Horus Usage"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="darwin-quality" data-view="Backlog" data-graphtype="line" data-title="Darwin Tps de réponse moyen en ms" style="background-color:#908020"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="darwin-availability" data-view="Meter" data-title="Disponibilité Darwin" data-min="0" data-max="100"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="darwin-count" data-view="Backlog" data-title="Darwin Usage"></div>
+    </li>
+
+  </ul>
+</div>

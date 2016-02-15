@@ -37,7 +37,7 @@ SCHEDULER.every '10m', :first_in =>  '5s' do |job|
         total_drive_capacity: row[:total_drive_capacity].nil? ? 0 : eval(row[:total_drive_capacity].gsub(",",".")),
         total_drive_free_space: row[:total_drive_free_space].nil? ? 0 : eval(row[:total_drive_free_space].gsub(",","."))}
     end
-
+=begin
     puts "! On va faire notre cuisine FORMULA !"
     c = cfg.get_values( "version5", "horusquality" )
     puts "=> On est revenu de notre notre cuisine FORMULA"
@@ -47,7 +47,7 @@ SCHEDULER.every '10m', :first_in =>  '5s' do |job|
     c = cfg.get_values( "version5", "darwinquality" )
     puts "=> On est revenu de notre notre cuisine FORMULA"
     puts c.inspect
-
+=end
     grouped = tweets.group_by {|t| t[:device_type]}
     keys = grouped.keys # => ["food", "drink"]
     arrUsed = keys.map {|k| [k, grouped[k].reduce(0) {|t,h| t+h[:total_drive_capacity]-h[:total_drive_free_space] }]}

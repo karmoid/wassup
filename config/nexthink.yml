@@ -33,15 +33,21 @@ version5:
             (compute incoming_traffic outgoing_traffic average_network_response_time successful_connections_ratio network_availability_level)
             )))
         values:
-          - name: availability2
-            formula: average_network_response_time
-            agregate: average
           - name: availability1
             formula: average_network_response_time
             agregate: min
+          - name: availability2
+            formula: average_network_response_time
+            agregate: average
           - name: availability3
             formula: average_network_response_time
             agregate: max
+          - name: count
+            formula: name
+            agregate: count
+          - name: netavailability
+            formula: network_availability_level
+            agregate: group_by
       darwinquality:
         query: >
           (select
@@ -52,12 +58,18 @@ version5:
             (compute incoming_traffic outgoing_traffic average_network_response_time successful_connections_ratio network_availability_level)
             )))
         values:
-          - name: availability2
-            formula: average_network_response_time
-            agregate: average
           - name: availability1
             formula: average_network_response_time
             agregate: min
+          - name: availability2
+            formula: average_network_response_time
+            agregate: average
           - name: availability3
             formula: average_network_response_time
             agregate: max
+          - name: count
+            formula: name
+            agregate: count
+          - name: netavailability
+            formula: network_availability_level
+            agregate: group_by
