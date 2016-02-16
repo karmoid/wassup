@@ -15,7 +15,7 @@ version5:
       extractionstd:
         query: >
           (select
-          (name device_type group_name *entity)
+          (name device_type group_name #"*Entity")
           (from device
           (with connection (between now-5m now)
           (where binary (eq executable_name (pattern global_agence5.exe))))))
@@ -26,12 +26,12 @@ version5:
       horusquality:
         query: >
           (select
-          (name device_type group_name *entity)
+          (name device_type group_name #"*Entity")
           (from device
           (with connection (between now-1h now)
           (where binary (eq executable_name (pattern kheops.horus.clients.windows.exe)))
-            (compute incoming_traffic outgoing_traffic average_network_response_time successful_connections_ratio network_availability_level)
-            )))
+          (compute incoming_traffic outgoing_traffic average_network_response_time successful_connections_ratio network_availability_level)
+          )))
         values:
           - name: availability1
             formula: average_network_response_time
@@ -51,12 +51,12 @@ version5:
       darwinquality:
         query: >
           (select
-          (name device_type group_name *entity)
+          (name device_type group_name #"*Entity")
           (from device
           (with connection (between now-1h now)
           (where binary (eq executable_name (pattern darwin.exe)))
-            (compute incoming_traffic outgoing_traffic average_network_response_time successful_connections_ratio network_availability_level)
-            )))
+          (compute incoming_traffic outgoing_traffic average_network_response_time successful_connections_ratio network_availability_level)
+          )))
         values:
           - name: availability1
             formula: average_network_response_time
@@ -110,3 +110,25 @@ version5:
           - name: max_threats
             formula: number_of_binaries
             agregate: max
+      cash_availability:
+        query: >
+          (select
+          (name #"Destination Type" #"Server location")
+          (from destination
+          (with connection (between now-1h now)
+          (where destination
+          (eq #"Destination Type"
+          (enum Agence))
+          (eq name
+          (pattern sfr*))
+          )
+          (compute network_availability_level))
+          (having (ne network_availability_level (enum high)
+          )))
+        values:
+          - name: servers
+            formula: network_availability_level
+            agregate: group_by
+          - name: sites
+            formula: server_location,network_availability_level
+            agregate: list

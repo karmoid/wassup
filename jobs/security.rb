@@ -30,7 +30,7 @@ SCHEDULER.every '1h', :first_in =>  0 do |job|
     # puts horus_stats[:quality].inspect
     send_event("threats-h-binaries", points: high_stats[:max_binaries])
 
-    puts c["device_list"].inspect
+    # puts c["device_list"].inspect
 
     hrows = [
       { cols: [ {value: 'Device name'}, {value: 'Entité'}, {value: '# Threats'} ] }
