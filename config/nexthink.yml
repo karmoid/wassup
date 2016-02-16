@@ -73,3 +73,40 @@ version5:
           - name: netavailability
             formula: network_availability_level
             agregate: group_by
+      high_threat:
+        query: >
+          (select name
+          (from device
+          (with execution
+          (where binary (eq threat_level (enum high)))
+          (compute number_of_binaries)
+          (between midnight-1d midnight)))
+          (limit 100)
+          (order_by name desc))
+        values:
+          - name: devices
+            formula: name
+            agregate: count
+          - name: max_threats
+            formula: number_of_binaries
+            agregate: max
+          - name: device_list
+            agregate: list
+            formula: name,number_of_binaries
+      intermediate_threat:
+        query: >
+          (select name
+          (from device
+          (with execution
+          (where binary (eq threat_level (enum intermediate)))
+          (compute number_of_binaries)
+          (between midnight-1d midnight)))
+          (limit 100)
+          (order_by name desc))
+        values:
+          - name: devices
+            formula: name
+            agregate: count
+          - name: max_threats
+            formula: number_of_binaries
+            agregate: max

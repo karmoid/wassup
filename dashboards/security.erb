@@ -1,0 +1,39 @@
+<script type='text/javascript'>
+$(function() {
+  Dashing.gridsterLayout('[{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":2,"row":2,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":3,"row":2,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":2,"size_y":1}]')
+});
+
+  Dashing.widget_base_dimensions = [370, 340]
+  Dashing.numColumns = 5
+</script>
+
+<% content_for :title do %>Security dashboard<% end %>
+
+<div class="gridster">
+  <ul>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/brinks.png" data-text="SECURITY" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="threats-h-binaries" data-view="Backlog" data-graphtype="bar" data-title="High threat binaries"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="threats-i-binaries" data-view="Backlog" data-graphtype="bar" data-title="Intermediate threat binaries" style="background-color:#908020"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="threats-h-binaries" data-view="Backlog" data-graphtype="bar" data-title="Hight threat devices"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="threats-i-binaries" data-view="Backlog" data-graphtype="bar" data-title="Intermediate threat devices" style="background-color:#908020"></div>
+    </li>
+
+    <li data-row="3" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-id="threats-devices" data-view="Table" data-title="Devices" data-moreinfo="High Threat on devices"></div>
+    </li>
+
+  </ul>
+</div>
