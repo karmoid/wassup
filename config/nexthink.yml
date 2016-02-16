@@ -75,7 +75,7 @@ version5:
             agregate: group_by
       high_threat:
         query: >
-          (select name
+          (select (name #"*Entity")
           (from device
           (with execution
           (where binary (eq threat_level (enum high)))
@@ -92,7 +92,7 @@ version5:
             agregate: max
           - name: device_list
             agregate: list
-            formula: name,number_of_binaries
+            formula: name,entity,number_of_binaries
       intermediate_threat:
         query: >
           (select name

@@ -74,6 +74,7 @@ module NexthinkHelper
                 work
               when "list"
                 lines.map {|l|
+                  puts l.inspect
                   item = {}
                   row["formula"].split(",").each { |f|
                     item[f] = l[f.to_sym]
