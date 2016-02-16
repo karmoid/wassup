@@ -49,6 +49,7 @@ module NexthinkHelper
       my_values = {}
       qy = get_value(engine_name, key_value, user_id)
       url = URI.parse(URI::encode(qy))
+      # puts url.inspect
       page = Nokogiri::HTML(open( url.to_s, :http_basic_authentication => [user_id[:username], user_id[:pwd]] ))
       lines = CSV.parse(page.children.text, {:col_sep => "\t", :headers => true, :header_converters => :symbol})
       # lines.each {|l| puts l[:average_network_response_time].inspect}
@@ -74,7 +75,7 @@ module NexthinkHelper
                 work
               when "list"
                 lines.map {|l|
-                  puts l.inspect
+                  # puts l.inspect
                   item = {}
                   row["formula"].split(",").each { |f|
                     item[f] = l[f.to_sym]

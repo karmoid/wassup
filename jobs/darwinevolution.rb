@@ -8,6 +8,8 @@ OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 horus_stats = {quality: [], count: [], availability: []}
 darwin_stats = {quality: [], count: [], availability: []}
+darwin_avail = {low: [], medium: []}
+
 cfg = NexthinkHelper::Config.new
 
 start_time = Time.now
@@ -30,11 +32,13 @@ SCHEDULER.every '5m', :first_in =>  0 do |job|
     # puts horus_stats[:count].inspect
     send_event("drwevol-count", points: horus_stats[:count])
 
-    # puts c["netavailability"].inspect
+    puts c["netavailability"].inspect
     count = c["count"].to_i
     high_count = c["netavailability"]["high"].nil? ? 0 : c["netavailability"]["high"]
 
-    send_event("drwevol-availability", value: (high_count / count) * 100)
+    puts "#{count} count element pour #{high_count} high_count elements"
+    puts "value est donc : #{high_count *100 / count}"
+    send_event("drwevol-availability", value: high_count * 100 / count)
 
     c = cfg.get_values( "version5", "darwinquality" )
     # puts c.inspect
@@ -55,6 +59,33 @@ SCHEDULER.every '5m', :first_in =>  0 do |job|
     high_count = c["netavailability"]["high"].nil? ? 0 : c["netavailability"]["high"]
 
     send_event("darwin-availability", value: (high_count * 100 / count))
+
+    c = cfg.get_values( "version5", "cash_availability" )
+
+    # puts c["servers"].inspect
+
+    darwin_avail[:low]  << { x: iteration_time.to_i, y: c["servers"]["low"] }
+    darwin_avail[:low].shift if (darwin_avail[:low].length > 9)
+
+    send_event("darwin-low", points: darwin_avail[:low])
+
+    darwin_avail[:medium]  << { x: iteration_time.to_i, y: c["servers"]["medium"] }
+    darwin_avail[:medium].shift if (darwin_avail[:medium].length > 9)
+
+    # puts darwin_stats[:count].inspect²
+    send_event("darwin-medium", points: darwin_avail[:medium])
+
+    # puts c["sites"].inspect
+
+    hrows = [
+      { cols: [ {value: 'Site'}, {value: 'Disponibilité'} ] }
+    ]
+    rows = c["sites"].take(5).map {|dl|
+      { cols: [ {value: dl["server_location"]}, {value: dl["network_availability_level"] } ]}
+    }
+    send_event('server-low', { hrows: hrows, rows: rows } )
+
+
 
    end
 end
