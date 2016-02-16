@@ -72,6 +72,14 @@ module NexthinkHelper
                 work = {}
                 keys.each {|k| work[k] = grouped[k].reduce(0) {|t,h| t+1 }}
                 work
+              when "list"
+                lines.map {|l|
+                  item = {}
+                  row["formula"].split(",").each { |f|
+                    item[f] = l[f.to_sym]
+                   }
+                   item
+                }
               else
                 -1
             end)
