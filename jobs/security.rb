@@ -30,13 +30,13 @@ SCHEDULER.every '1h', :first_in =>  0 do |job|
     # puts horus_stats[:quality].inspect
     send_event("threats-h-binaries", points: high_stats[:max_binaries])
 
-    # puts c["device_list"].inspect
+    puts c["device_list"].inspect
 
     hrows = [
-      { cols: [ {value: 'Device name'}, {value: '# Threats'} ] }
+      { cols: [ {value: 'Device name'}, {value: 'Entité'}, {value: '# Threats'} ] }
     ]
     rows = c["device_list"].sort {|a,b| b["number_of_binaries"]<=>a["number_of_binaries"] }.take(5).map {|dl|
-      { cols: [ {value: dl["name"]}, {value: dl["number_of_binaries"] } ]}
+      { cols: [ {value: dl["name"]}, {value: dl["entity"] }, {value: dl["number_of_binaries"] } ]}
     }
     send_event('threats-devices', { hrows: hrows, rows: rows } )
 
