@@ -8,6 +8,8 @@ news_feeds = {
   "canal-infos" => "http://frmonbcastapp01.emea.brinksgbl.com:88/category/non-classe/?feed=rss",
 }
 
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
 Decoder = HTMLEntities.new
 
 class News
