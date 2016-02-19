@@ -32,12 +32,11 @@ SCHEDULER.every '5m', :first_in =>  0 do |job|
     # puts horus_stats[:count].inspect
     send_event("drwevol-count", points: horus_stats[:count])
 
-    puts c["netavailability"].inspect
+    # puts c["netavailability"].inspect
+    
     count = c["count"].to_i
     high_count = c["netavailability"]["high"].nil? ? 0 : c["netavailability"]["high"]
 
-    puts "#{count} count element pour #{high_count} high_count elements"
-    puts "value est donc : #{high_count *100 / count}"
     send_event("drwevol-availability", value: high_count * 100 / count)
 
     c = cfg.get_values( "version5", "darwinquality" )
