@@ -1,6 +1,6 @@
 <script type='text/javascript'>
 $(function() {
-  Dashing.gridsterLayout('[{"col":2,"row":1,"size_x":2,"size_y":1},{"col":1,"row":1,"size_x":1,"size_y":1},{"col":1,"row":2,"size_x":1,"size_y":2},{"col":2,"row":3,"size_x":2,"size_y":1},{"col":2,"row":2,"size_x":2,"size_y":1},{"col":4,"row":3,"size_x":1,"size_y":1},{"col":5,"row":3,"size_x":1,"size_y":1},{"col":4,"row":2,"size_x":1,"size_y":1},{"col":5,"row":2,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":1,"size_y":1},{"col":5,"row":1,"size_x":1,"size_y":1}]')
+  Dashing.gridsterLayout('[{"col":2,"row":1,"size_x":2,"size_y":1},{"col":1,"row":1,"size_x":1,"size_y":1},{"col":1,"row":2,"size_x":1,"size_y":2},{"col":2,"row":3,"size_x":2,"size_y":1},{"col":5,"row":3,"size_x":1,"size_y":1},{"col":4,"row":3,"size_x":1,"size_y":1},{"col":5,"row":2,"size_x":1,"size_y":1},{"col":4,"row":2,"size_x":1,"size_y":1},{"col":5,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":1,"size_y":1},{"col":3,"row":2,"size_x":1,"size_y":1},{"col":2,"row":2,"size_x":1,"size_y":1}]')
 });
 
   Dashing.widget_base_dimensions = [370, 340]
@@ -23,11 +23,6 @@ $(function() {
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="2">
       <div data-id="dfo_timeline" data-view="Timeline" style="background-color:#9020ff;" data-title="Changement DFO"></div>
       <i class="icon-refresh icon-background"></i>
-    </li>
-
-    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
-      <div data-id="snow-inc-dfo" data-view="Incidents" style="background-color:#ff9618;" data-moreinfo="Incident DFO in ServiceNow"></div>
-      <i class="icon-exclamation-sign icon-background"></i>
     </li>
 
     <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
@@ -66,6 +61,10 @@ $(function() {
 
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
       <div data-id="next-sum-extstd" data-view="Graph" data-graphtype="bar" data-title="Extraction Std" style="background-color:#A09618"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="commandweb-websites" data-view="Graph" data-graphtype="bar" data-title="CommandWeb" data-moreinfo="Temps d'accès en seconde"></div>
     </li>
 
   </ul>

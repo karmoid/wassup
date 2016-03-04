@@ -22,6 +22,7 @@ class Dashing.Graph extends Dashing.Widget
   @accessor 'current', ->
     return @get('displayedValue') if @get('displayedValue')
     points = @get('points')
+    @status = @get('status')
     if points
       formatNumber( points[points.length - 1].y )
 
@@ -53,3 +54,8 @@ class Dashing.Graph extends Dashing.Widget
     if @graph
       @graph.series[0].data = data.points
       @graph.render()
+    @status = data.status
+    if @status
+      $(@node).css('background-color', '#42b2aa')
+    else
+      $(@node).css('background-color', '#e85c28')
