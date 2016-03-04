@@ -3,9 +3,12 @@ my_stats = {}
 
 SCHEDULER.every '5m', :first_in => 0 do |job|
   begin
+    config_file = File.dirname(File.expand_path(__FILE__)) + '/../security/jmeter.yml'
+    config = YAML::load(File.open(config_file))
+    command_root = config["jmeter-root"]
     config_file = File.dirname(File.expand_path(__FILE__)) + '/../config/jmeter.yml'
     config = YAML::load(File.open(config_file))
-    command = config["cmd_jmeter"]
+    command = command_root + "\\" + config["cmd_jmeter"]
 
     if config["websites"].nil?
       puts "No website found"
