@@ -17,3 +17,4 @@ tmp
 setenv.sh
 security
 *.csv
+*.log
