@@ -1,0 +1,4 @@
+cmd_jmeter: C:\tools\apache-jmeter-2.13\bin\jmeter.bat
+websites:
+  commandweb: .\security\commandweb.jmx
+  repository: .\security\repository.jmx
