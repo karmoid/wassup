@@ -10,6 +10,8 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
     config = YAML::load(File.open(config_file))
     command = command_root + "\\" + config["cmd_jmeter"]
 
+    iteration_time = Time.now
+
     if config["websites"].nil?
       puts "No website found"
     else
@@ -24,7 +26,7 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
 
           my_stats[web_id] = {state: false, timing: []} if my_stats[web_id].nil?
           my_stats[web_id][:state] = (values[2].to_i==0)
-          my_stats[web_id][:timing] << {x: Time.now.to_i, y: my_stats[web_id][:state] ? values[1].gsub(",",".").to_f : 0.0}
+          my_stats[web_id][:timing] << {x: iteration_time.to_i, y: my_stats[web_id][:state] ? values[1].gsub(",",".").to_f : 0.0}
           my_stats[web_id][:timing].shift if my_stats[web_id][:timing].length > 9
 
           # puts my_stats.inspect

@@ -16,7 +16,7 @@ start_time = Time.now
 
 SCHEDULER.every '5m', :first_in =>  0 do |job|
   begin
-    iteration_time = Time.now - start_time
+    iteration_time = Time.now
 
     c = cfg.get_values( "version5", "horusquality" )
     # puts c.inspect
@@ -33,7 +33,7 @@ SCHEDULER.every '5m', :first_in =>  0 do |job|
     send_event("drwevol-count", points: horus_stats[:count])
 
     # puts c["netavailability"].inspect
-    
+
     count = c["count"].to_i
     high_count = c["netavailability"]["high"].nil? ? 0 : c["netavailability"]["high"]
 

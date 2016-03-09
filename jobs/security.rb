@@ -14,7 +14,7 @@ start_time = Time.now
 
 SCHEDULER.every '1h', :first_in =>  0 do |job|
   begin
-    iteration_time = Time.now - start_time
+    iteration_time = Time.now
 
     c = cfg.get_values( "version5", "high_threat" )
     # puts c.inspect

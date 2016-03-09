@@ -48,6 +48,8 @@ SCHEDULER.every '10m', :first_in =>  '5s' do |job|
     puts "=> On est revenu de notre notre cuisine FORMULA"
     puts c.inspect
 =end
+    iteration_time = Time.now
+
     grouped = tweets.group_by {|t| t[:device_type]}
     keys = grouped.keys # => ["food", "drink"]
     arrUsed = keys.map {|k| [k, grouped[k].reduce(0) {|t,h| t+h[:total_drive_capacity]-h[:total_drive_free_space] }]}
@@ -57,7 +59,7 @@ SCHEDULER.every '10m', :first_in =>  '5s' do |job|
         nv = nexthinkvalues[usedspace[0]]
         nv[:used_space].shift
         nv[:last_x] += 5*60
-        nv[:used_space] << { x: nv[:last_x], y: usedspace[1] }
+        nv[:used_space] << { x: iteration_time.to_i, y: usedspace[1] }
 
         send_event("next-used-#{usedspace[0].downcase}", points: nv[:used_space])
       end
@@ -70,7 +72,7 @@ SCHEDULER.every '10m', :first_in =>  '5s' do |job|
         nv = nexthinkvalues[count[0]]
         nv[:count].shift
         nv[:last_x] += 5*60
-        nv[:count] << { x: nv[:last_x], y: count[1] }
+        nv[:count] << { x: iteration_time.to_i, y: count[1] }
 
         send_event("next-sum-#{count[0].downcase}", points: nv[:count])
       end
@@ -86,7 +88,7 @@ SCHEDULER.every '10m', :first_in =>  '5s' do |job|
       grp = nexthink_groups[count[0]]
       grp[:count].shift if (grp[:count].length > 9)
       grp[:last_x] += 5*60
-      grp[:count] << { x: grp[:last_x], y: count[1] }
+      grp[:count] << { x: iteration_time.to_i, y: count[1] }
 
       send_event("next-grp-#{count[0]}", points: grp[:count])
     }
