@@ -20,16 +20,16 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
         values = File.read(result_file).match(/summary.*[=].*in\s*(\d*,?\d+).*Err:\s+(\d+)\s/)
         # puts values.inspect
         if values.size == 3
-          print "#{web_id} : Timing #{values[1]} avec #{values[2]} erreur"
+          # puts "#{web_id} : Timing #{values[1]} avec #{values[2]} erreur"
+
+          my_stats[web_id] = {state: false, timing: []} if my_stats[web_id].nil?
+          my_stats[web_id][:state] = (values[2].to_i==0)
+          my_stats[web_id][:timing] << {x: Time.now.to_i, y: my_stats[web_id][:state] ? values[1].gsub(",",".").to_f : 0.0}
+          my_stats[web_id][:timing].shift if my_stats[web_id][:timing].length > 9
+
+          # puts my_stats.inspect
+          send_event web_id+"-websites", { points: my_stats[web_id][:timing], status: my_stats[web_id][:state] }
         end
-
-        my_stats[web_id] = {state: false, timing: []} if my_stats[web_id].nil?
-        my_stats[web_id][:state] = (values[2].to_i==0)
-        my_stats[web_id][:timing] << {y: values[1].gsub(",",".").to_f, x: Time.now}
-        my_stats[web_id][:timing].shift if my_stats[web_id][:timing].length > 9
-
-        puts my_stats.inspect
-        send_event web_id+"-websites", { points: my_stats[web_id][:timing], status: my_stats[web_id][:state] }
       end
     end
   end
