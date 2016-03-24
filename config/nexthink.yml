@@ -1,6 +1,39 @@
 version5:
     format: csv
     queries:
+      withoutoffice:
+        query: >
+          (select (name)
+          (except
+          (from device)
+          (from device
+          (with package
+          (where package (eq name (pattern *Microsoft*Office*)))))))
+        values:
+          name: count
+          formula: 1
+          agregate: count
+      recentupdates:
+        query: >
+          (select (name #"*Entity" first_seen last_seen)
+          (except
+          (from device
+          (with installation
+          (between midnight midnight+1d)
+          (compute number_of_packages)))
+          (from device (where device (gt first_seen (datetime midnight-3d))))
+          )
+          )
+        values:
+          - name: update_by_site
+            formula: *Entity
+            agregate: group_by
+          - name: device_updated
+            formula: 1
+            agregate: count
+          - name: updates
+            formula: number_of_packages
+            agregate: sum
       alldrives:
         query: >
           (select
