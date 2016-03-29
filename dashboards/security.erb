@@ -1,6 +1,6 @@
 <script type='text/javascript'>
 $(function() {
-  Dashing.gridsterLayout('[{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":2,"row":2,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":3,"row":2,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":2,"size_y":1}]')
+  Dashing.gridsterLayout('[{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":2,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":3,"row":2,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":2,"size_y":1},{"col":4,"row":2,"size_x":1,"size_y":1},{"col":5,"row":2,"size_x":1,"size_y":1},{"col":5,"row":3,"size_x":1,"size_y":1},{"col":4,"row":3,"size_x":1,"size_y":1}]')
 });
 
   Dashing.widget_base_dimensions = [370, 340]
@@ -24,15 +24,31 @@ $(function() {
     </li>
 
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="threats-h-binaries" data-view="Backlog" data-graphtype="bar" data-title="Hight threat devices"></div>
+      <div data-id="threats-h-devices" data-view="Backlog" data-graphtype="bar" data-title="Hight threat devices"></div>
     </li>
 
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="threats-i-binaries" data-view="Backlog" data-graphtype="bar" data-title="Intermediate threat devices" style="background-color:#908020"></div>
+      <div data-id="threats-i-devices" data-view="Backlog" data-graphtype="bar" data-title="Intermediate threat devices" style="background-color:#908020"></div>
     </li>
 
     <li data-row="3" data-col="1" data-sizex="2" data-sizey="1">
       <div data-id="threats-devices" data-view="Table" data-title="Devices" data-moreinfo="High Threat on devices"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="updates-entities" data-view="Table" data-title="Mise à jour" data-moreinfo="sum of Install/Uninstall/Update"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="updated-devices" data-view="Backlog" data-graphtype="bar" data-title="# devices updated"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="updates-total" data-view="Backlog" data-graphtype="bar" data-title="# updates"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="max_updates-total" data-view="Backlog" data-graphtype="bar" data-title="max # updates on device"></div>
     </li>
 
   </ul>

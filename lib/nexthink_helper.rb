@@ -48,7 +48,9 @@ module NexthinkHelper
       user_id = {}
       my_values = {}
       qy = get_value(engine_name, key_value, user_id)
-      url = URI.parse(URI::encode(qy))
+      # gsub('+','%2b') remplace le caractere + des formules mathematiques par le caractere encode
+      # sinon, le WEB considere que c'est un espace...
+      url = URI.parse(URI::encode(qy).gsub('+','%2b'))
       # puts url.inspect
       page = Nokogiri::HTML(open( url.to_s, :http_basic_authentication => [user_id[:username], user_id[:pwd]] ))
       lines = CSV.parse(page.children.text, {:col_sep => "\t", :headers => true, :header_converters => :symbol})
