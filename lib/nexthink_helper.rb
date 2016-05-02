@@ -57,16 +57,17 @@ module NexthinkHelper
       # lines.each {|l| puts l[:average_network_response_time].inspect}
       values = engine_cfg["queries"][key_value]["values"]
       values.each {|row|
-          # puts row.inspect
+          # puts "#{key_value} - " + row.inspect
+          # puts "longueur: #{lines.length}"
           my_values[row["name"]] = (case row["agregate"]
               when "min"
-                lines.reduce(FIXNUM_MAX) {|v,l| l[row["formula"].to_sym].to_i < v ? l[row["formula"].to_sym].to_i : v }
+                lines.length == 0 ? 0 : lines.reduce(FIXNUM_MAX) {|v,l| l[row["formula"].to_sym].to_i < v ? l[row["formula"].to_sym].to_i : v }
               when "max"
-                lines.reduce(FIXNUM_MIN) {|v,l| l[row["formula"].to_sym].to_i > v ? l[row["formula"].to_sym].to_i : v }
+                lines.length == 0 ? 0 : lines.reduce(FIXNUM_MIN) {|v,l| l[row["formula"].to_sym].to_i > v ? l[row["formula"].to_sym].to_i : v }
               when "average"
-                lines.inject(0) {|sum,l| sum + l[row["formula"].to_sym].to_i} / lines.length
+                lines.length == 0 ? 0 : lines.inject(0) {|sum,l| sum + l[row["formula"].to_sym].to_i} / lines.length
               when "sum"
-                lines.inject(0) {|sum,l| sum + l[row["formula"].to_sym].to_i}
+                lines.length == 0 ? 0 : lines.inject(0) {|sum,l| sum + l[row["formula"].to_sym].to_i}
               when "count"
                 lines.length
               when "group_by"
