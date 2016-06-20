@@ -15,7 +15,7 @@ version5:
           agregate: count
       recent_updates:
         query: >
-          (select (name #"*Entity" first_seen last_seen)
+          (select (name entity first_seen last_seen)
           (except
           (from device
           (with installation
@@ -40,7 +40,7 @@ version5:
           (select
           (name distinguished_name total_drive_capacity total_drive_free_space total_drive_usage
           first_seen last_seen device_type total_ram number_of_days_since_last_boot last_logon_time
-          group_name *entity)
+          group_name entity)
           (from device (with connection (between now-15m now)))
         values:
           name: used_space
@@ -49,7 +49,7 @@ version5:
       extractionstd:
         query: >
           (select
-          (name device_type group_name #"*Entity")
+          (name device_type group_name entity)
           (from device
           (with connection (between now-5m now)
           (where binary (eq executable_name (pattern global_agence5.exe))))))
@@ -60,7 +60,7 @@ version5:
       horusquality:
         query: >
           (select
-          (name device_type group_name #"*Entity")
+          (name device_type group_name entity)
           (from device
           (with connection (between now-1h now)
           (where binary (eq executable_name (pattern kheops.horus.clients.windows.exe)))
@@ -85,7 +85,7 @@ version5:
       darwinquality:
         query: >
           (select
-          (name device_type group_name #"*Entity")
+          (name device_type group_name entity)
           (from device
           (with connection (between now-1h now)
           (where binary (eq executable_name (pattern darwin.exe)))
@@ -109,7 +109,7 @@ version5:
             agregate: group_by
       high_threat:
         query: >
-          (select (name #"*Entity")
+          (select (name entity)
           (from device
           (with execution
           (where binary (eq threat_level (enum high)))
