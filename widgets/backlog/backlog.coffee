@@ -22,8 +22,15 @@ class Dashing.Backlog extends Dashing.Widget
   @accessor 'current', ->
     return @get('displayedValue') if @get('displayedValue')
     points = @get('points')
+    cumulate = @get('cumulated')
     if points
-      formatNumber( points[points.length - 1].y )
+      if cumulate
+        backlog = for point in points
+          point.y
+        formatNumber( backlog.reduce (x,y)->x+y )
+      else
+        formatNumber( points[points.length - 1].y )
+
 
   ready: ->
     container = $(@node).parent()
