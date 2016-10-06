@@ -123,5 +123,46 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
     # send_event('incident-vip', items: tweets)
     send_event('incident-vip', { hrows: hrows, rows: rows } )
 
+    url = "https://brinkslatam.service-now.com/incident_list.do?sysparm_query=u_service_desk%3DFRANCE%5EstateIN-5%2C2%2C1%2C8%5Eshort_descriptionLIKE%5BCDA%20FR&CSV"
+    page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
+    # page.xpath("/html/body/p").each do |line|
+    #  puts ">> [#{line}]"
+    # end
+    hrows = [
+      { cols: [ {value: '#cmd'}, {value: 'composant'}, {value: 'fournisseur'}, {value: 'statut'}, {value: 'note'} ] }
+    ]
+    # "number",
+    # "category",
+    # "short_description",
+    # "u_task_for",
+    # "assignment_group",
+    # "assigned_to",
+    # "cmdb_ci",
+    # "subcategory",
+    # "location",
+    # "priority",
+    # "state",
+    # "sys_created_on",
+    # "sys_updated_on"
+
+
+      rows = CSV.parse(page.children.text, {:headers => true, :header_converters => :symbol}).map do |row|
+        ts = Time.parse(row[:sys_created_on])
+        tstxt = "il y a"
+        ts = Time.now - ts
+        cmd = row[:short_description]
+        puts cmd.inspect
+        cmdfields = /\[CDA\s(FR\w*-\w*)\s?\/\s?(.*)\](?:\[.*\])?\s(.*)$/.match(cmd)
+        puts cmdfields.inspect
+        fournisseur = cmdfields[2].split('][')[0]
+
+
+        { cols: [ {value: cmdfields[1]}, {value: row[:cmdb_ci]}, {value: fournisseur}, {value: row[:state]}, {value: cmdfields[3]} ]}
+  #      { number: row[:number], name: row[:category] + ", "+ row[:subcategory], impact: row[:priority][3..row[:priority].length-1], body: row[:short_description], ci: row[:cmdb_ci], qui: row[:u_task_for], when: tstxt + " " + humanize(ts),
+  #        label:"#{row[:number]} - [#{row[:category]}/#{row[:subcategory]}] Impact #{row[:priority]}, #{row[:short_description]} " , value:"#{row[:u_task_for]} #{row[tstxt]} #{humanize(ts)}" }
+      end
+      # puts tweets.inspect
+      # send_event('incident-vip', items: tweets)
+      send_event('commande-achat', { hrows: hrows, rows: rows.take(6) } )
   end
 end
