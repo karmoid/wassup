@@ -1,7 +1,7 @@
 require 'csv'
 require 'open-uri'
 require 'nokogiri'
-
+last_tweets = current_tweets = 0
 SCHEDULER.every '1m', :first_in => 0 do |job|
   begin
     # puts "execute getincidents.sh avec bash"
@@ -69,6 +69,8 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
       month: Time.parse(row[:sys_created_on]).strftime('%d')
     }
   end
+  last_tweets = current_tweets
+  current_tweets = tweets.size
   # puts tweets.inspect
   grouped = tweets.group_by {|t| t[:month]}
   keys = grouped.keys # => ["food", "drink"]
@@ -85,6 +87,8 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
   # puts backlog_groups.inspect
   send_event("incident-ibm-backlog", points: backlog_groups )
+  send_event("myId", { current: current_tweets, last: last_tweets } )
+
 
   grouped = tweets.group_by {|t| t[:assigned_to]}
   keys = grouped.keys # => ["food", "drink"]

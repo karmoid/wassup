@@ -1,0 +1,70 @@
+// ----------------------------------------------------------------------------
+// Sass declarations
+// ----------------------------------------------------------------------------
+$background-color: rgba(0, 0, 0, .6);
+$text-color:       #ffff00;
+
+$border-color:  #ffffff;
+$border:        1px solid $border-color;
+
+$height: 60px;
+$width: 100%;
+
+// ----------------------------------------------------------------------------
+// Widget-ticker styles
+// ----------------------------------------------------------------------------
+.widget-ticker { 
+
+  position: fixed;
+	bottom:  10px;
+	z-index: 1000;
+
+	padding: 0px !important;
+	width: $width;
+	height: $height;
+	color: $text-color;
+	background: $background-color;
+
+	/* the outer div with the border */
+	.tickercontainer {
+		border: $border;
+		background: $background-color;
+		height: $height;
+		margin: 0; 
+		padding: 0;
+		overflow: hidden; 
+
+	    li {
+			float: left;
+		}
+
+	    .mask { 
+			position: relative;
+			left: 0px;
+			top: 0px;
+			overflow: hidden;
+			height: $height;
+		}
+		
+	}
+
+	ul.newsticker { 
+		position: relative;
+		list-style-type: none;
+
+		-webkit-transform: translate3d(0, 0, 0);
+		-webkit-backface-visibility: hidden;
+		-webkit-perspective: 1000;
+	}
+
+	ul.newsticker li {
+		float: left;
+		font-size: 20px;
+		font-weight: bold;
+		font-style: italic;
+		line-height: $height;
+		height: $height;
+		white-space: nowrap;
+		text-align: center;
+	}
+}
