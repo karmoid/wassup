@@ -17,7 +17,7 @@ request["authorization"] = 'Basic YWRtaW46Vk13YXJlMjAxNiE='
 request["content-type"] = 'application/json'
 request["cache-control"] = 'no-cache'
 request["postman-token"] = 'f4d510be-766d-8170-e651-d8f936834d1b'
-request.body = "{\"items\":#{msg.inspect},\"auth_token\": \"ENV['auth_token']\"}"
+request.body = "{\"items\":#{msg.inspect},\"auth_token\": \"#{ENV['auth_token']}\"}"
 puts request.body
 
 response = http.request(request)
