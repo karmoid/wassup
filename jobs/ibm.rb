@@ -14,17 +14,17 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
   username = ENV["uname"]
   password=ENV["pwd"]
 
-# Coueur BaclogOSS
-# Retirer le nombre de ticket sur Charge OSS
+# Couleur BaclogOSS
+# ----- Retirer le nombre de ticket sur Charge OSS
 # Les incidents tous les 1/4 d'heure
 # Les incidents pas de fleche ou stganant si 0
 # Aligner note des commandes à gauche
 # Volume ticket par moi (prendre backlog global line) pas de cumul
-# Devices threat list à droite décaler les autres. Heure plus bas
-# Corriger le mois du backog oct pour septembre
-# vip en couleur orange comme détail incident_list
+# ------ Devices threat list à droite décaler les autres. Heure plus bas
+# ------- Corriger le mois du backog oct pour septembre
+# --- vip en couleur orange comme détail incident_list
 # detail incident couleur plus console / retirer image service now
-# message - limite première ligne
+# ----- message - limite première ligne
 
   url = "https://brinkslatam.service-now.com/incident_list.do?sysparm_query=active%3Dtrue%5Estate%3D-5%5EORstate%3D2%5EORstate%3D1%5EORstate%3D8%5Eassignment_groupSTARTSWITHbkfr-eus%5EORassignment_groupSTARTSWITHIBM&CSV"
 
@@ -78,7 +78,7 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
       created_on: row[:sys_created_on],
       updated_on: row[:sys_updated_on],
       assigned_to: row[:assigned_to],
-      month: Time.parse(row[:sys_created_on]).strftime('%d')
+      month: Time.parse(row[:sys_created_on]).strftime('%y%m%d')
     }
   end
   last_tweets = current_tweets
@@ -89,7 +89,7 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
   arrUsed = keys.map {|k| [Time.parse(k),
                            grouped[k].reduce(0) {|t,h| t+1 }
                            ]}.sort { |x,y| x[0] <=> y[0] }
-  # puts arrUsed.inspect
+  puts arrUsed.inspect
 
   backlog_groups = []
 
@@ -137,7 +137,7 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
     end
     # puts tweets.inspect
     # send_event('incident-vip', items: tweets)
-    send_event('incident-vip', { hrows: hrows, rows: rows } )
+    send_event('incident-vip-ibm', { hrows: hrows, rows: rows } )
 
     url = "https://brinkslatam.service-now.com/incident_list.do?sysparm_query=u_service_desk%3DFRANCE%5EstateIN-5%2C2%2C1%2C8%5Eshort_descriptionLIKE%5BCDA%20FR&CSV"
     page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
@@ -167,9 +167,9 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
         tstxt = "il y a"
         ts = Time.now - ts
         cmd = row[:short_description]
-        puts cmd.inspect
+        # puts cmd.inspect
         cmdfields = /\[CDA\s(FR\w*-\w*)\s?\/\s?(.*)\](?:\[.*\])?\s(.*)$/.match(cmd)
-        puts cmdfields.inspect
+        # puts cmdfields.inspect
         fournisseur = cmdfields[2].split('][')[0]
 
 

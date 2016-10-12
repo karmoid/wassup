@@ -1,10 +1,10 @@
 // ----------------------------------------------------------------------------
 // Sass declarations
 // ----------------------------------------------------------------------------
-$background-color: rgba(0, 0, 0, .6);
-$text-color:       #ffff00;
+$background-color: rgba(255, 255, 255, .6);
+$text-color:       #000000;
 
-$border-color:  #ffffff;
+$border-color:  #000000;
 $border:        1px solid $border-color;
 
 $height: 60px;
@@ -13,10 +13,10 @@ $width: 100%;
 // ----------------------------------------------------------------------------
 // Widget-ticker styles
 // ----------------------------------------------------------------------------
-.widget-ticker { 
+.widget-ticker {
 
   position: fixed;
-	bottom:  10px;
+	top:  290px;
 	z-index: 1000;
 
 	padding: 0px !important;
@@ -30,25 +30,25 @@ $width: 100%;
 		border: $border;
 		background: $background-color;
 		height: $height;
-		margin: 0; 
+		margin: 0;
 		padding: 0;
-		overflow: hidden; 
+		overflow: hidden;
 
 	    li {
 			float: left;
 		}
 
-	    .mask { 
+	    .mask {
 			position: relative;
 			left: 0px;
 			top: 0px;
 			overflow: hidden;
 			height: $height;
 		}
-		
+
 	}
 
-	ul.newsticker { 
+	ul.newsticker {
 		position: relative;
 		list-style-type: none;
 

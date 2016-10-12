@@ -2,8 +2,9 @@
 $(function() {
   Dashing.widget_base_dimensions = [370, 340]
   Dashing.numColumns = 5
-  Dashing.cycleDashboards({timeInSeconds: 30, stagger: true});
-});
+  Dashing.cycleGridsterLayout('[[{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":2,"size_y":1},{"col":1,"row":2,"size_x":2,"size_y":1},{"col":3,"row":2,"size_x":2,"size_y":1},{"col":5,"row":2,"size_x":1,"size_y":1},{"col":3,"row":3,"size_x":2,"size_y":1},{"col":1,"row":3,"size_x":2,"size_y":1},{"col":5,"row":3,"size_x":1,"size_y":1}],[{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":1,"row":2,"size_x":5,"size_y":2}]]')
+ });
+  Dashing.cycleDashboards({timeInSeconds: 20, stagger: false });
 </script>
 
 <% content_for :title do %>Support sur site<% end %>
@@ -28,7 +29,7 @@ $(function() {
     </li>
 
     <li data-row="2" data-col="1" data-sizex="2" data-sizey="1">
-      <div data-id="incident-vip" data-view="Table" data-title="Incidents VIP P1/P2" ></div>
+      <div data-id="incident-vip-ibm" data-view="Table" data-title="Incidents VIP P1/P2" ></div>
     </li>
 
     <li data-row="2" data-col="3" data-sizex="2" data-sizey="1">

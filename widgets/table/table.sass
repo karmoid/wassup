@@ -18,10 +18,10 @@ $tr-hover-background-color: #858585
 // ----------------------------------------------------------------------------
 .widget-table
 
-  &.incident-vip
-    vertical-align: top
-
   background-color: $background-color
+
+  &.commande-achat
+    vertical-align: top
 
   &.threats-devices
     vertical-align: top
@@ -73,3 +73,20 @@ $tr-hover-background-color: #858585
 
   .right
     text-align: right
+
+  &.incident-vip-ibm
+    vertical-align: top
+    background-color: #ec663c
+    td
+      color: #ffffff
+    // Set the background color for the header row
+    th
+      background-color: #ff663c
+    // If you want a stripped table set the color for both odd and even rows
+    tr:nth-child(odd)
+      background-color: #ec663c
+    tr:nth-child(even)
+      background-color: #ff663c
+    // Highlight table rows on mouse over
+    tr:hover
+      background-color: #ec993c
