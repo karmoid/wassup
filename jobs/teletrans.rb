@@ -38,7 +38,7 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
       ts = ts - Time.now
     end
     days_away = (Date.parse(row[:requested_by_date]) - today).to_i
-    changes << {"name" => row[:short_description][0..40], "date" => Time.parse(row[:requested_by_date]).strftime('%b %-d, %Y'), "state" => row[:state], "background" => state_to_color(row[:state])}
+    changes << {"name" => row[:short_description][0..40], "date" => Time.parse(row[:requested_by_date]).strftime('%b %-d, %Y'), "state" => row[:state], "background" => state_to_color(row[:state],row[:u_change_successful])}
     { number: row[:number], name: row[:state], body: row[:short_description], when: tstxt + " " + humanize(ts) }
   end
   timechanges = {"events" => changes}

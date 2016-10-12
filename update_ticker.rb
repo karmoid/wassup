@@ -2,6 +2,7 @@ require 'uri'
 require 'net/http'
 
 url = URI("http://localhost:3030/widgets/ticker")
+# url = URI("http://frmonbcastapp01.emea.brinksgbl.com:3030/widgets/ticker")
 
 http = Net::HTTP.new(url.host, url.port)
 
