@@ -19,7 +19,7 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 # Les incidents tous les 1/4 d'heure
 # Les incidents pas de fleche ou stganant si 0
 # Aligner note des commandes à gauche
-# Volume ticket par moi (prendre backlog global line) pas de cumul
+# Volume ticket par mois (prendre backlog global line) pas de cumul
 # ------ Devices threat list à droite décaler les autres. Heure plus bas
 # ------- Corriger le mois du backog oct pour septembre
 # --- vip en couleur orange comme détail incident_list
@@ -168,16 +168,17 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
         ts = Time.now - ts
         cmd = row[:short_description]
         # puts cmd.inspect
-        cmdfields = /\[CDA\s(FR\w*-\w*)\s?\/\s?(.*)\](?:\[.*\])?\s(.*)$/.match(cmd)
+        cmdfields = /\[CDA\s(FR\w*\s?-\s?\w*)\s?\/\s?(.*)\](?:\[.*\])?\s(.*)$/.match(cmd)
         # puts cmdfields.inspect
-        fournisseur = cmdfields[2].split('][')[0]
+        cmdfields = [cmd,"n/a",cmd] if cmdfields.nil?
 
+        fournisseur = cmdfields[2].split('][')[0] unless cmdfields.nil?
 
         { cols: [ {value: cmdfields[1]}, {value: row[:cmdb_ci]}, {value: fournisseur}, {value: row[:number]}, {value: row[:state]}, {value: cmdfields[3]} ]}
   #      { number: row[:number], name: row[:category] + ", "+ row[:subcategory], impact: row[:priority][3..row[:priority].length-1], body: row[:short_description], ci: row[:cmdb_ci], qui: row[:u_task_for], when: tstxt + " " + humanize(ts),
   #        label:"#{row[:number]} - [#{row[:category]}/#{row[:subcategory]}] Impact #{row[:priority]}, #{row[:short_description]} " , value:"#{row[:u_task_for]} #{row[tstxt]} #{humanize(ts)}" }
       end
-      # puts tweets.inspect
+      puts rows.inspect
       # send_event('incident-vip', items: tweets)
       send_event('commande-achat', { hrows: hrows, rows: rows.take(15) } )
   end
