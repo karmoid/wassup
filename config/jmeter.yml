@@ -1,4 +1,12 @@
 cmd_jmeter: bin\jmeter.bat
+mailfrom:  noreply@brinks.fr
+fromname: Supervision Dashboard
 websites:
-  commandweb: .\security\commandweb.jmx
-  repository: .\security\repository.jmx
+  commandweb:
+    url: .\security\commandweb.jmx
+    mailto: m.chauffour@brinks.fr
+    toname: Marc Chauffour
+  repository:
+    url: .\security\repository.jmx
+    mailto: m.chauffour@brinks.fr
+    toname: Marc Chauffour
