@@ -54,17 +54,20 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
               puts "Alerte sur #{web_id} via Email..."
               # To: #{mailto} <#{mailto}>
 
-              msgstr = <<END_OF_MESSAGE
+
+              msgstr = <<MESSAGE_END
 From: #{fromname} <#{mailfrom}>
 To: #{toname} <#{mailto}>
-Subject: [ALERTE] check sit web [#{web_id}]
+Subject: [ALERTE] verification site web [#{web_id}]
 Date: #{Time.now.rfc2822}
+MIME-Version: 1.0
+Content-type: text/html
 
-La verification du site #{web_id} a #{iteration_time.to_s} a retourne une erreur
-Output:[
-#{lines}
-]
-END_OF_MESSAGE
+<h1>#{web_id}</h1>
+<p>La v&eacute;rification du site &agrave; #{iteration_time.to_s} a retourn&eacute; une erreur<p>
+<h5>R&eacute;sum&eacute; de la mesure</h5>
+<p>#{values[0]}</p>
+MESSAGE_END
 
               Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
               Net::SMTP.start("smtp.office365.com",587,ENV["maildomain"],ENV["mailuser"],ENV["mailpwd"], :login) do |server|

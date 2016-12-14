@@ -1,12 +1,12 @@
 cmd_jmeter: bin\jmeter.bat
 mailfrom:  noreply@brinks.fr
-fromname: Supervision Dashboard
+fromname: Supervision Site WEB (Dashboard)
 websites:
   commandweb:
     url: .\security\commandweb.jmx
-    mailto: m.chauffour@brinks.fr
-    toname: Marc Chauffour
+    mailto: DG.DSIAstreinte@brinks.fr
+    toname: DG.DSI astreinte
   repository:
     url: .\security\repository.jmx
-    mailto: m.chauffour@brinks.fr
-    toname: Marc Chauffour
+    mailto: DG.DSIAstreinte@brinks.fr
+    toname: DG.DSI astreinte
