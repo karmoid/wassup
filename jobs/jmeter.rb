@@ -58,14 +58,14 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
               msgstr = <<MESSAGE_END
 From: #{fromname} <#{mailfrom}>
 To: #{toname} <#{mailto}>
-Subject: [ALERTE] verification site web [#{web_id}]
+Subject: =?UTF-8?B?#{Base64.strict_encode64("[ALERTE] Vérification des sites WEB - "+web_id)}?=
 Date: #{Time.now.rfc2822}
 MIME-Version: 1.0
-Content-type: text/html
+Content-type: text/html; charset=UTF-8
 
 <h1>#{web_id}</h1>
-<p>La v&eacute;rification du site &agrave; #{iteration_time.to_s} a retourn&eacute; une erreur<p>
-<h5>R&eacute;sum&eacute; de la mesure</h5>
+<p>La vérification du site à #{iteration_time.to_s} a retourné une erreur<p>
+<h5>Résumé de la mesure</h5>
 <p>#{values[0]}</p>
 MESSAGE_END
 
@@ -73,6 +73,7 @@ MESSAGE_END
               Net::SMTP.start("smtp.office365.com",587,ENV["maildomain"],ENV["mailuser"],ENV["mailpwd"], :login) do |server|
                 server.send_message msgstr, mailfrom, mailto
               end
+              puts "Email sent to #{mailto}"
             end
 
             # puts my_stats.inspect

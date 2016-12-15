@@ -2,8 +2,8 @@
 $(function() {
   Dashing.widget_base_dimensions = [370, 340]
   Dashing.numColumns = 5
-  Dashing.cycleGridsterLayout('[[{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":2,"size_y":1},{"col":1,"row":2,"size_x":2,"size_y":1},{"col":3,"row":2,"size_x":2,"size_y":1},{"col":5,"row":2,"size_x":1,"size_y":1},{"col":3,"row":3,"size_x":2,"size_y":1},{"col":1,"row":3,"size_x":2,"size_y":1},{"col":5,"row":3,"size_x":1,"size_y":1}],[{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":1,"row":2,"size_x":5,"size_y":2}]]')
- });
+  Dashing.cycleGridsterLayout('[[{"col":4,"row":1,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":1,"row":1,"size_x":1,"size_y":1},{"col":3,"row":2,"size_x":2,"size_y":1},{"col":1,"row":2,"size_x":2,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":1,"row":3,"size_x":1,"size_y":1},{"col":2,"row":3,"size_x":1,"size_y":1},{"col":5,"row":1,"size_x":1,"size_y":1},{"col":3,"row":3,"size_x":1,"size_y":1},{"col":5,"row":3,"size_x":1,"size_y":1},{"col":5,"row":2,"size_x":1,"size_y":1},{"col":4,"row":3,"size_x":1,"size_y":1}],[{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":1,"size_y":1},{"col":5,"row":1,"size_x":1,"size_y":1},{"col":1,"row":2,"size_x":5,"size_y":2}]]')
+   });
   Dashing.cycleDashboards({timeInSeconds: 20, stagger: false });
 </script>
 
@@ -12,15 +12,15 @@ $(function() {
 <div class="gridster">
   <div data-id="ticker" data-view="Ticker" style="display: none;" ></div>
   <ul>
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
       <div data-id="incident_ibm_grp" data-view="Milkman" data-title="Incidents"></div>
     </li>
 
-    <li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
+    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
       <div data-id="incident_ibm_grppie" data-view="Pie" data-title="Groupes"></div>
     </li>
 
-    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
       <div data-view="Image" data-image="/bks-snow.png" data-text="Support sur site" style="background-color:#ffffff;"></div>
     </li>
 
@@ -32,28 +32,39 @@ $(function() {
       <div data-id="incident-vip-ibm" data-view="Table" data-title="Incidents VIP P1/P2" ></div>
     </li>
 
-    <li data-row="2" data-col="3" data-sizex="2" data-sizey="1">
-      <div data-id="incident_ibm_det" data-view="Incidents" data-moreinfo="Détail des incidents IBM"></div>
-      <i class="icon-power-off icon-background"></i>
-    </li>
-
     <li data-row="2" data-col="5" data-sizex="1" data-sizey="1">
       <div data-view="Clock" style="background-color:#96bf48;"></div>
       <i class="icon-time icon-background"></i>
     </li>
 
-    <li data-row="3" data-col="1" data-sizex="2" data-sizey="1">
+    <li data-row="3" data-col="1" data-sizex="1" data-sizey="1">
       <div data-id="incident-ibm-backlog" data-view="Backlog" data-graphtype="bar" data-title="Backlog OSS" data-cumulated="true" style="background-color:#968818"></div>
       <i class="icon-exclamation-sign icon-background"></i>
     </li>
 
-    <li data-row="3" data-col="3" data-sizex="2" data-sizey="1">
+    <li data-row="3" data-col="3" data-sizex="1" data-sizey="1">
       <div data-id="incident-ibm-ossload" data-view="Barista" data-unordered="true" data-title="Charge OSS" style="background-color:#96bf48;"></div>
     </li>
 
-    <li data-row="3" data-col="5" data-sizex="1" data-sizey="1" data-height="312px">
-          <div data-id="myId" data-view="Hotfloat" data-title="Les incidents" data-cool="5" data-warm="15"></div>
-          <i class="icon-check icon-background"></i>
+    <li data-row="3" data-col="5" data-sizex="1" data-sizey="1" >
+          <div data-id="myTendance" data-view="Tendance" data-title="Les incidents" data-graphtype="bar" data-cumulated="false" data-cool="1" data-warm="2"></div>
+    </li>
+
+    <li data-row="3" data-col="3" data-sizex="1" data-sizey="1" >
+          <div data-id="myTendancehd" data-view="Tendance" data-title="Incidents HD" data-graphtype="bar" data-cumulated="false" data-cool="1" data-warm="2"></div>
+    </li>
+
+    <li data-row="3" data-col="3" data-sizex="1" data-sizey="1">
+      <div data-id="incident-hd-backlog" data-view="Backlog" data-graphtype="bar" data-title="Backlog HD" data-cumulated="true" style="background-color:#968818"></div>
+      <i class="icon-exclamation-sign icon-background"></i>
+    </li>
+
+    <li data-row="3" data-col="3" data-sizex="1" data-sizey="1" >
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#808080;"></div>
+    </li>
+
+    <li data-row="3" data-col="3" data-sizex="1" data-sizey="1" >
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#808080;"></div>
     </li>
   </ul>
 </div>
@@ -67,6 +78,18 @@ $(function() {
     <li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
       <div data-view="Clock" style="background-color:#96bf48;"></div>
       <i class="icon-time icon-background"></i>
+    </li>
+
+    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1" >
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#808080;"></div>
+    </li>
+
+    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1" >
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#808080;"></div>
+    </li>
+
+    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1" >
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#808080;"></div>
     </li>
 
     <li data-row="2" data-col="1" data-sizex="5" data-sizey="2">
