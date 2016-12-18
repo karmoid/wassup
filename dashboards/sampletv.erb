@@ -1,54 +1,38 @@
 <script type='text/javascript'>
 $(function() {
-Dashing.gridsterLayout('[{"col":1,"row":2,"size_x":1,"size_y":1},{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":3,"size_x":2,"size_y":1},{"col":5,"row":2,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":1,"size_y":2},{"col":4,"row":3,"size_x":2,"size_y":1},{"col":1,"row":3,"size_x":1,"size_y":1},{"col":2,"row":2,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":5,"row":1,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":3,"row":2,"size_x":1,"size_y":1}]')
-});
-  Dashing.widget_base_dimensions = [370, 340]
+   Dashing.cycleGridsterLayout('[[{"col":2,"row":3,"size_x":3,"size_y":1},{"col":2,"row":2,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":1,"size_y":2},{"col":1,"row":1,"size_x":1,"size_y":4},{"col":3,"row":1,"size_x":1,"size_y":2},{"col":5,"row":1,"size_x":1,"size_y":2},{"col":1,"row":5,"size_x":1,"size_y":1},{"col":5,"row":3,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":2,"row":4,"size_x":4,"size_y":2}]]')
+ });
+  Dashing.widget_base_dimensions = [370, 170] // 370,340 initialement
   Dashing.numColumns = 5
+  Dashing.numRows = 6
 </script>
-
 
 <% content_for :title do %>ITIL dashboard<% end %>
 
 <div class="gridster">
   <ul>
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="1" data-col="1" data-sizex="3" data-sizey="1">
       <div data-view="Clock" style="background-color:#96bf48;"></div>
-      <i class="icon-time icon-background"></i>
     </li>
 
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
       <div data-view="Image" data-image="/brinks.png" style="background-color:#ffffff;"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
-      <div data-id="incident_mentions" data-view="Incidents" data-moreinfo="Major incidents in ServiceNow"></div>
-      <i class="icon-power-off icon-background"></i>
-    </li>
-
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="all_active_incidents" data-view="Meter" data-title="(dev) #incidents" data-min="0" data-max="100"></div>
-    </li>
-
-
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="2">
+      <div data-id="Tendance" data-view="Tendance" data-title="Tendance" data-graphtype="line" data-cumulated="false" data-cool="10" data-warm="20"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="4">
       <div data-id="ags_timeline" data-view="Timeline" data-title="Changes Timeline"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
-      <div data-id="change_mentions" data-view="Changes" style="background-color:#ff9618;" data-moreinfo="Changes in ServiceNow"></div>
-      <i class="icon-power-off icon-background"></i>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="2">
+      <div data-id="Tendance" data-view="Tendance" data-title="Tendance" data-graphtype="area" data-cumulated="false" data-cool="8" data-warm="16"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="canal-infos" data-view="News" data-title="Canal Infos" data-interval="30"></div>
-    </li>
-
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="snow-in-site-1" data-view="Milkman" data-title="CRITICAL / site"></div>
-    </li>
-
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="snow-in-site-2" data-view="Milkman" data-title="IMPORTANT / site"></div>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="2">
+      <div data-id="Tendance" data-view="Tendance" data-title="Tendance" data-graphtype="bar" data-cumulated="false" data-cool="15" data-warm="25"></div>
     </li>
 
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
