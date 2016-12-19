@@ -2,9 +2,8 @@
 $(function() {
    Dashing.cycleGridsterLayout('[[{"col":2,"row":3,"size_x":3,"size_y":1},{"col":2,"row":2,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":1,"size_y":2},{"col":1,"row":1,"size_x":1,"size_y":4},{"col":3,"row":1,"size_x":1,"size_y":2},{"col":5,"row":1,"size_x":1,"size_y":2},{"col":1,"row":5,"size_x":1,"size_y":1},{"col":5,"row":3,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":2,"row":4,"size_x":4,"size_y":2}]]')
  });
-  Dashing.widget_base_dimensions = [370, 170] // 370,340 initialement
+  Dashing.widget_base_dimensions = [370, 340] // 370,340 initialement
   Dashing.numColumns = 5
-  Dashing.numRows = 6
 </script>
 
 <% content_for :title do %>ITIL dashboard<% end %>
@@ -15,7 +14,12 @@ $(function() {
       <div data-id="inc-heatmap" data-view="Heatmap" data-domain="day" data-subdomain="hour" data-title="Incidents"></div>
     </li> -->
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="inc-heatmap" data-view="Heatmap" data-domain="hour" data-subdomain="min" data-title="Incidents"></div>
+      <div data-id="inc-heatmap" data-view="Heatmap" data-domain="hour" data-subdomain="min" data-title="Carte des incidents"></div>
+    </li>
+    
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/bks-snow.png" data-text="Support sur site" style="background-color:#ffffff;"></div>
     </li>
   </ul>
+
 </div>

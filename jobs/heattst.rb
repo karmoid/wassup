@@ -3,17 +3,17 @@ require 'base64'
 require 'json'
 require 'rest_client'
 
-config_file = File.dirname(File.expand_path(__FILE__)) + '/servicenow.sec'
+config_file = File.dirname(File.expand_path(__FILE__)) + '/../security/servicenow.sec'
 security = Psych.load(File.open(config_file))
-config_file = File.dirname(File.expand_path(__FILE__)) + '/servicenow.cfg'
+config_file = File.dirname(File.expand_path(__FILE__)) + '/../security/servicenow.cfg'
 config = Psych.load(File.open(config_file))
 
 @instance = security["instance"]
 @proxy = security["proxy"]
 @username = security["user"]
 @password = security["password"]
-nb_hours = 5
-@startValue = Time.new-(nb_hours*60*60)
+nb_hours = 4
+@startValue = Time.new.utc-(nb_hours*60*60)
 @startDate = @startValue.to_s
 @items = {}
 
@@ -39,16 +39,12 @@ def next_load
 
     mybuffer = resp["result"].inject({}) do |buffer,v|
       v.each do |k,v|
-        puts v.inspect
         if !v.empty?
-          t1 = Time.parse(v)
+          t1 = Time.parse("#{v} +0000").localtime
           if t1 > @startValue
             @startValue = t1
             @startDate = v
           end
-          # t2 = Time.now
-          # t = Time.new(t2.year, t2.month, t2.day, t1.hour, t1.min, 0)
-          # puts t.inspect
           buffer[t1.to_i.to_s] ||= 0
           buffer[t1.to_i.to_s] += 1
         end
@@ -62,12 +58,9 @@ def next_load
     puts "ERROR: #{e}"
   end
 end
-
-  SCHEDULER.every '30s', :first_in =>  2 do
-    puts "#{@items.length} items, maxDate = #{@startDate}"
-    # @startValue -= (15*60)
-    # @startDate = @startValue.to_s
+  puts "Demarrage à #{@startDate}"
+  SCHEDULER.every '2m', :first_in =>  2 do
   	@items.merge!(next_load)
-  	# puts @items.inspect
+    puts "#{@items.length} items, maxDate = #{@startDate}"
     send_event('inc-heatmap', { items: @items })
   end

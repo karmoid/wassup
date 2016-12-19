@@ -3,7 +3,7 @@ class Dashing.Heatmap extends Dashing.Widget
 		# Maximum number of jobs that can be scheduled for a later minute
 		# Used to adjust the heatmap color range
 		# A minute having @maxJobPerMinute or more scheduled jobs will be the brightest
-		@maxJobPerMinute = 20
+		@maxJobPerMinute = 5
 
 		# --
 
@@ -17,10 +17,10 @@ class Dashing.Heatmap extends Dashing.Widget
 
 		@calheatmap.init({
 			itemSelector: "#my-heatmap",
-			start: new Date()-(60*60*1000*4),
+			start: now-3*60*60*1000,
 			domain: @get("domain"),
 			subDomain: @get("subdomain"),
-			range: 5,
+			range: 4,
 			cellSize: 10,
 			domainGutter: 5,
 			legend: d3.range(legendStep, @maxJobPerMinute + legendStep, legendStep),
