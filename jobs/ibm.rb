@@ -119,6 +119,22 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
   # send_event("myId", { current: current_tweets, last: last_tweets } )
   send_event("myTendance", { current: current_tweets_ibm, last: last_tweets_ibm, points: backlog_ibm } )
 
+  grouped = tweets.group_by {|t| t[:assigned_to]}
+  keys = grouped.keys # => ["food", "drink"]
+  arrUsed = keys.map {|k| [k,
+                           grouped[k].reduce(0) {|t,h| t+1 }
+                           ]}.sort { |x,y| x[0] <=> y[0] }
+  # puts arrUsed.inspect
+
+  backlog_groups = [{values: [], max_value: tweets.size, hide_total: true}]
+
+  arrUsed.each { |backlog|
+    backlog_groups[0][:values] << {label: backlog[0].to_s, value: backlog[1]}
+  }
+  # puts backlog_groups.inspect
+
+  send_event("incident-ibm-ossload", series: backlog_groups.to_json)
+
 
   url= "https://brinkslatam.service-now.com/incident_list.do?sysparm_query=u_service_desk%3DFRANCE%5EstateIN-5%2C2%2C1%2C8%5Eassignment_groupSTARTSWITHBKFR-EUS-HELP_DESK&CSV"
   page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
@@ -161,23 +177,6 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
   # send_event("myId", { current: current_tweets, last: last_tweets } )
   send_event("myTendancehd", { current: current_tweets_hd, last: last_tweets_hd, points: backlog_hd } )
 
-
-
-  grouped = tweets.group_by {|t| t[:assigned_to]}
-  keys = grouped.keys # => ["food", "drink"]
-  arrUsed = keys.map {|k| [k,
-                           grouped[k].reduce(0) {|t,h| t+1 }
-                           ]}.sort { |x,y| x[0] <=> y[0] }
-  # puts arrUsed.inspect
-
-  backlog_groups = [{values: [], max_value: tweets.size, hide_total: true}]
-
-  arrUsed.each { |backlog|
-    backlog_groups[0][:values] << {label: backlog[0].to_s, value: backlog[1]}
-  }
-  # puts backlog_groups.inspect
-
-  send_event("incident-ibm-ossload", series: backlog_groups.to_json)
 
   url = "https://brinkslatam.service-now.com/incident_list.do?sysparm_query=active%3Dtrue%5Eu_task_for.vip%3Dtrue%5EstateNOT%20IN3%2C4%2C6%5EpriorityIN1%2C2&sysparm_view=&CSV"
   # (open(url, :http_basic_authentication => [username, password]))
