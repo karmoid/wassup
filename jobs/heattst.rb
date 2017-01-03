@@ -59,8 +59,14 @@ def next_load
   end
 end
   puts "Demarrage à #{@startDate}"
-  SCHEDULER.every '2m', :first_in =>  2 do
-  	@items.merge!(next_load)
-    puts "#{@items.length} items, maxDate = #{@startDate}"
+  iter = 0
+  SCHEDULER.every '15s', :first_in =>  0 do
+    if iter % 8 == 0
+      @items.merge!(next_load)
+      puts "#{@items.length} items, maxDate = #{@startDate}"
+    else
+      puts "#CACHE #{@items.length} items, maxDate = #{@startDate}"
+    end
     send_event('inc-heatmap', { items: @items })
+    iter += 1
   end
