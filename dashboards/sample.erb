@@ -1,3 +1,8 @@
+<script type='text/javascript'>
+  Dashing.widget_base_dimensions = [340, 370]
+  Dashing.numColumns = 3
+  Dashing.numRows = 5
+</script>
 <% content_for :title do %>My super sweet dashboard<% end %>
 <div class="gridster">
   <ul>
@@ -5,22 +10,29 @@
       <div data-id="welcome" data-view="Text" data-title="Hello" data-text="This is your shiny new dashboard." data-moreinfo="Protip: You can drag the widgets around!"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
       <div data-id="synergy" data-view="Meter" data-title="Synergy" data-min="0" data-max="100"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="2">
+    <li data-row="2" data-col="1" data-sizex="1" data-sizey="2">
       <div data-id="buzzwords" data-view="List" data-unordered="true" data-title="Buzzwords" data-moreinfo="# of times said around the office"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
       <div data-id="valuation" data-view="Number" data-title="Current Valuation" data-moreinfo="In billions" data-prefix="$"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+    <li data-row="3" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-id="snow-12-backlog" data-view="Backlog" data-title="Backlog global" data-graphtype="bar" style="background-color:#961890"></div>
+    </li>
+
+    <li data-row="4" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-id="snow-12-backlog" data-view="Backlog" data-title="Backlog global" data-graphtype="bar" style="background-color:#961890"></div>
+    </li>
+
+    <li data-row="5" data-col="1" data-sizex="2" data-sizey="1">
       <div data-id="snow-12-backlog" data-view="Backlog" data-title="Backlog global" data-graphtype="bar" style="background-color:#961890"></div>
     </li>
 
   </ul>
-  <center><div style="font-size: 12px">Try this: curl -d '{ "auth_token": "YOUR_AUTH_TOKEN", "text": "Hey, Look what I can do!" }' \http://<%=request.host%>:<%=request.port%>/widgets/welcome</div></center>
 </div>
