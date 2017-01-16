@@ -50,11 +50,9 @@ module ServicenowHelper
     end
 
     def get_time_fields
-      tf = date_filters.map do |field_name,dates|
+      date_filters.map do |field_name,dates|
         get_time_limits field_name, dates[:from], dates[:to]
       end.join("^")
-      puts tf
-      tf
     end
 
     def add_date_filter(field, from, to)
@@ -91,7 +89,7 @@ sysparm_order_by=#{query_data["order_by"]}&sysparm_having=#{query_data["having"]
 &sysparm_display_value=#{query_data["display_value"]}
 ENDQY
       end
-      puts url
+      # puts url
       url.gsub("\n","")
     end
 
