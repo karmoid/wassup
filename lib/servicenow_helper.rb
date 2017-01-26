@@ -52,7 +52,7 @@ module ServicenowHelper
     def get_time_fields
       date_filters.map do |field_name,dates|
         get_time_limits field_name, dates[:from], dates[:to]
-      end.join("^")
+      end.join("")
     end
 
     def add_date_filter(field, from, to)
@@ -63,7 +63,7 @@ module ServicenowHelper
       if query.empty?
         dates
       elsif dates.empty?
-        ""
+        query
       else
         "#{query}^#{dates}"
       end
@@ -75,21 +75,21 @@ module ServicenowHelper
         url = <<ENDQY
 https://#{config.security["instance"]}.service-now.com/api/now/table/#{query_data["table"]}
 ?sysparm_query=#{get_query_fields(query_data["query"],get_time_fields)}&
-&sysparm_display_value=#{query_data["display_value"]}&sysparm_fields=#{query_data["fields"]}&
-sysparm_limits=#{query_data["limit"]}
+sysparm_display_value=#{query_data["display_value"]}&sysparm_fields=#{query_data["fields"]}&
+sysparm_limit=#{query_data["limit"]}
 ENDQY
       when :agregate
         url = <<ENDQY
 https://#{config.security["instance"]}.service-now.com/api/now/stats/#{query_data["table"]}
 ?sysparm_query=#{get_query_fields(query_data["query"],get_time_fields)}&
 sysparm_avg_fields=#{query_data["avg_fields"]}&sysparm_count=#{query_data["count"]}&
-sysparm_min_fields=#{query_data["min_fields"]}&sysparm_max_fields=#{query_data["max_fields"]}
-&sysparm_sum_fields=#{query_data["sum_fields"]}&sysparm_group_by=#{query_data["group_by"]}&
-sysparm_order_by=#{query_data["order_by"]}&sysparm_having=#{query_data["having"]}
-&sysparm_display_value=#{query_data["display_value"]}
+sysparm_min_fields=#{query_data["min_fields"]}&sysparm_max_fields=#{query_data["max_fields"]}&
+sysparm_sum_fields=#{query_data["sum_fields"]}&sysparm_group_by=#{query_data["group_by"]}&
+sysparm_order_by=#{query_data["order_by"]}&sysparm_having=#{query_data["having"]}&
+sysparm_display_value=#{query_data["display_value"]}
 ENDQY
       end
-      # puts url
+      # puts "\n----->\n#{url.gsub("\n","")}\n<--------\n"
       url.gsub("\n","")
     end
 
@@ -116,6 +116,10 @@ ENDQY
       # puts "Execute [#{query_name}] with config [#{config.inspect}]"
       # puts "execute_query #{api}, #{ApiMode[api]} - config.queries['queries'][#{ApiMode[api]}]"
       execute_query api, config.queries["queries"][ApiMode[api]][query_name]
+    end
+
+    def debug_qy api, query_name
+      build_url api, config.queries["queries"][ApiMode[api]][query_name]
     end
 
   end
