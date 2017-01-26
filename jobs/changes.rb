@@ -5,7 +5,7 @@ require 'nokogiri'
 MAX_CHG_OVERDUE = 15
 MAX_CHG_AWAY = 15
 
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+# OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 # config_file = File.dirname(File.expand_path(__FILE__)) + '/../timeline_data.yml'
 SCHEDULER.every '15m', :first_in => 0 do |job|

@@ -18,7 +18,7 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
 
     #(open(url, :http_basic_authentication => [username, password]))
 
-    page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
+    page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE ))
 
     # page.xpath("/html/body/p").each do |line|
     #   puts ">> [#{line}]"
@@ -35,7 +35,7 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
 
   url = "https://brinkslatam.service-now.com/incident_list.do?sysparm_query=active%3Dtrue%5Eu_task_for.vip%3Dtrue%5EstateNOT%20IN3%2C4%2C6%5EpriorityIN1%2C2&sysparm_view=&CSV"
   # (open(url, :http_basic_authentication => [username, password]))
-  page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
+  page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE ))
 
   hrows = [
     { cols: [ {value: '#incident'}, {value: 'vip'}, {value: 'categorie'}, {value: 'sous-categ'}, {value: 'composant'}, {value: 'quand'} ] }
@@ -58,7 +58,7 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
       url = "https://brinkslatam.service-now.com/incident_list.do?sysparm_query=stateIN-5%2C2%2C1%2C8%5Eassignment_groupSTARTSWITHBKFR-&CSV"
 
       # (open(url, :http_basic_authentication => [username, password]))
-      page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
+      page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE ))
 
       tweets = CSV.parse(page.children.text, {:headers => true, :header_converters => :symbol}).map do |row|
         {status: row[:priority],

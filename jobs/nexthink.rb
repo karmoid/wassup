@@ -4,7 +4,7 @@ require 'open-uri'
 require 'nokogiri'
 require 'openssl'
 
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+# OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
   nexthinkvalues = {
   "laptop" => {used_space: [], count: [], last_x: 0},
@@ -30,7 +30,7 @@ SCHEDULER.every '10m', :first_in =>  '5s' do |job|
     qy = cfg.get_value("version5","alldrives",i)
     url = URI.parse(URI::encode(qy))
 
-    page = Nokogiri::HTML(open( url.to_s, :http_basic_authentication => [i[:username], i[:pwd]] ))
+    page = Nokogiri::HTML(open( url.to_s, :http_basic_authentication => [i[:username], i[:pwd]], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE ))
     tweets = CSV.parse(page.children.text, {:col_sep => "\t", :headers => true, :header_converters => :symbol}).map do |row|
       {device_type: row[:device_type].nil? ? "unknown" : row[:device_type].downcase,
         group_name: row[:group_name].nil? ? "unknown" : row[:group_name].downcase,

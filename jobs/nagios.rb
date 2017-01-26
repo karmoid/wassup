@@ -2,7 +2,7 @@
   require 'nagiosharder'
   require 'openssl'
 
-  OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+  # OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
   SCHEDULER.every '3m' do
 
@@ -20,7 +20,7 @@
   end
 
   environments.each do |key, env|
-    nag = NagiosHarder::Site.new(env[:url], env[:username], env[:password], 3, 'us', true)
+    nag = NagiosHarder::Site.new(env[:url], env[:username], env[:password], 3, 'us', false)
     unacked = nag.service_status(:host_status_types => [:all], :service_status_types => [:warning, :critical], :service_props => [:no_scheduled_downtime, :state_unacknowledged, :checks_enabled])
 
     critical_count = 0

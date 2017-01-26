@@ -7,7 +7,7 @@ news_feeds = {
   "canal-infos" => "http://frmonbcastapp01.emea.brinksgbl.com:88/category/non-classe/?feed=rss"
 }
 
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+# OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 Decoder = HTMLEntities.new
 
@@ -41,7 +41,7 @@ class News
         begin
           summary =  truncate(clean_html(item.description))
         rescue
-          doc = Nokogiri::HTML(item.summary.content)
+          doc = Nokogiri::HTML(item.summary.content, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE)
           summary = truncate((doc.xpath("//text()").remove).to_s)
         end
         news_headlines.push({ title: title, description: summary })

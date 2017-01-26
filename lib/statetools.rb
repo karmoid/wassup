@@ -1,5 +1,5 @@
 def state_to_color(state,close_success)
-  puts "#{state} & #{close_success.inspect}"
+  # puts "#{state} & #{close_success.inspect}"
   case state
     when "Open" then ""
     when "Closed Successful" then "lightgreen"

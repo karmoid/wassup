@@ -52,7 +52,7 @@ module NexthinkHelper
       # sinon, le WEB considere que c'est un espace...
       url = URI.parse(URI::encode(qy).gsub('+','%2b'))
       # puts url.inspect
-      page = Nokogiri::HTML(open( url.to_s, :http_basic_authentication => [user_id[:username], user_id[:pwd]] ))
+      page = Nokogiri::HTML(open( url.to_s, :http_basic_authentication => [user_id[:username], user_id[:pwd]], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE ))
       lines = CSV.parse(page.children.text, {:col_sep => "\t", :headers => true, :header_converters => :symbol})
       # lines.each {|l| puts l[:average_network_response_time].inspect}
       values = engine_cfg["queries"][key_value]["values"]

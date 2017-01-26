@@ -26,7 +26,7 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
 
     # puts url
 
-    (open(url, :http_basic_authentication => [username, password]))
+    (open(url, :http_basic_authentication => [username, password], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
 
     page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
 

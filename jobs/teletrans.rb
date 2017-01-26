@@ -11,7 +11,7 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
 
     url = "https://brinkslatam.service-now.com/incident_list.do?sysparm_query=stateIN-5%2C2%2C1%2C8%5Eassignment_groupSTARTSWITHBKFR-FCT_TELETRANS%5EpriorityIN1%2C2%5Esys_created_on%3E%3Djavascript%3Ags.daysAgoStart(5)&CSV"
 
-    page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
+    page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE ))
 
     tweets = CSV.parse(page.children.text, {:headers => true, :header_converters => :symbol}).map do |row|
       ts = Time.parse(row[:sys_created_on])
@@ -24,7 +24,7 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
 
   url = "https://brinkslatam.service-now.com/change_request_list.do?sysparm_query=active%3Dtrue%5EstateIN14%2C15%2C13%2C10%5Elocation.country%3DFrance%5Erequested_by_dateBETWEENjavascript%3Ags.daysAgoStart(#{MAX_CHG_OVERDUE})%40javascript%3Ags.daysAgoEnd(#{-1*MAX_CHG_AWAY})%5Eassignment_group%3D05ba4d3e6faaf9403a4d508e5d3ee479&CSV"
 
-  page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
+  page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE ))
 
   changes = []
   today = Date.today
@@ -176,7 +176,7 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
       url = "https://brinkslatam.service-now.com/incident_list.do?sysparm_query=stateIN-5%2C2%2C1%2C8%5Eassignment_groupSTARTSWITHBKFR-FCT_TELETRANS&CSV"
 
       #(open(url, :http_basic_authentication => [username, password]))
-      page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
+      page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE ))
 
       tweets = CSV.parse(page.children.text, {:headers => true, :header_converters => :symbol}).map do |row|
         {status: row[:priority],
@@ -209,7 +209,7 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
     qy = cfg.get_value("version5","extractionstd",i)
     url = URI.parse(URI::encode(qy))
 
-    page = Nokogiri::HTML(open( url.to_s, :http_basic_authentication => [i[:username], i[:pwd]] ))
+    page = Nokogiri::HTML(open( url.to_s, :http_basic_authentication => [i[:username], i[:pwd]], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE ))
     tweets = CSV.parse(page.children.text, {:col_sep => "\t", :headers => true, :header_converters => :symbol}).map do |row|
       {device_type: row[:device_type].nil? ? "unknown" : row[:device_type].downcase}
     end

@@ -44,7 +44,7 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
 
   #(open(url, :http_basic_authentication => [username, password]))
 
-  page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
+  page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE ))
 
   # page.xpath("/html/body/p").each do |line|
    # puts ">> [#{line}]"
@@ -52,9 +52,9 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
 
   tweets = CSV.parse(page.children.text, {:headers => true, :header_converters => :symbol}).map do |row|
     ts = Time.parse(row[:sys_created_on])
-    tstxt = "il y a"
+    # tstxt = "il y a"
     ts = Time.now - ts
-    { number: row[:number], name: row[:category] + ", "+ row[:subcategory], impact: row[:priority][3..row[:priority].length-1], body: row[:short_description], where: row[:location].nil? ? "" : row[:location], when: tstxt + " " + humanize(ts), group: row[:assignment_group], category: row[:category] }
+    { number: row[:number], name: row[:category] + ", "+ row[:subcategory], impact: row[:priority][3..row[:priority].length-1], body: row[:short_description], where: row[:location].nil? ? "" : row[:location], when: humanize_with_lib(ts,"il y a","récent"), group: row[:assignment_group], category: row[:category] }
   end
   # puts tweets.inspect
 
@@ -82,10 +82,11 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
   max_items = 10
   send_event "incident_ibm_grp", { items: tasks.take(max_items) }
 
+  # puts "IBM PIE: #{data.inspect}"
   send_event 'incident_ibm_grppie', { value: data.take(max_items) }
 
   url= "https://brinkslatam.service-now.com/incident_list.do?sysparm_query=u_service_desk%3DFRANCE%5EstateIN-5%2C2%2C1%2C8%5Eassignment_groupSTARTSWITHBKFR-EUS-OSS_PROVENCE&CSV"
-  page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
+  page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE ))
 
   tweets = CSV.parse(page.children.text, {:headers => true, :header_converters => :symbol}).map do |row|
     {status: row[:priority],
@@ -137,7 +138,7 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
 
 
   url= "https://brinkslatam.service-now.com/incident_list.do?sysparm_query=u_service_desk%3DFRANCE%5EstateIN-5%2C2%2C1%2C8%5Eassignment_groupSTARTSWITHBKFR-EUS-HELP_DESK&CSV"
-  page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
+  page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE ))
 
   tweets = CSV.parse(page.children.text, {:headers => true, :header_converters => :symbol}).map do |row|
     {status: row[:priority],
@@ -180,7 +181,7 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
 
   url = "https://brinkslatam.service-now.com/incident_list.do?sysparm_query=active%3Dtrue%5Eu_task_for.vip%3Dtrue%5EstateNOT%20IN3%2C4%2C6%5EpriorityIN1%2C2&sysparm_view=&CSV"
   # (open(url, :http_basic_authentication => [username, password]))
-  page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
+  page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE ))
 
   hrows = [
     { cols: [ {value: 'Incident'}, {value: 'VIP'}, {value: 'Composant'}, {value: 'Quand'} ] }
@@ -189,9 +190,9 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
 
     rows = CSV.parse(page.children.text, {:headers => true, :header_converters => :symbol}).map do |row|
       ts = Time.parse(row[:sys_created_on])
-      tstxt = "il y a"
+      # tstxt = "il y a"
       ts = Time.now - ts
-      { cols: [ {value: row[:number]}, {value: row[:u_task_for]}, {value: row[:cmdb_ci]}, {value: tstxt + " " + humanize(ts)} ]}
+      { cols: [ {value: row[:number]}, {value: row[:u_task_for]}, {value: row[:cmdb_ci]}, {value: humanize_with_lib(ts,"il y a","récent")} ]}
 #      { number: row[:number], name: row[:category] + ", "+ row[:subcategory], impact: row[:priority][3..row[:priority].length-1], body: row[:short_description], ci: row[:cmdb_ci], qui: row[:u_task_for], when: tstxt + " " + humanize(ts),
 #        label:"#{row[:number]} - [#{row[:category]}/#{row[:subcategory]}] Impact #{row[:priority]}, #{row[:short_description]} " , value:"#{row[:u_task_for]} #{row[tstxt]} #{humanize(ts)}" }
     end
@@ -224,7 +225,7 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
 
       rows = CSV.parse(page.children.text, {:headers => true, :header_converters => :symbol}).map do |row|
         ts = Time.parse(row[:sys_created_on])
-        tstxt = "il y a"
+        # tstxt = "il y a"
         ts = Time.now - ts
         cmd = row[:short_description]
         # puts cmd.inspect

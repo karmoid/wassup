@@ -51,7 +51,11 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
     stats = res_item[:stats][:count].to_i
     group_by = res_item[:groupby_fields].first[:value]
     # puts "stats=#{stats.inspect} & group_by=#{group_by.inspect}"
-    backlog_groups << {label: group_by, value: stats}
+		grpfields = /BKFR-(.*)$/.match(group_by)
+		# puts cmdfields.inspect
+		grpfields = [group_by,group_by] if grpfields.nil?
+		puts grpfields.inspect
+    backlog_groups << {label: grpfields[1], value: stats}
   end
   # puts "IT PIE: #{backlog_groups.inspect}"
 

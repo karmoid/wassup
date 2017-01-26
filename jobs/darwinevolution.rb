@@ -4,7 +4,7 @@ require 'open-uri'
 require 'nokogiri'
 require 'openssl'
 
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+# OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 horus_stats = {quality: [], count: [], availability: []}
 darwin_stats = {quality: [], count: [], availability: []}
