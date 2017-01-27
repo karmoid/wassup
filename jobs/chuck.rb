@@ -29,7 +29,7 @@ SCHEDULER.every '30s', :first_in => 0 do |job|
     if id_line == -1
       #The uri to call, swapping in the team members name
       # uri = URI("#{server}/jokes/random?firstName=#{firstName}&lastName=#{lastName}&limitTo=[nerdy]")
-      uri = URI("https://chucknorrisfacts.fr/api/get?type=%22txt%22;tri=%22top%22;nb=100")
+      uri = URI("http://chucknorrisfacts.fr/api/get?type=%22txt%22;tri=%22top%22;nb=100")
       #This is for when there is no proxy
       res = Net::HTTP.get(uri)
 
