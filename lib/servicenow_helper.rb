@@ -113,6 +113,7 @@ ENDQY
     end
 
     def execute_qy api, query_name
+      puts "Execute [#{query_name}]"
       # puts "Execute [#{query_name}] with config [#{config.inspect}]"
       # puts "execute_query #{api}, #{ApiMode[api]} - config.queries['queries'][#{ApiMode[api]}]"
       execute_query api, config.queries["queries"][ApiMode[api]][query_name]

@@ -2,12 +2,13 @@
   Dashing.widget_base_dimensions = [340, 370]
   Dashing.numColumns = 3
   Dashing.numRows = 5
+  Dashing.cycleDashboards({timeInSeconds: 20, stagger: false });
 </script>
 <% content_for :title do %>DSI Service Delivery dashboard<% end %>
 <div class="gridster">
   <ul>
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="snow-15-backlog" data-view="Pie" data-title="Groupes DSI"></div>
+      <div data-id="snow-15-backlog" data-view="Pie" data-title="DSI Delivery"></div>
     </li>
 
     <li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
@@ -15,19 +16,23 @@
     </li>
 
     <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
-      <div data-id="incident_ibm_grppie" data-view="Pie" data-title="Groupes IBM"></div>
+      <div data-id="incident_ibm_grppie" data-view="Pie" data-title="IBM"></div>
     </li>
 
-    <li data-row="2" data-col="1" data-sizex="2" data-sizey="1">
-      <div data-id="snow-16-backlog" data-view="Backlog" data-title="Tickets Semaine" data-graphtype="bar" data-raw="true" data-cumulated="true" data-legend="false" style="background-color:#961890"></div>
+    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="snow-17-backlog" data-view="Tendance" data-title="Non assigné" data-graphtype="bar" data-cumulated="false" data-cool="5" data-warm="10"></div>
     </li>
 
-    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
-      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+    <li data-row="2" data-col="2" data-sizex="1" data-sizey="1">
+      <div data-id="snow-18-backlog" data-view="Tendance" data-title="Backlog VIP" data-graphtype="bar" data-cumulated="false" data-cool="2" data-warm="5"></div>
+    </li>
+
+    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1" >
+          <div data-id="myTendancehd" data-view="Tendance" data-title="Backlog HD" data-graphtype="bar" data-cumulated="false" data-cool="5" data-warm="10"></div>
     </li>
 
     <li data-row="3" data-col="1" data-sizex="2" data-sizey="1">
-      <div data-id="snow-13-backlog" data-view="Backlog" data-title="Volume tickets" data-graphtype="area" data-raw="true" data-cumulated="true" data-legend="false" style="background-color:#961890"></div>
+      <div data-id="snow-13-backlog" data-view="Backlog" data-title="Volume tickets" data-graphtype="area" data-raw="true" data-cumulated="true" data-legend="false"></div>
     </li>
 
     <li data-row="3" data-col="3" data-sizex="1" data-sizey="1">
@@ -35,15 +40,75 @@
     </li>
 
     <li data-row="4" data-col="1" data-sizex="2" data-sizey="1">
-      <div data-id="snow-14-backlog" data-view="Backlog" data-title="Backlog global" data-graphtype="bar" data-raw="true" data-cumulated="true" data-legend="true" style="background-color:#961890"></div>
+      <div data-id="snow-14-backlog" data-view="Backlog" data-title="Backlog global" data-graphtype="bar" data-mean="true" data-raw="true" data-cumulated="true" data-legend="true"></div>
     </li>
 
     <li data-row="4" data-col="3" data-sizex="1" data-sizey="1">
       <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
     </li>
 
-    <li data-row="5" data-col="1" data-sizex="3" data-sizey="1">
+    <li data-row="5" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-id="snow-16-backlog" data-view="Backlog" data-title="Tickets 2 Semaines" data-graphtype="bar" data-raw="true" data-cumulated="true" data-legend="false"></div>
+    </li>
+
+    <li data-row="5" data-col="3" data-sizex="1" data-sizey="1">
       <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+    </li>
+
+  </ul>
+</div>
+<div class="gridster">
+  <ul>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/bks-it.png" data-text="Service Delivery" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="2" data-col="2" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1" >
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="3" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="3" data-col="3" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="4" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="inc-heatmap" data-view="Heatmap" data-domain="hour" data-subdomain="min" data-title="Carte des incidents"></div>
+    </li>
+
+    <li data-row="4" data-col="2" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="4" data-col="3" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="5" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="5" data-col="3" data-sizex="1" data-sizey="1">
+      <div data-id="chuck" data-view="Text"></div>
     </li>
 
   </ul>
