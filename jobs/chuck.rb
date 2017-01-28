@@ -18,18 +18,20 @@ proxy_pass = 'XXXXXXX'
 #The Array to take the names from
 teammembers = [['Mickey','Mouse']]
 
-id_line = -1
 json_data = nil
+page = MAX_PAGE = 35
 
 SCHEDULER.every '30s', :first_in => 0 do |job|
     random_member = teammembers.sample
     firstName = random_member[0]
     lastName = random_member[1]
 
-    if id_line == -1
+    if json_data.nil?
+      page += 1
+      page=1 if page > MAX_PAGE
       #The uri to call, swapping in the team members name
       # uri = URI("#{server}/jokes/random?firstName=#{firstName}&lastName=#{lastName}&limitTo=[nerdy]")
-      uri = URI("http://chucknorrisfacts.fr/api/get?type=%22txt%22;tri=%22top%22;nb=100")
+      uri = URI("http://chucknorrisfacts.fr/api/get?data=type:txt;tri:top;page:#{page}")
       #This is for when there is no proxy
       res = Net::HTTP.get(uri)
 
@@ -38,20 +40,21 @@ SCHEDULER.every '30s', :first_in => 0 do |job|
 
       #marshal the json into an object
       json_data = JSON[res]
-      id_line=0
-      puts "#{json_data.size} Facts lus!"
+      puts "page #{page} - #{json_data.size} Facts lus!"
     end
 
-    if json_data.size>0
-      joke = HTMLEntities.new.decode(CGI.unescapeHTML(json_data[id_line]["fact"]))
-      id_line += 1
-      id_line = -1 if id_line==json_data.size
-    else
+    if json_data.nil? || json_data.size == 0
       joke = "Pas de Fact lu!"
+    else
+      idx = rand(json_data.size)
+      joke = HTMLEntities.new.decode(CGI.unescapeHTML(json_data[idx]["fact"]))
+      # puts "avant delete_at #{json_data.inspect}"
+      json_data.delete_at(idx)
+      # puts "après delete_at #{json_data.inspect}"
+      json_data = nil if json_data.size == 0
     end
     #Get the joke
-
+    puts "P:#{page} remains:#{json_data.nil? ? 0 : json_data.size} <<#{joke}>>"
     #Send the joke to the text widget
-    send_event(id, { title: "Chuck Norris Fact ##{id_line}", text: joke })
-
+    send_event(id, { title: "Chuck Norris Fact", text: joke })
 end
