@@ -19,19 +19,21 @@ proxy_pass = 'XXXXXXX'
 teammembers = [['Mickey','Mouse']]
 
 json_data = nil
-page = MAX_PAGE = 35
+LINES = 90
+PAGE_MAX = 35
+pages = []
+page = 0
 
-SCHEDULER.every '30s', :first_in => 0 do |job|
-    random_member = teammembers.sample
-    firstName = random_member[0]
-    lastName = random_member[1]
+SCHEDULER.every '5s', :first_in => 0 do |job|
 
     if json_data.nil?
-      page += 1
-      page=1 if page > MAX_PAGE
+      pages = (1..PAGE_MAX).to_a if pages.empty?
+      idx = rand(pages.size)
+      page = pages[idx]
+      pages.delete_at(idx)
       #The uri to call, swapping in the team members name
       # uri = URI("#{server}/jokes/random?firstName=#{firstName}&lastName=#{lastName}&limitTo=[nerdy]")
-      uri = URI("http://chucknorrisfacts.fr/api/get?data=type:txt;tri:top;page:#{page}")
+      uri = URI("http://chucknorrisfacts.fr/api/get?data=type:txt;tri:top;page:#{page};nb:#{LINES}")
       #This is for when there is no proxy
       res = Net::HTTP.get(uri)
 
