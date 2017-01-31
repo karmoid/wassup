@@ -24,7 +24,7 @@ PAGE_MAX = 35
 pages = []
 page = 0
 
-SCHEDULER.every '5s', :first_in => 0 do |job|
+SCHEDULER.every '15s', :first_in => 0 do |job|
 
     if json_data.nil?
       pages = (1..PAGE_MAX).to_a if pages.empty?
