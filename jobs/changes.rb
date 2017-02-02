@@ -27,7 +27,7 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
 
     #(open(url, :http_basic_authentication => [username, password]))
 
-    page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
+    page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE  ))
 
     changes = []
     today = Date.today

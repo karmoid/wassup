@@ -201,7 +201,7 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
     send_event('incident-vip-ibm', { hrows: hrows, rows: rows } )
 
     url = "https://brinkslatam.service-now.com/incident_list.do?sysparm_query=u_service_desk%3DFRANCE%5EstateIN-5%2C2%2C1%2C8%5Eshort_descriptionLIKE%5BCDA%20FR%5Eassignment_group!%3D3cba4d3e6faaf9403a4d508e5d3ee431&CSV"
-    page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password] ))
+    page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE  ))
     # page.xpath("/html/body/p").each do |line|
     #  puts ">> [#{line}]"
     # end
