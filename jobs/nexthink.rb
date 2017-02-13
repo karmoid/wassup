@@ -62,10 +62,13 @@ SCHEDULER.every '10m', :first_in =>  '5s' do |job|
         nv[:used_space] << { x: iteration_time.to_i, y: usedspace[1] }
 
         send_event("next-used-#{usedspace[0].downcase}", points: nv[:used_space])
+
       end
     }
 
     arrTotal = keys.map {|k| [k, grouped[k].reduce(0) {|t,h| t+1 }]}
+
+    backlog_groups = [{values: [], max_value: 0, hide_total: false}]
 
     arrTotal.each { |count|
       unless nexthinkvalues[count[0]].nil?
@@ -75,8 +78,15 @@ SCHEDULER.every '10m', :first_in =>  '5s' do |job|
         nv[:count] << { x: iteration_time.to_i, y: count[1] }
 
         send_event("next-sum-#{count[0].downcase}", points: nv[:count])
+        unless /laptop|desktop/i.match(count[0]).nil?
+          backlog_groups[0][:values] << {label: count[0], value: count[1]}
+          backlog_groups[0][:max_value] += count[1]
+        end
       end
     }
+
+    # puts backlog_groups.inspect
+    send_event("nxt-devicesLD2", series: backlog_groups.to_json)
 
 # Cumul par Groupe
     grouped = tweets.group_by {|t| t[:group_name]}
