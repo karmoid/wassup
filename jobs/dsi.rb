@@ -6,7 +6,18 @@ unassigned_last = unassigned_curr = 0
 vip_hist = []
 vip_last = vip_curr = 0
 
+la_hist = []
+la_last = la_curr = 0
+
+la = LdapHelper::LockedAccount.new
+
 SCHEDULER.every '15m', :first_in => 0 do |job|
+
+	la_last = la_curr
+  la_curr = la.get_value(false)
+	la_hist << {x: Time.now.to_i, y: la_curr}
+  la_hist.shift if (la_hist.length > 18)
+	send_event("ldap-1-locked", { current: la_curr, last: la_last, points: la_hist } )
 
 	snow_req = ServicenowHelper::Requester.new
 
