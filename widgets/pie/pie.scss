@@ -5,4 +5,20 @@
 
   background-color:#214f4e;
   color: #ffffff;
+
+  svg {
+    position: absolute;
+    opacity: 0.8;
+    fill-opacity: 0.4;
+    left: 10px;
+    top: 10px;
+  }
+
+  .legend {
+    opacity: 1;
+    fill-opacity: 1;
+    position: absolute;
+  }
+
+
 }
