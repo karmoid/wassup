@@ -76,14 +76,18 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
       priority: 1,
       formatted_date: t[1].to_s
       }
-    data << {label: t[0], value: t[1]}
+    stats = t[1]
+    group_by = t[0]
+		grpfields = /BKFR-(.*)$/.match(group_by)
+		grpfields = [group_by,group_by] if grpfields.nil?
+    data << {label: grpfields[1], value: stats}
   end
 
   max_items = 10
   send_event "incident_ibm_grp", { items: tasks.take(max_items) }
 
   # puts "IBM PIE: #{data.inspect}"
-  send_event 'incident_ibm_grppie', { value: data.take(max_items) }
+  send_event 'incident_ibm_grppie', { value: data.take(max_items)}
 
   url= "https://brinkslatam.service-now.com/incident_list.do?sysparm_query=u_service_desk%3DFRANCE%5EstateIN-5%2C2%2C1%2C8%5Eassignment_groupSTARTSWITHBKFR-EUS-OSS_PROVENCE&CSV"
   page = Nokogiri::HTML(open( url, :http_basic_authentication => [username, password], :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE ))

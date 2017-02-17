@@ -3,17 +3,19 @@ class Dashing.Pie extends Dashing.Widget
 
   onData: (data) ->
     @render(data.value)
+    # console.log data
 
   render: (data) ->
     if(!data)
       data = @get("value")
+      values = @get("values")
     if(!data)
         return
 
-    width = 225
-    height = 225
-    radius = 112
-    label_radius = 110
+    width = 200
+    height = 200
+    radius = 100
+    label_radius = 108
     color = d3.scale.category20()
 
     $(@node).children("svg").remove();
@@ -58,7 +60,7 @@ class Dashing.Pie extends Dashing.Widget
       .attr("x", 0)
       .attr("y", 0)
       .attr("height", 90)
-      .attr("width", 100)
+      .attr("width", 140)
 
     legend.selectAll("g").data(data)
       .enter()
@@ -69,8 +71,21 @@ class Dashing.Pie extends Dashing.Widget
         row = i % 6
         col = parseInt(i / 6)
 
+        decalage = 0
+        if values
+          decalage = 20
+          g.append("text")
+            .attr("x", (col * 50) + 15)
+            .attr("y", (row + 1) * 15 - 6)
+            .attr("font-size", "10px")
+            .attr("fill", "white")
+            .attr("height", 10)
+            .attr("text-anchor", "end")
+            .attr("width", 30)
+            .text(data[i].value)
+
         g.append("rect")
-          .attr("x", col * 50)
+          .attr("x", col * 50 + decalage)
           .attr("y", row * 15)
           .attr("width", 10)
           .attr("height", 10)
@@ -78,7 +93,7 @@ class Dashing.Pie extends Dashing.Widget
 
         console.log "wat"
         g.append("text")
-          .attr("x", (col * 50) + 15)
+          .attr("x", (col * 50) + 15 + decalage)
           .attr("y", (row + 1) * 15 - 6)
           .attr("font-size", "10px")
           .attr("fill", "white")
