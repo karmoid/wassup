@@ -49,13 +49,15 @@ SCHEDULER.every '1h', :first_in =>  0 do |job|
     c = cfg.get_values( "version5", "allos" )
 
     # puts c.inspect
-    hrows = [
-      { cols: [ {value: 'OS'}, {value: '# Devices'} ] }
-    ]
-    rows = c["os_count"].sort {|a,b| b[1]<=>a[1] }.take(6).map {|dl|
-      { cols: [ {value: dl[0] }, {value: dl[1] } ]}
+    max_items = 10
+    tasks = c["os_count"].sort {|a,b| b[1]<=>a[1] }.map {|dl|
+      { name: dl[0],
+        date: Date.today,
+        priority: 1,
+        formatted_date: dl[1].to_s
+        }
     }
-    send_event('os-count', { hrows: hrows, rows: rows } )
+    send_event "os-count", { items: tasks.take(max_items) }
 
     c = cfg.get_values( "version5", "high_threat" )
     # puts c.inspect
