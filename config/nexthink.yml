@@ -35,6 +35,14 @@ version5:
           - name: max_updates
             formula: number_of_packages
             agregate: max
+      allos:
+        query: >
+          (select (name os_version_and_architecture) (from device (with connection
+          (between now-15m now)))
+        values:
+          - name: os_count
+            formula: os_version_and_architecture
+            agregate: group_by
       alldrives:
         query: >
           (select

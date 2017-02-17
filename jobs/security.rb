@@ -44,6 +44,19 @@ SCHEDULER.every '1h', :first_in =>  0 do |job|
 
     send_event("max_updates-total", points: devices_updated[:max_updates])
 
+    iteration_time = Time.now
+
+    c = cfg.get_values( "version5", "allos" )
+
+    # puts c.inspect
+    hrows = [
+      { cols: [ {value: 'OS'}, {value: '# Devices'} ] }
+    ]
+    rows = c["os_count"].sort {|a,b| b[1]<=>a[1] }.take(6).map {|dl|
+      { cols: [ {value: dl[0] }, {value: dl[1] } ]}
+    }
+    send_event('os-count', { hrows: hrows, rows: rows } )
+
     c = cfg.get_values( "version5", "high_threat" )
     # puts c.inspect
 
