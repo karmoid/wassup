@@ -1,60 +1,29 @@
 <script type='text/javascript'>
 $(function() {
-  Dashing.gridsterLayout('[{"col":2,"row":1,"size_x":2,"size_y":1},{"col":1,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":2,"size_y":1},{"col":1,"row":2,"size_x":1,"size_y":1},{"col":1,"row":3,"size_x":1,"size_y":1},{"col":3,"row":2,"size_x":1,"size_y":1},{"col":3,"row":3,"size_x":1,"size_y":1},{"col":2,"row":2,"size_x":1,"size_y":1},{"col":2,"row":3,"size_x":1,"size_y":1}]')
+  Dashing.widget_base_dimensions = [340, 370]
+  Dashing.numColumns = 3
+  Dashing.numRows = 5
 });
-
-  Dashing.widget_base_dimensions = [370, 340]
-  Dashing.numColumns = 5
 </script>
 
 <% content_for :title do %>EUS dashboard<% end %>
 
 <div class="gridster">
   <ul>
-    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
-      <div data-id="snow-inc-eus-backlog" data-view="Backlog" data-graphtype="bar" data-title="Incidents restant ouverts" data-legend="false" style="background-color:#968818"></div>
-      <i class="icon-exclamation-sign icon-background"></i>
-    </li>
-
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
       <div data-view="Image" data-image="/brinks.png" data-text="END USER SUPPORT" style="background-color:#ffffff;"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
-      <div data-id="snow-inc-eus" data-view="Incidents" style="background-color:#ff9618;" data-moreinfo="Incident DFO in ServiceNow"></div>
+    <li data-row="1" data-col="2" data-sizex="2" data-sizey="1">
+      <div data-id="snow-inc-eus-backlog" data-view="Backlog" data-graphtype="bar" data-title="Incidents restant ouverts" data-legend="false" style="background-color:#968818"></div>
       <i class="icon-exclamation-sign icon-background"></i>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="snow-inc-eus-site-1" data-view="Milkman" data-title="CRITICAL / site"></div>
-      <i class="icon-exclamation-sign icon-background"></i>
+    <li data-row="2" data-col="1" data-sizex="3" data-sizey="1">
+      <div data-id="eus-sev12" data-view="Table" data-title="Incidents P1/P2" ></div>
     </li>
-
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="snow-inc-eus-site-2" data-view="Milkman" data-title="IMPORTANT / site"></div>
-      <i class="icon-exclamation-sign icon-background"></i>
+    <li data-row="3" data-col="1" data-sizex="3" data-sizey="1">
+      <div data-id="cash_srv-databases" data-view="Table" data-title="Connexion Databases" ></div>
     </li>
-
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="snow-inc-eus-categ-1" data-view="Milkman" data-title="CRITICAL / s/cat"></div>
-      <i class="icon-exclamation-sign icon-background"></i>
-    </li>
-
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="snow-inc-eus-categ-2" data-view="Milkman" data-title="IMPORTANT / s/cat"></div>
-      <i class="icon-exclamation-sign icon-background"></i>
-    </li>
-
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="snow-inc-eus-ci-1" data-view="Milkman" data-title="CRITICAL / CMDB CI"></div>
-      <i class="icon-exclamation-sign icon-background"></i>
-    </li>
-
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="snow-inc-eus-ci-2" data-view="Milkman" data-title="IMPORTANT / CMDB CI"></div>
-      <i class="icon-exclamation-sign icon-background"></i>
-    </li>
-
   </ul>
-  <div data-id="ticker" data-view="Ticker" style="display: none;" ></div>
 </div>

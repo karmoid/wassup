@@ -6,7 +6,9 @@ backlog_ibm = []
 backlog_hd = []
 
 SCHEDULER.every '10m', :first_in => 0 do |job|
-  begin
+begin
+  snow_req = ServicenowHelper::Requester.new
+
     # puts "execute getincidents.sh avec bash"
     # puts system('bash ./getincidents.sh') ? "Run OK" : "KO!"
     # config_file = File.dirname(File.expand_path(__FILE__)) + '/../config/environment.yml'
@@ -212,39 +214,27 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
     hrows = [
       { cols: [ {value: '#cmd'}, {value: 'composant'}, {value: 'fournisseur'}, {value: 'N° incident'}, {value: 'statut'}, {value: 'note'} ] }
     ]
-    # "number",
-    # "category",
-    # "short_description",
-    # "u_task_for",
-    # "assignment_group",
-    # "assigned_to",
-    # "cmdb_ci",
-    # "subcategory",
-    # "location",
-    # "priority",
-    # "state",
-    # "sys_created_on",
-    # "sys_updated_on"
 
+    # Données Dashboard Service Delivery - Backlog Service Delivery
+    backlog_groups = []
+    result = snow_req.execute_qy(:table,"commande_en_cours")
+    res = eval(result.body)
+    # puts ">>>commande en cours<<<<"
+    # puts "#{res.inspect}"
+    # puts ">>>commande en cours<<<<"
+    rows = res[:result].map do |row|
+      ts = Time.parse(row[:sys_created_on])
+      # tstxt = "il y a"
+      ts = Time.now - ts
+      cmd = row[:short_description]
+      # puts cmd.inspect
+      cmdfields = /\[CDA\s(FR\w*\s?-\s?\w*)\s?\/\s?(.*)\](?:\[.*\])?\s(.*)$/.match(cmd)
+      # puts cmdfields.inspect
+      cmdfields = [cmd,"n/a",cmd] if cmdfields.nil?
+      fournisseur = cmdfields[2].split('][')[0] unless cmdfields.nil?
+      { cols: [ {value: cmdfields[1]}, {value: snow_req.display_value(row[:cmdb_ci])}, {value: fournisseur}, {value: row[:number]}, {value: row[:state]}, {value: cmdfields[3]} ]}
+    end
 
-      rows = CSV.parse(page.children.text, {:headers => true, :header_converters => :symbol}).map do |row|
-        ts = Time.parse(row[:sys_created_on])
-        # tstxt = "il y a"
-        ts = Time.now - ts
-        cmd = row[:short_description]
-        # puts cmd.inspect
-        cmdfields = /\[CDA\s(FR\w*\s?-\s?\w*)\s?\/\s?(.*)\](?:\[.*\])?\s(.*)$/.match(cmd)
-        # puts cmdfields.inspect
-        cmdfields = [cmd,"n/a",cmd] if cmdfields.nil?
-
-        fournisseur = cmdfields[2].split('][')[0] unless cmdfields.nil?
-
-        { cols: [ {value: cmdfields[1]}, {value: row[:cmdb_ci]}, {value: fournisseur}, {value: row[:number]}, {value: row[:state]}, {value: cmdfields[3]} ]}
-  #      { number: row[:number], name: row[:category] + ", "+ row[:subcategory], impact: row[:priority][3..row[:priority].length-1], body: row[:short_description], ci: row[:cmdb_ci], qui: row[:u_task_for], when: tstxt + " " + humanize(ts),
-  #        label:"#{row[:number]} - [#{row[:category]}/#{row[:subcategory]}] Impact #{row[:priority]}, #{row[:short_description]} " , value:"#{row[:u_task_for]} #{row[tstxt]} #{humanize(ts)}" }
-      end
-      # puts rows.inspect
-      # send_event('incident-vip', items: tweets)
-      send_event('commande-achat', { hrows: hrows, rows: rows.take(15) } )
+    send_event('commande-achat', { hrows: hrows, rows: rows.take(15) } )
   end
 end

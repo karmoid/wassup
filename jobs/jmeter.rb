@@ -14,13 +14,68 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
     command = command_root + "\\" + config["cmd_jmeter"]
     mailfrom = config["mailfrom"]
     fromname = config["fromname"]
+    mailactive = config["mailactive"]
 
     iteration_time = Time.now
 
     if config["websites"].nil?
       puts "No website found"
     else
+      config["databases"].each do |db|
+        mymail = mailactive
+        db_id = db[0]
+        url = ""
+        options = ""
+        output_file = ""
+        db[1].each_pair do |key, value|
+          case key
+          when "url"
+            url = value
+          when "options"
+            options = value
+          when "output"
+            output_file = value
+          when "mailactive"
+            mymail = value
+          end
+        end
+        db[1].each_pair do |key,value|
+          options.gsub!("$#{key}$",value)
+        end
+        unless url.empty?
+          result_file = File.dirname(File.expand_path(__FILE__)) + '/../security/' + db_id + ".log"
+          puts command + " -n -t " + url + " " + options + " > " + result_file
+          File.delete(output_file) if File.exist?(output_file)
+          output = system(command + " -n -t " + url + " " + options + " > " + result_file)
+          lines = File.read(output_file)
+          line_count = lines.split("\n").size
+          error = 0
+
+          hrows = [
+            { cols: [ {value: 'Base de données'}, {value: 'Message'}] }
+          ]
+
+          rows = []
+          lines.split("\n").each do |l|
+            results = l.split(",")
+            unless results[4].downcase=="ok"
+              error += 1
+              rows << { cols: [ {value: results[2]},
+                                {value: results[4]}
+                              ]}
+            end
+          end
+          puts "#{line_count} mesures - #{(100.0 * error / line_count).round(2)}% d'erreur"
+        end
+        send_event("#{db_id}-databases", { hrows: hrows, rows: rows.take(8) } )
+      end
+    end
+
+    if config["websites"].nil?
+      puts "No website found"
+    else
       config["websites"].each do |ws|
+        mymail = mailactive
         web_id = ws[0]
         url = ""
         mailto = ""
@@ -33,6 +88,8 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
             mailto = value
           when "toname"
             toname = value
+          when "mailactive"
+            mymail = value.downcase=="true"
           end
         end
         unless url.empty?
@@ -50,10 +107,9 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
             my_stats[web_id][:timing] << {x: iteration_time.to_i, y: my_stats[web_id][:state] ? values[1].gsub(",",".").to_f : 0.0}
             my_stats[web_id][:timing].shift if my_stats[web_id][:timing].length > 9
 
-            if !(my_stats[web_id][:state] || mailto.empty?)
+            if !(my_stats[web_id][:state] || mailto.empty? || !mymail)
               puts "Alerte sur #{web_id} via Email..."
               # To: #{mailto} <#{mailto}>
-
 
               msgstr = <<MESSAGE_END
 From: #{fromname} <#{mailfrom}>

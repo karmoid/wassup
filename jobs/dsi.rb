@@ -40,6 +40,7 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
 
 	# Données Dashboard Service Delivery - Backlog full
   backlog_groups = []
+	legends = []
   result = snow_req.execute_qy(:agregate,"backlog_full")
   res = eval(result.body)
   # puts "#{res.inspect}"
@@ -50,13 +51,14 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
     group_by = res_item[:groupby_fields].first[:value]
     # puts "(#{i} - stats=#{stats.inspect} & group_by=#{group_by.inspect}"
     backlog_groups << {x: i, y: stats}
+		legends << res_item[:groupby_fields]
 		sum += stats
 		i += 1
   end
 	avg = sum / backlog_groups.size unless backlog_groups.size == 0
 	avg ||= 0
   # puts backlog_groups.inspect
-	send_event("snow-14-backlog", points: backlog_groups, mean: avg)
+	send_event("snow-14-backlog", points: backlog_groups, legends: legends, mean: avg)
 
 	# result = snow_req.execute_qy(:table,"backlog_details")
 	# res = eval(result.body)

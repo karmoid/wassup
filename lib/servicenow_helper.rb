@@ -31,6 +31,14 @@ module ServicenowHelper
       @date_filters = {}
     end
 
+    def display_value(row_hash)
+      if row_hash.empty?
+        ""
+      else
+        row_hash[:display_value]
+      end
+    end
+
     def get_datestring date_value
       "javascript:gs.dateGenerate('#{date_value.strftime("%Y-%m-%d")}','#{date_value.strftime("%H-%M-%S")}')"
     end

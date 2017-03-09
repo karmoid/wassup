@@ -1,0 +1,101 @@
+<script type='text/javascript'>
+  Dashing.widget_base_dimensions = [340, 370]
+  Dashing.numColumns = 3
+  Dashing.numRows = 5
+  Dashing.cycleDashboards({timeInSeconds: 20, stagger: false });
+</script>
+
+<% content_for :title do %>Support sur site<% end %>
+
+<div class="gridster">
+  <!-- <div data-id="ticker" data-view="Ticker" style="display: none;" ></div> -->
+  <ul>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="incident_ibm_grppie" data-view="Pie" data-title="Groupes" data-values="false"></div>
+    </li>
+
+    <li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
+    <div data-view="Image" data-image="/bks-snow.png" data-text="Support sur site" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
+    <div data-id="incident_ibm_grp" data-view="Milkman" data-title="Incidents"></div>
+    </li>
+
+    <li data-row="2" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-id="threats-devices" data-view="Table" data-title="Devices" data-moreinfo="High Threat on devices"></div>
+    </li>
+
+    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
+    <div data-view="Clock" style="background-color:#96bf48;"></div>
+    </li>
+
+    <li data-row="3" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-id="incident-vip-ibm" data-view="Table" data-title="Incidents VIP P1/P2" ></div>
+    </li>
+
+    <li data-row="3" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="incident-ibm-backlog" data-view="Backlog" data-graphtype="bar" data-title="Backlog OSS" data-cumulated="true" data-legend="false" style="background-color:#968818"></div>
+      <!-- <i class="icon-exclamation-sign icon-background"></i> -->
+    </li>
+
+    <li data-row="4" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="incident-ibm-ossload" data-view="Barista" data-unordered="true" data-title="Charge OSS" style="background-color:#96bf48;"></div>
+    </li>
+
+    <li data-row="4" data-col="2" data-sizex="1" data-sizey="1" >
+          <div data-id="myTendance" data-view="Tendance" data-title="Les incidents" data-graphtype="bar" data-cumulated="false" data-cool="1" data-warm="2"></div>
+    </li>
+
+    <li data-row="4" data-col="3" data-sizex="1" data-sizey="1" >
+          <div data-id="myTendancehd" data-view="Tendance" data-title="Incidents HD" data-graphtype="bar" data-cumulated="false" data-cool="1" data-warm="2"></div>
+    </li>
+
+    <li data-row="5" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="incident-hd-backlog" data-view="Backlog" data-graphtype="bar" data-title="Backlog HD" data-cumulated="true" data-legend="false" style="background-color:#968818"></div>
+      <!-- <i class="icon-exclamation-sign icon-background"></i> -->
+    </li>
+
+    <li data-row="5" data-col="2" data-sizex="1" data-sizey="1">
+      <div data-id="inc-heatmap" data-view="Heatmap" data-domain="hour" data-subdomain="min" data-title="Carte des incidents"></div>
+    </li>
+
+    <li data-row="5" data-col="3" data-sizex="1" data-sizey="1" >
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#808080;"></div>
+    </li>
+  </ul>
+</div>
+
+<div class="gridster">
+  <ul>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/bks-snow.png" data-text="Dashboard IBM" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
+      <div data-view="Clock" style="background-color:#96bf48;"></div>
+      <!-- <i class="icon-time icon-background"></i> -->
+    </li>
+
+    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1" >
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#808080;"></div>
+    </li>
+
+    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1" >
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#808080;"></div>
+    </li>
+
+    <li data-row="2" data-col="2" data-sizex="1" data-sizey="1" >
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#808080;"></div>
+    </li>
+
+    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1" >
+      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#808080;"></div>
+    </li>
+
+    <li data-row="3" data-col="1" data-sizex="3" data-sizey="2">
+      <div data-id="commande-achat" data-view="Table" data-title="Commandes en cours"></div>
+    </li>
+  </ul>
+</div>

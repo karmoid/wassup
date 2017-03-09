@@ -1,12 +1,24 @@
 cmd_jmeter: bin\jmeter.bat
 mailfrom:  noreply@brinks.fr
 fromname: Supervision Site WEB (Dashboard)
+mailactive: "false"
 websites:
   commandweb:
     url: .\security\commandweb.jmx
-    mailto: DG.DSIAstreinte@brinks.fr
+    mailto: m.chauffour@brinks.fr
+    no_mailto: DG.DSIAstreinte@brinks.fr
     toname: DG.DSI astreinte
+    mailactive: "false"
   repository:
     url: .\security\repository.jmx
-    mailto: DG.DSIAstreinte@brinks.fr
+    mailto: m.chauffour@brinks.fr
+    no_mailto: DG.DSIAstreinte@brinks.fr
     toname: DG.DSI astreinte
+    mailactive: "false"
+databases:
+  cash_srv:
+    url: .\security\oradb-cash.jmx
+    options: -l $output$ -Djmeter.save.saveservice.output_format=$format$
+    output: output.csv
+    format: csv
+    mailactive: "false"
