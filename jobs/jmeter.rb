@@ -4,7 +4,7 @@ require 'time'
 
 my_stats = {}
 
-SCHEDULER.every '5m', :first_in => 0 do |job|
+SCHEDULER.every '15m', :first_in => 0 do |job|
   begin
     config_file = File.dirname(File.expand_path(__FILE__)) + '/../security/jmeter.yml'
     config = YAML::load(File.open(config_file))

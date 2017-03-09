@@ -6,7 +6,7 @@ unassigned_last = unassigned_curr = 0
 vip_hist = []
 vip_last = vip_curr = 0
 
-SCHEDULER.every '2m', :first_in => 0 do |job|
+SCHEDULER.every '5m', :first_in => 0 do |job|
 
 	snow_req = ServicenowHelper::Requester.new
 
