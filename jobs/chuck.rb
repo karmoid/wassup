@@ -56,7 +56,7 @@ SCHEDULER.every '15s', :first_in => 0 do |job|
       json_data = nil if json_data.size == 0
     end
     #Get the joke
-    puts "P:#{page} remains:#{json_data.nil? ? 0 : json_data.size} <<#{joke}>>"
+    # puts "P:#{page} remains:#{json_data.nil? ? 0 : json_data.size} <<#{joke}>>"
     #Send the joke to the text widget
     send_event(id, { title: "Chuck Norris Fact", text: joke })
 end

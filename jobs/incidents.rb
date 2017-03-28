@@ -64,7 +64,7 @@ SCHEDULER.every '5m', :first_in => 0 do |job|
         {status: row[:priority],
           created_on: row[:sys_created_on],
           updated_on: row[:sys_updated_on],
-          month: Time.parse(row[:sys_created_on]).strftime('01-%m-%Y')
+          month: Time.parse(row[:sys_created_on]=="" ? row[:sys_updated_on] : row[:sys_created_on]).strftime('01-%m-%Y')
         }
       end
       # puts tweets.inspect
