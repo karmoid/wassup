@@ -13,3 +13,6 @@ gem 'rs_service_now'
 gem 'nagiosharder'
 gem 'nokogiri'
 gem 'htmlentities'
+gem "elasticsearch-api"
+gem 'multi_json'
+gem 'faraday'

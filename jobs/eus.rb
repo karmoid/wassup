@@ -6,6 +6,10 @@ unassigned_last = unassigned_curr = 0
 vip_hist = []
 vip_last = vip_curr = 0
 
+# Base de données et IIS sur serveur d'agence
+# http://moulins.cash.brinks.fr/kheops/xtrac/wsgeneral.asmx
+# http://frmonxtracapp01.emea.brinksgbl.com/kheops/xtrac/wsgeneral.asmx
+
 SCHEDULER.every '5m', :first_in => 0 do |job|
 
 	snow_req = ServicenowHelper::Requester.new

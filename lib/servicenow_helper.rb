@@ -43,15 +43,15 @@ module ServicenowHelper
       "javascript:gs.dateGenerate('#{date_value.strftime("%Y-%m-%d")}','#{date_value.strftime("%H-%M-%S")}')"
     end
 
-    def get_time_limits(field, from, to)
+    def get_time_limits(field, from, to, fstrict, tstrict)
       if from.nil?
         if to.nil?
           ""
         else
-          "#{field}<=#{get_datestring(to)}"
+          "#{field}<#{tstrict ? "" : "="}#{get_datestring(to)}"
         end
       elsif to.nil?
-        "#{field}>=#{get_datestring(from)}"
+        "#{field}>#{fstrict ? "" : "="}#{get_datestring(from)}"
       else
         "#{field}BETWEEN#{get_datestring(from)}@#{get_datestring(to)}"
       end
@@ -59,12 +59,13 @@ module ServicenowHelper
 
     def get_time_fields
       date_filters.map do |field_name,dates|
-        get_time_limits field_name, dates[:from], dates[:to]
+        get_time_limits field_name, dates[:from], dates[:to], dates[:fstrict], dates[:tstrict]
       end.join("")
     end
 
-    def add_date_filter(field, from, to)
-      date_filters[field] = {from: from, to: to}
+    def add_date_filter(field, from, to, strictfrom=false, strictto=false)
+      date_filters[field] = {from: from, fstrict: strictfrom, to: to, tstrict: strictto}
+      # puts date_filters[field].inspect
     end
 
     def get_query_fields query, dates
@@ -116,7 +117,7 @@ ENDQY
       response
       rescue => e
         puts "ERROR: #{e}"
-        raise e
+        nil
       end
     end
 

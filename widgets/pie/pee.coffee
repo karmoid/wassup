@@ -9,7 +9,7 @@ class Dashing.Pie extends Dashing.Widget
     if(data)
       data = data.value
       values = data.values
-    if(!data.value)
+    if !data or !data.value
       data = @get("value")
       values = @get("values")
     if(!data)
