@@ -1,8 +1,10 @@
 <script type='text/javascript'>
-  Dashing.widget_base_dimensions = [340, 370]
-  Dashing.numColumns = 3
-  Dashing.numRows = 5
-  Dashing.cycleDashboards({timeInSeconds: 20, stagger: false });
+  $(function() {
+    Dashing.widget_base_dimensions = [340, 370]
+    Dashing.numColumns = 3
+    Dashing.numRows = 5
+    Dashing.cycleDashboards({timeInSeconds: 25, stagger: false });
+  });
 </script>
 <% content_for :title do %>DSI Service Delivery dashboard<% end %>
 <div class="gridster">
@@ -64,7 +66,7 @@
 <div class="gridster">
   <ul>
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+      <div data-id="wordpress" data-view="News" data-title="Brink's news" data-interval="20" style="background-color:#0039aa;"></div>
     </li>
 
     <li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
@@ -72,39 +74,26 @@
     </li>
 
     <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
-      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+      <div data-id="quote" data-view="Quote"></div>
     </li>
 
     <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+      <div data-view="Image" data-image="/servicenow.png" data-text="Incicents Service Now des 4 dernières heures &#8608;" style="background-color:#ffffff;"></div>
     </li>
 
-    <li data-row="2" data-col="2" data-sizex="1" data-sizey="1">
-      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+    <li data-row="2" data-col="2" data-sizex="2" data-sizey="1">
+      <iframe src="http://frmonbcastapp01.emea.brinksgbl.com:5601/app/kibana#/visualize/edit/0f4cda80-13b6-11e7-a53b-b3a20f3ef170?embed=true&_g=(refreshInterval%3A(display%3A'1%20minute'%2Cpause%3A!f%2Csection%3A2%2Cvalue%3A60000)%2Ctime%3A(from%3Anow-4h%2Cmode%3Aquick%2Cto%3Anow))" height="368px" width="800"></iframe>
     </li>
-
-    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1" >
-      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
-    </li>
-
     <li data-row="3" data-col="1" data-sizex="2" data-sizey="1">
-      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+      <iframe src="http://frmonbcastapp01.emea.brinksgbl.com:5601/app/kibana#/visualize/edit/dd152480-12f4-11e7-b6be-c975ec0227c4?embed=true&_g=(refreshInterval%3A(display%3A'1%20minute'%2Cpause%3A!f%2Csection%3A2%2Cvalue%3A60000)%2Ctime%3A(from%3Anow-12h%2Cmode%3Aquick%2Cto%3Anow))" height="368px" width="100%"></iframe>
     </li>
 
     <li data-row="3" data-col="3" data-sizex="1" data-sizey="1">
-      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+      <div data-view="Image" data-image="/servicenow.png" data-text="&#8606; Evénements Service Now des 12 dernières heures" style="background-color:#ffffff;"></div>
     </li>
 
-    <li data-row="4" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
-    </li>
-
-    <li data-row="4" data-col="2" data-sizex="1" data-sizey="1">
-      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
-    </li>
-
-    <li data-row="4" data-col="3" data-sizex="1" data-sizey="1">
-      <div data-view="Image" data-image="/favicon.ico" data-text="Future Use" style="background-color:#ffffff;"></div>
+    <li data-row="4" data-col="1" data-sizex="3" data-sizey="1">
+      <div data-id="cash_srv-databases" data-view="Table" data-title="Connexion Databases" ></div>
     </li>
 
     <li data-row="5" data-col="1" data-sizex="2" data-sizey="1">

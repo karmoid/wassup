@@ -1,11 +1,8 @@
 <script type='text/javascript'>
-$(function() {
-  Dashing.gridsterLayout('[{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":2,"size_x":1,"size_y":1},{"col":5,"row":2,"size_x":1,"size_y":1},{"col":4,"row":2,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":5,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":3,"row":2,"size_x":1,"size_y":1},{"col":3,"row":3,"size_x":2,"size_y":1},{"col":2,"row":3,"size_x":1,"size_y":1}]')
-});
-
-  Dashing.widget_base_dimensions = [370, 340]
-  Dashing.numColumns = 5
-</script>
+ $(function() {
+   Dashing.widget_base_dimensions = [370, 340] // 370,340 initialement
+ });
+ </script>
 
 <% content_for :title do %>Darwin Evolution dashboard<% end %>
 
@@ -15,44 +12,44 @@ $(function() {
       <div data-view="Image" data-image="/brinks.png" data-text="DARWIN EVOLUTION" style="background-color:#ffffff;"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
       <div data-id="drwevol-quality" data-view="Backlog" data-graphtype="line" data-title="Horus Tps de réponse moyen en ms" data-legend="false" style="background-color:#908020"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
       <div data-id="drwevol-availability" data-view="Meter" data-title="Disponibilité Horus" data-min="0" data-max="100"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="1" data-col="4" data-sizex="1" data-sizey="1">
       <div data-id="drwevol-count" data-view="Backlog" data-title="Horus Usage" data-legend="false"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="repository-websites" data-view="Jmeter" data-graphtype="bar" data-title="Repository" data-moreinfo="Temps d'accès en seconde"></div>
+    </li>
+
+    <li data-row="2" data-col="2" data-sizex="1" data-sizey="1">
       <div data-id="darwin-quality" data-view="Backlog" data-graphtype="line" data-title="Darwin Tps de réponse moyen en ms" data-legend="false" style="background-color:#908020"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
       <div data-id="darwin-availability" data-view="Meter" data-title="Disponibilité Darwin" data-min="0" data-max="100"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="2" data-col="4" data-sizex="1" data-sizey="1">
       <div data-id="darwin-count" data-view="Backlog" data-title="Darwin Usage" data-legend="false"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="3" data-col="1" data-sizex="1" data-sizey="1">
       <div data-id="darwin-low" data-view="Backlog" data-title="Connexion low" data-legend="false"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="3" data-col="2" data-sizex="1" data-sizey="1">
       <div data-id="darwin-medium" data-view="Backlog" data-title="Connexion medium" data-legend="false"></div>
     </li>
 
-    <li data-row="3" data-col="1" data-sizex="2" data-sizey="1">
+    <li data-row="3" data-col="3" data-sizex="2" data-sizey="1">
       <div data-id="server-low" data-view="Table" data-title="Agences low" data-moreinfo="Connexion low"></div>
-    </li>
-
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="repository-websites" data-view="Jmeter" data-graphtype="bar" data-title="Repository" data-moreinfo="Temps d'accès en seconde"></div>
     </li>
 
   </ul>

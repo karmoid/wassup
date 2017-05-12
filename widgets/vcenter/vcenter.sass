@@ -1,0 +1,69 @@
+$background-color: #295080
+$ddbackground-color: #214f4e
+$apvbackground-color: #4f214e
+$value-color:       #fff
+
+.widget-vcenter
+  background-color: $background-color
+  vertical-align: top
+
+  h1
+    position: absolute
+    opacity: 0.80
+    left: 2px
+    top: 2px
+    font-size: 3em
+    color: #0aa
+
+  li
+    text-transform: uppercase
+    text-align: left
+    font-size: 12px
+    padding: 2px 0
+
+    span
+      display: inline-block
+      vertical-align: middle
+      text-overflow: ellipsis
+      overflow: hidden
+      white-space: nowrap
+      font-weight: bold
+
+      &.name
+        position: absolute
+        left: 28px
+        right: 75px
+        padding: 2px 0 0 0
+        min-width: 155px
+
+      &.date
+        position: absolute
+        right: 15px
+        width: 75px
+        padding: 2px 0 0 0
+        text-align: right
+
+  p
+    &.updated-at
+      text-transform: uppercase
+      letter-spacing: 1px
+      font-size: 10px
+      color: lighten($background-color, 15%)
+
+  .priority
+    display: inline-block
+    margin: 0 5px
+    height: 17px
+    width: 5px
+
+  .priority-3
+    background-color: #359fff
+
+  .priority-2
+    background-color: #0f46b9
+
+  .priority-1
+    background-color: #dd3f00
+
+  .priority-N
+    background-color: transparent

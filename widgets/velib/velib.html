@@ -1,0 +1,18 @@
+<h1 class="title" data-bind="station"></h1>
+
+<h3>
+  <ul>
+  <li>
+  <span data-bind="bikes_available"></span> Vélos</br>
+  </li>
+  <li>
+  <span data-bind="stands_available"></span> disponibles
+  </li>
+  </ul>
+</h3>
+
+<p class="more-info">State : <span data-bind="state"></span></p>
+
+<p class="more-info" data-bind="moreinfo | raw"></p>
+
+<p class="updated-at" data-bind="updatedAtMessage"></p>

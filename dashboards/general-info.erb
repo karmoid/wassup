@@ -1,0 +1,49 @@
+<script type='text/javascript'>
+ $(function() {
+   Dashing.widget_base_dimensions = [370, 340] // 370,340 initialement
+   Dashing.numColumns = 5
+   Dashing.numRows = 3
+ });
+ </script>
+
+<% content_for :title do %>Information Générale<% end %>
+
+<div class="gridster">
+  <ul>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/brinks.png" data-text="GENERAL INFO" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
+      <div data-id="forecast" data-view="Forecast" data-widget_title="Prévision météo"></div>
+    </li>
+    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
+      <div data-id="velib-victoire" data-title="" data-view="Velib"></div>
+    </li>
+    <!-- <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
+      <div data-id="klimato" data-view="Klimato" data-widget_title="Klimato"></div>
+    </li> -->
+    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="bbc-tech" data-view="News" data-title="BBC Tech" data-interval="20" style="background-color:#999;"></div>
+    </li>
+    <li data-row="2" data-col="2" data-sizex="1" data-sizey="1">
+      <div data-id="quote" data-view="Quote"></div>
+    </li>
+    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
+      <div data-id="techcrunch" data-view="News" data-title="Tech Crunch" data-interval="20" style="background-color:#999;"></div>
+    </li>
+    <li data-row="3" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="wordpress" data-view="News" data-title="Brink's news" data-interval="20" style="background-color:#0039aa;"></div>
+    </li>
+    <li data-row="3" data-col="2" data-sizex="1" data-sizey="1">
+      <div data-id="zdnet" data-view="News" data-title="ZDNet news" data-interval="10" style="background-color:#922;"></div>
+    </li>
+    <!-- Velib {STATION_ALIAS} station-->
+    <li data-row="3" data-col="3" data-sizex="1" data-sizey="1">
+      <div data-id="velib-taitbout" data-title="" data-view="Velib"></div>
+    </li>
+    <li data-row="1" data-col="4" data-sizex="2" data-sizey="3">
+      <div data-id="trafficmap" data-view="Trafficmap" data-title="Paris Traffic" data-lat="48.8587741" data-long="2.3349277" data-zoom="12" ></div>
+    </li>
+  </ul>
+</div>

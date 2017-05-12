@@ -13,7 +13,7 @@ darwin_avail = {low: [], medium: []}
 cfg = NexthinkHelper::Config.new
 
 start_time = Time.now
-
+iter = 0
 SCHEDULER.every '5m', :first_in =>  0 do |job|
   begin
     iteration_time = Time.now
@@ -84,7 +84,7 @@ SCHEDULER.every '5m', :first_in =>  0 do |job|
     }
     send_event('server-low', { hrows: hrows, rows: rows } )
 
-
-
+    send_event('iframeTec1',{ url: "http://localhost:8000/status?nocache=" + iter.to_s})
+    iter += 1
    end
 end

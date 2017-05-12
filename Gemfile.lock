@@ -33,6 +33,8 @@ GEM
       thor (> 0.18.1)
     domain_name (0.5.20161129)
       unf (>= 0.0.5, < 1.0.0)
+    elasticsearch-api (5.0.3)
+      multi_json
     equalizer (0.0.11)
     eventmachine (1.2.1)
     eventmachine (1.2.1-x86-mingw32)
@@ -81,12 +83,14 @@ GEM
       rest-client
       terminal-table
     naught (1.1.0)
+    net-ldap (0.16.0)
     netrc (0.11.0)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
     nokogiri (1.6.8.1-x86-mingw32)
       mini_portile2 (~> 2.1.0)
     nori (2.6.0)
+    pg (0.19.0-x86-mingw32)
     public_suffix (2.0.4)
     rack (1.5.5)
     rack-protection (1.5.3)
@@ -105,6 +109,8 @@ GEM
     rs_service_now (0.0.3)
       activesupport
       savon (~> 2.0)
+    ruby-requirejs (0.1.0)
+      execjs
     rufus-scheduler (2.0.24)
       tzinfo (>= 0.3.22)
     sass (3.2.19)
@@ -171,13 +177,19 @@ PLATFORMS
 
 DEPENDENCIES
   dashing
+  elasticsearch-api
+  faraday
   haml
   htmlentities
+  multi_json
   nagiosharder
+  net-ldap
   nokogiri
+  pg (~> 0.15)
   rs_service_now
+  ruby-requirejs
   tlsmail
   twitter (>= 5.9.0)
 
 BUNDLED WITH
-   1.13.6
+   1.14.6

@@ -5,6 +5,8 @@ gem 'haml'
 gem 'tlsmail'
 gem 'ruby-requirejs'
 gem 'net-ldap'
+gem 'pg', '~> 0.15'
+
 
 ## Remove this if you don't need a twitter widget.
 gem 'twitter', '>= 5.9.0'

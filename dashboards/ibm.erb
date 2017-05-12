@@ -1,10 +1,10 @@
 <script type='text/javascript'>
-$(function() {
-  Dashing.widget_base_dimensions = [370, 340]
-  Dashing.numColumns = 5
-  Dashing.cycleGridsterLayout('[[{"col":4,"row":1,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":1,"row":1,"size_x":1,"size_y":1},{"col":3,"row":2,"size_x":2,"size_y":1},{"col":1,"row":2,"size_x":2,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":1,"row":3,"size_x":1,"size_y":1},{"col":2,"row":3,"size_x":1,"size_y":1},{"col":5,"row":1,"size_x":1,"size_y":1},{"col":3,"row":3,"size_x":1,"size_y":1},{"col":5,"row":3,"size_x":1,"size_y":1},{"col":5,"row":2,"size_x":1,"size_y":1},{"col":4,"row":3,"size_x":1,"size_y":1}],[{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":1,"size_y":1},{"col":5,"row":1,"size_x":1,"size_y":1},{"col":1,"row":2,"size_x":5,"size_y":2}]]')
-   });
-  Dashing.cycleDashboards({timeInSeconds: 20, stagger: false });
+  $(function() {
+    Dashing.widget_base_dimensions = [370, 340]
+    Dashing.numRows = 3
+    Dashing.numColumns = 5
+    Dashing.cycleDashboards({timeInSeconds: 25, stagger: false });
+  });
 </script>
 
 <% content_for :title do %>Support sur site<% end %>

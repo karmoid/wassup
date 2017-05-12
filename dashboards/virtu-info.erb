@@ -1,0 +1,38 @@
+<script type='text/javascript'>
+ $(function() {
+   Dashing.widget_base_dimensions = [340, 370] // 370,340 initialement
+   Dashing.numColumns = 3
+   Dashing.numRows = 5
+ });
+ </script>
+
+<% content_for :title do %>Le coin de la virtu<% end %>
+
+<div class="gridster">
+  <ul>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="vc-vcentermop" data-view="Vcenter" data-title="vCenter MOP"></div>
+    </li>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="vc-vcenterpar" data-view="Vcenter" data-title="vCenter PARIS"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-view="Image" data-image="/brinks.png" data-text="vCENTER INFO" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="vc-horizonadm" data-view="Vcenter" data-title="HORIZON ADM"></div>
+    </li>
+
+    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="vc-horizonpodb4" data-view="Vcenter" data-title="vCenter POD B4"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="vc-horizonpodg1" data-view="Vcenter" data-title="vCenter POD G1"></div>
+    </li>
+
+  </ul>
+</div>

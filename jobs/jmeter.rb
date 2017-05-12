@@ -18,8 +18,8 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
 
     iteration_time = Time.now
 
-    if config["websites"].nil?
-      puts "No website found"
+    if config["databases"].nil?
+      puts "No database found"
     else
       config["databases"].each do |db|
         mymail = mailactive
@@ -58,7 +58,8 @@ SCHEDULER.every '15m', :first_in => 0 do |job|
           rows = []
           lines.split("\n").each do |l|
             results = l.split(",")
-            unless results[4].downcase=="ok"
+            puts results.inspect
+            unless (false if Float(results[0]) rescue true) || results[4].downcase=="ok"
               error += 1
               rows << { cols: [ {value: results[2]},
                                 {value: results[4]}
