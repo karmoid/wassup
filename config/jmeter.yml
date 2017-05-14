@@ -5,16 +5,16 @@ mailactive: "false"
 websites:
   commandweb:
     url: .\security\commandweb.jmx
-    mailto: m.chauffour@brinks.fr
-    no_mailto: DG.DSIAstreinte@brinks.fr
+    no_mailto: m.chauffour@brinks.fr
+    mailto: DG.DSIAstreinte@brinks.fr
     toname: DG.DSI astreinte
-    mailactive: "false"
+    mailactive: "true"
   repository:
     url: .\security\repository.jmx
-    mailto: m.chauffour@brinks.fr
-    no_mailto: DG.DSIAstreinte@brinks.fr
+    no_mailto: m.chauffour@brinks.fr
+    mailto: DG.DSIAstreinte@brinks.fr
     toname: DG.DSI astreinte
-    mailactive: "false"
+    mailactive: "true"
 databases:
   cash_srv:
     url: .\security\oradb-cash.jmx
