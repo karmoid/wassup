@@ -9,9 +9,9 @@ end
 
 
 def getFreeSpaceAlert(url,uname,upwd)
+  puts "Analyse de #{url} avec user #{uname} et pwd #{upwd}"
   vim = RbVmomi::VIM.connect host: url, ssl: true, insecure: true, user: uname, password: upwd
   dc = vim.serviceInstance.find_datacenter
-  puts "Analyse de #{url}"
 
   # puts "datastore".rjust(31)+" "+
   #      "capacity".ljust(12)+
@@ -27,7 +27,7 @@ def getFreeSpaceAlert(url,uname,upwd)
   #       "#{ds.summary.type.ljust(10)}" unless pct==""
   # end
   datastores = dc.datastore.map do |ds|
-    pct = get_colored_percent(ds.summary,12)
+    pct = get_percent(ds.summary,12)
     {host: url,
       name: ds.name,
      capacity: ds.summary.capacity,
@@ -48,6 +48,9 @@ SCHEDULER.every '4h', :first_in => 0 do |job|
   else
     datastorus = []
     config["vcenters"].each do |vc|
+      # puts vc.inspect
+      vcenter = user = ""
+      active = false
       vc[1].each_pair do |key, value|
         case key
         when "fqdn"
@@ -55,19 +58,53 @@ SCHEDULER.every '4h', :first_in => 0 do |job|
         when "credential"
           user = value
         when "active"
-          active = value.downcase=="true"
+          active = value
         end
       end
       if active
-        puts "Traitement de #{vcenter}"
+        puts "Traitement de #{vcenter} (#{vc[0]})"
         datastorus += getFreeSpaceAlert(vcenter, user, pwd)
       else
-        puts "#{vcenter} est inactif"
+        puts "#{vcenter} (#{vc[0]}) est inactif"
       end
     end
     data_stores=datastorus.group_by { |g| g[:type] }.map do |key, value|
        [key, value.group_by { |g| g[:name] }]
     end.to_h
     puts data_stores.inspect
+
+    keys = data_stores.keys # => ["VMFS", "NFS"]
+    arrUsed = keys.map {|k| puts "map #{k.inspect}";
+                            [k,
+                             data_stores[k].reduce(0) {|t,h| t+h[1][0][:capacity] },
+                             data_stores[k].reduce(0) {|t,h| t+h[1][0][:freespace] },
+                             data_stores[k].reduce(100.0) {|t,h| puts "reduce #{t.inspect} & #{h.inspect}"; t>h[1][0][:pct] ? h[1][0][:pct] : t}
+                             ]}
+    puts arrUsed.inspect
+    arrUsed.each do |values|
+  		items = [
+  			{
+  				name: "TOTAL",
+  				date: Date.today,
+  				priority: (values[3]<12 ? 1 : (values[3] < 20 ? 2 : 3)),
+  				formatted_date: values[1].to_humanB
+  			},
+        {
+  				name: "LIBRE",
+  				date: Date.today,
+  				priority: (values[3]<12 ? 1 : (values[3] < 20 ? 2 : 3)),
+  				formatted_date: values[2].to_humanB
+  			},
+        {
+  				name: "UTILISE",
+  				date: Date.today,
+  				priority: (values[3]<12 ? 1 : (values[3] < 20 ? 2 : 3)),
+  				formatted_date: (values[1]-values[2]).to_humanB
+  			},
+      ]
+  		puts "on vc-#{values[0].downcase} send #{items.inspect}"
+  		send_event "vc-#{values[0].downcase}", { items: items, current: "#{values[3]}%" }
+  	end
+
   end
 end

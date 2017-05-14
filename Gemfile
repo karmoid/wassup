@@ -6,6 +6,7 @@ gem 'tlsmail'
 gem 'ruby-requirejs'
 gem 'net-ldap'
 gem 'pg', '~> 0.15'
+gem 'rbvmomi'
 
 
 ## Remove this if you don't need a twitter widget.
