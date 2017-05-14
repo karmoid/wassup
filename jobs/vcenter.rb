@@ -71,16 +71,15 @@ SCHEDULER.every '4h', :first_in => 0 do |job|
     data_stores=datastorus.group_by { |g| g[:type] }.map do |key, value|
        [key, value.group_by { |g| g[:name] }]
     end.to_h
-    puts data_stores.inspect
+    # puts data_stores.inspect
 
     keys = data_stores.keys # => ["VMFS", "NFS"]
-    arrUsed = keys.map {|k| puts "map #{k.inspect}";
-                            [k,
+    arrUsed = keys.map {|k| [k,
                              data_stores[k].reduce(0) {|t,h| t+h[1][0][:capacity] },
                              data_stores[k].reduce(0) {|t,h| t+h[1][0][:freespace] },
-                             data_stores[k].reduce(100.0) {|t,h| puts "reduce #{t.inspect} & #{h.inspect}"; t>h[1][0][:pct] ? h[1][0][:pct] : t}
+                             data_stores[k].reduce(100.0) {|t,h| t>h[1][0][:pct] ? h[1][0][:pct] : t}
                              ]}
-    puts arrUsed.inspect
+    # puts arrUsed.inspect
     arrUsed.each do |values|
   		items = [
   			{
@@ -102,9 +101,25 @@ SCHEDULER.every '4h', :first_in => 0 do |job|
   				formatted_date: (values[1]-values[2]).to_humanB
   			},
       ]
-  		puts "on vc-#{values[0].downcase} send #{items.inspect}"
+  		# puts "on vc-#{values[0].downcase} send #{items.inspect}"
   		send_event "vc-#{values[0].downcase}", { items: items, current: "#{values[3]}%" }
   	end
 
+    hrows = [
+      { cols: [ {value: 'Name'}, {value: 'Total'}, {value: 'Used'}, {value: 'Free'}, {value: '% free'}, {value: "Nb Conx"} ] }
+    ]
+
+    data_stores=datastorus.group_by { |g| g[:name] }
+    keys = data_stores.keys # => ["BA_NFS_B4", "BA_NFS_G1"]
+    arrUsed = keys.map {|k| [k,
+      data_stores[k].reduce(0) {|t,h| h[:capacity] },
+      data_stores[k].reduce(0) {|t,h| h[:freespace]},
+      data_stores[k].reduce(0) {|t,h| h[:pct]},
+      data_stores[k].reduce(0) {|t,h| t+1},
+      ]}
+      rows = arrUsed.sort_by { |e| e[3]  }.take(19).map do |row|
+        { cols: [ {value: row[0]}, {value: row[1].to_humanB}, {value: (row[1]-row[2]).to_humanB}, {value: row[2].to_humanB}, {value: row[3]}, {value: row[4]} ]}
+      end
+      send_event('vc-datastore', { hrows: hrows, rows: rows } )
   end
 end
