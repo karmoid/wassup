@@ -52,6 +52,33 @@ having max(da.updated_at) between $4 and $5
 )
 EOF
 
+# pour la date, pensez aussi à : >current_timestamp - interval '1 day'
+
+QY_GET_DISKDETAILS = <<EOF
+select distinct h.name host, d.name discovery, dt.name discovery_type, da.value valeur, da.name attribute_name , da.version, da.detail detail
+from discovery_attributes da
+inner join hosts h on (h.id = da.host_id)
+inner join discoveries d on (d.id=da.discovery_id)
+inner join discovery_tools dt on (dt.id=d.discovery_tool_id)
+where (da.discovery_id, da.host_id, da.attribute_type_id, da.version) in (
+select d.id, h.id, at.id, max(davalue.version)
+from hosts h
+inner join discovery_tools dt on (dt.name='vcenter')
+inner join discoveries d on (dt.id=d.discovery_tool_id)
+inner join discovery_attributes da on (da.host_id = h.id and da.discovery_id=d.id)
+inner join attribute_types at on (at.name='disk')
+inner join discovery_attributes davalue on (davalue.host_id = h.id and davalue.attribute_type_id=at.id)
+where not exists (
+	select danot.id
+	from discovery_attributes danot
+	inner join attribute_types atnot on (atnot.name='hosttype' and atnot.id =danot.attribute_type_id)
+	where danot.host_id=h.id and danot.value='host'
+	)
+group by d.id, h.id, at.id
+having max(da.updated_at) between $1 and $2
+) and da.detail<>'[]'
+EOF
+
 MAX_ITEMS = 5
 
 DESCRIPTION = {
@@ -81,7 +108,11 @@ def getDescription(code)
 
 end
 
-SCHEDULER.every '5m', :first_in =>  0 do |job|
+def getDiskDetails(from, to)
+	@conn.exec_params(QY_GET_DISKDETAILS, [from, to])
+end
+
+SCHEDULER.every '1h', :first_in =>  0 do |job|
   puts "Hello from query_karto"
   @conn = PG::Connection.new(host: "sfrdtcsupport02.emea.brinksgbl.com", port: 5432, dbname: "apps_production", user: "appsuser", password: "M@rc496527")
 
@@ -94,6 +125,8 @@ SCHEDULER.every '5m', :first_in =>  0 do |job|
 	puts "Il semble que la precedente session ait été du #{pfrom} au #{pto}"
 	puts "La toute derniere du #{from} au #{to}"
 
+	# Sélection des statistiques sur les VMs et Host
+	# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 	@vcenter = {}
 	# {"dsfrom"=>"2017-05-11 16:39:56.451448", "dsto"=>"2017-05-11 16:49:02.582955"}
   ["cpu","mem"].each do |mesure|
@@ -110,11 +143,11 @@ SCHEDULER.every '5m', :first_in =>  0 do |job|
 				@vcenter[row[0]] ||= {}
 				@vcenter[row[0]]["#{mesure}-#{hosttype}"] = row[1]
 				@vcenter[row[0]]["#{hosttype}"] = row[2]
-				puts "on stocke dans @vcenter[#{row[0]}] item [#{mesure}-#{hosttype}] la valeur '#{row[1]}' et [#{hosttype}] la valeur #{row[2]}"
+				# puts "on stocke dans @vcenter[#{row[0]}] item [#{mesure}-#{hosttype}] la valeur '#{row[1]}' et [#{hosttype}] la valeur #{row[2]}"
       end
     end
   end
-  @conn.close
+
 	# puts @vcenter.inspect
 	nb_vm = 0
 	@vcenter.each do |discovery,values|
@@ -139,4 +172,20 @@ SCHEDULER.every '5m', :first_in =>  0 do |job|
 		send_event "vc-#{discovery}", { items: items, current: "#{nb_vm} Vms" }
 	end
 
+	# Sélection des statistiques sur les disques des VMs
+	# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+	@vcenter = {}
+	# {"dsfrom"=>"2017-05-11 16:39:56.451448", "dsto"=>"2017-05-11 16:49:02.582955"}
+	res = getDiskDetails(from, to)
+	resmap = []
+	res.each { |rm|
+		# puts rm.inspect
+		# puts JSON.parse(rm["detail"]).inspect
+		JSON.parse(rm["detail"]).each { |e|
+			resmap << {host: rm["host"], discovery: rm["discovery"], disk: e["name"], value: e["value"].to_i*1024*1024 }
+		}
+	}
+	puts resmap.take(10).inspect
+
+	@conn.close
 end
