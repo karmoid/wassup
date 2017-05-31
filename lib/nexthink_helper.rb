@@ -2,6 +2,11 @@ require 'yaml'
 require 'csv'
 require 'nokogiri'
 
+# marc : 2015 07 31
+# les nom des champs sont transformés en "xxxx".gsub("/","").gsub(":","").gsub(" ","_").downcase
+# penser à prendre en compte dans les fichier YAML (Champs)
+#
+
 FIXNUM_MAX = (2**(0.size * 8 -2) -1)
 FIXNUM_MIN = -(2**(0.size * 8 -2))
 
@@ -80,7 +85,10 @@ module NexthinkHelper
                 lines.map {|l|
                   # puts l.inspect
                   item = {}
+                  # puts l.inspect
+                  # puts row["formula"].split(",").inspect
                   row["formula"].split(",").each { |f|
+                    # puts "item[f]:#{f} = l[f.to_sym]:#{f.to_sym}"
                     item[f] = l[f.to_sym]
                    }
                    item
