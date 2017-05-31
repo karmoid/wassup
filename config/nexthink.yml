@@ -1,6 +1,30 @@
 version5:
     format: csv
     queries:
+      disks_smart_index:
+        query: >
+          select (name entity last_logged_on_user disks_smart_index)
+          (from device
+          (with device_error
+          (where device_error
+          (eq type (enum "SMART disk failure")))
+          (between midnight-2d midnight)))
+          (order_by disks_smart_index asc)
+        values:
+          - name: device_list
+            agregate: list
+            formula: name,entity,last_logged_on_user,disks_smart_index
+      dangerous_binary_exec:
+        query: >
+          (select (name entity last_logged_on_user #"score:L1 Checklist/Dangerous binary executions")
+          (from device
+          (where device (lt #"score:L1 Checklist/Dangerous binary executions"
+          (real 5.0))
+          (ne #"score:L1 Checklist/Dangerous binary executions" nil)))
+        values:
+          - name: device_list
+            agregate: list
+            formula: name,entity,last_logged_on_user,scorel1_checklistdangerous_binary_executions
       withoutoffice:
         query: >
           (select (name)
@@ -10,9 +34,9 @@ version5:
           (with package
           (where package (eq name (pattern *Microsoft*Office*)))))))
         values:
-          name: count
-          formula: 1
-          agregate: count
+          - name: count
+            formula: 1
+            agregate: count
       recent_updates:
         query: >
           (select (name entity first_seen last_seen)

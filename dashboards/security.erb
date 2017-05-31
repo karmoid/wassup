@@ -1,6 +1,6 @@
 <script type='text/javascript'>
 $(function() {
-  Dashing.gridsterLayout('[{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":2,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":3,"row":2,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":2,"size_y":1},{"col":4,"row":2,"size_x":1,"size_y":1},{"col":5,"row":2,"size_x":1,"size_y":1},{"col":5,"row":3,"size_x":1,"size_y":1},{"col":4,"row":3,"size_x":1,"size_y":1}]')
+  Dashing.gridsterLayout('[{"col":1,"row":1,"size_x":1,"size_y":1},{"col":1,"row":3,"size_x":3,"size_y":1},{"col":2,"row":2,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":3,"row":2,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":2,"size_y":1},{"col":4,"row":2,"size_x":1,"size_y":1},{"col":5,"row":2,"size_x":1,"size_y":1},{"col":5,"row":3,"size_x":1,"size_y":1},{"col":4,"row":3,"size_x":1,"size_y":1},{"col":1,"row":2,"size_x":1,"size_y":1}]')
 });
 
   Dashing.widget_base_dimensions = [370, 340]
@@ -13,6 +13,10 @@ $(function() {
   <ul>
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
       <div data-view="Image" data-image="/brinks.png" data-text="SECURITY" style="background-color:#ffffff;"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="3" data-sizey="1">
+      <div data-id="threats-score" data-view="Table" data-title="Vulnerabilities" data-moreinfo="Vulnerabilities on device"></div>
     </li>
 
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
@@ -49,6 +53,10 @@ $(function() {
 
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
       <div data-id="max_updates-total" data-view="Backlog" data-graphtype="bar" data-legend="false" data-title="max # updates on device"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="SMART-disk" data-view="Vcenter" data-title="Risky Disks"></div>
     </li>
 
   </ul>

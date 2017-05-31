@@ -95,5 +95,29 @@ SCHEDULER.every '1h', :first_in =>  0 do |job|
 
     send_event("threats-i-binaries", points: intermediate_stats[:max_binaries])
 
+    c = cfg.get_values( "version5", "dangerous_binary_exec" )
+    # puts c.inspect
+
+    hrows = [
+      { cols: [ {value: 'Device name'}, {value: 'Entité'}, {value: 'User'} ] }
+    ]
+    rows = c["device_list"].take(5).map {|dl|
+      { cols: [ {value: dl["name"]}, {value: dl["entity"] }, {value: dl["last_logged_on_user"]}]  }
+    }
+    send_event('threats-score', { hrows: hrows, rows: rows } )
+
+    c = cfg.get_values( "version5", "disks_smart_index" )
+    # puts @vcenter.inspect
+  	nb_vm = c["device_list"].size
+		items = c["device_list"].take(10).map do |dl|
+      index = dl["disks_smart_index"].to_f
+			{
+				name: dl["name"],
+				date: Date.today,
+				priority: index<=0.2 ? 1 : 2,
+				formatted_date: (index*100).to_s+"%"
+			}
+		end
+		send_event "SMART-disk", { items: items, current: "#{nb_vm} Poste#{nb_vm>1 ? 's' : ''}"}
    end
 end
